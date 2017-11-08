@@ -1,0 +1,90 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+APP_COPYRIGHT	sniffex.c	196;"	d	file:
+APP_DESC	sniffex.c	195;"	d	file:
+APP_DISCLAIMER	sniffex.c	197;"	d	file:
+APP_NAME	sniffex.c	194;"	d	file:
+ARP_REPLY	simple_arp_sniffer.cpp	14;"	d	file:
+ARP_REQUEST	simple_arp_sniffer.cpp	13;"	d	file:
+ETHER_T_ARP	sniffex.c	229;"	d	file:
+ETHER_T_ETHERTALK	sniffex.c	231;"	d	file:
+ETHER_T_IPv4	sniffex.c	227;"	d	file:
+ETHER_T_IPv6	sniffex.c	228;"	d	file:
+ETHER_T_PPP	sniffex.c	232;"	d	file:
+ETHER_T_PPPoEDS	sniffex.c	233;"	d	file:
+ETHER_T_PPPoESS	sniffex.c	234;"	d	file:
+ETHER_T_RARP	sniffex.c	230;"	d	file:
+ETHER_T_SNMP	sniffex.c	235;"	d	file:
+IP_DF	sniffex.c	245;"	d	file:
+IP_HL	sniffex.c	253;"	d	file:
+IP_MF	sniffex.c	246;"	d	file:
+IP_OFFMASK	sniffex.c	247;"	d	file:
+IP_RF	sniffex.c	244;"	d	file:
+IP_V	sniffex.c	254;"	d	file:
+MAXBYTES2CAPTURE	simple_arp_sniffer.cpp	28;"	d	file:
+MAXBYTES2CAPTURE	simple_sniffer.cpp	6;"	d	file:
+SIZE_ETHERNET	sniffex.c	215;"	d	file:
+SNAP_LEN	sniffex.c	212;"	d	file:
+TH_ACK	sniffex.c	271;"	d	file:
+TH_CWR	sniffex.c	274;"	d	file:
+TH_ECE	sniffex.c	273;"	d	file:
+TH_FIN	sniffex.c	267;"	d	file:
+TH_FLAGS	sniffex.c	275;"	d	file:
+TH_OFF	sniffex.c	265;"	d	file:
+TH_PUSH	sniffex.c	270;"	d	file:
+TH_RST	sniffex.c	269;"	d	file:
+TH_SYN	sniffex.c	268;"	d	file:
+TH_URG	sniffex.c	272;"	d	file:
+arphdr	simple_arp_sniffer.cpp	/^typedef struct arphdr {$/;"	s	file:
+arphdr_t	simple_arp_sniffer.cpp	/^} arphdr_t;$/;"	t	typeref:struct:arphdr	file:
+ether_dhost	sniffex.c	/^        u_char  ether_dhost[ETHER_ADDR_LEN];    \/* destination host address *\/$/;"	m	struct:sniff_ethernet	file:
+ether_shost	sniffex.c	/^        u_char  ether_shost[ETHER_ADDR_LEN];    \/* source host address *\/$/;"	m	struct:sniff_ethernet	file:
+ether_type	sniffex.c	/^        u_short ether_type;                     \/* IP? ARP? RARP? etc *\/$/;"	m	struct:sniff_ethernet	file:
+got_packet	sniffex.c	/^got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)$/;"	f
+hlen	simple_arp_sniffer.cpp	/^    u_char hlen;            \/\/ Hardware Address Length$/;"	m	struct:arphdr	file:
+htype	simple_arp_sniffer.cpp	/^    u_int16_t htype;        \/\/ Hardware Type$/;"	m	struct:arphdr	file:
+ip_dst	sniffex.c	/^        struct  in_addr ip_src,ip_dst;  \/* source and dest address *\/$/;"	m	struct:sniff_ip	typeref:struct:sniff_ip::	file:
+ip_id	sniffex.c	/^        u_short ip_id;                  \/* identification *\/$/;"	m	struct:sniff_ip	file:
+ip_len	sniffex.c	/^        u_short ip_len;                 \/* total length *\/$/;"	m	struct:sniff_ip	file:
+ip_off	sniffex.c	/^        u_short ip_off;                 \/* fragment offset field *\/$/;"	m	struct:sniff_ip	file:
+ip_p	sniffex.c	/^        u_char  ip_p;                   \/* protocol *\/$/;"	m	struct:sniff_ip	file:
+ip_src	sniffex.c	/^        struct  in_addr ip_src,ip_dst;  \/* source and dest address *\/$/;"	m	struct:sniff_ip	typeref:struct:sniff_ip::in_addr	file:
+ip_sum	sniffex.c	/^        u_short ip_sum;                 \/* checksum *\/$/;"	m	struct:sniff_ip	file:
+ip_tos	sniffex.c	/^        u_char  ip_tos;                 \/* type of service *\/$/;"	m	struct:sniff_ip	file:
+ip_ttl	sniffex.c	/^        u_char  ip_ttl;                 \/* time to live *\/$/;"	m	struct:sniff_ip	file:
+ip_vhl	sniffex.c	/^        u_char  ip_vhl;                 \/* version << 4 | header length >> 2 *\/$/;"	m	struct:sniff_ip	file:
+main	6.c	/^int main()$/;"	f
+main	demo.c	/^int main(int argc, char *argv[])$/;"	f
+main	simple_arp_sniffer.cpp	/^int main(int argc, char * argv[]) {$/;"	f
+main	simple_sniffer.cpp	/^int main(int argc, char * argv[]) {$/;"	f
+main	sniffex.c	/^int main(int argc, char **argv)$/;"	f
+oper	simple_arp_sniffer.cpp	/^    u_int16_t oper;         \/\/ Operation Code$/;"	m	struct:arphdr	file:
+plen	simple_arp_sniffer.cpp	/^    u_char plen;            \/\/ Protocol Address Length$/;"	m	struct:arphdr	file:
+print_app_banner	sniffex.c	/^print_app_banner(void)$/;"	f
+print_app_usage	sniffex.c	/^print_app_usage(void)$/;"	f
+print_ether_info	sniffex.c	/^void print_ether_info(const struct sniff_ethernet * ethernet) {$/;"	f
+print_hex_ascii_line	sniffex.c	/^print_hex_ascii_line(const u_char *payload, int len, int offset)$/;"	f
+print_payload	sniffex.c	/^print_payload(const u_char *payload, int len)$/;"	f
+processPacket	simple_sniffer.cpp	/^void processPacket(u_char * arg, const struct pcap_pkthdr * pkthdr, const u_char * packet) {$/;"	f
+ptype	simple_arp_sniffer.cpp	/^    u_int16_t ptype;        \/\/ Protocol Type$/;"	m	struct:arphdr	file:
+sha	simple_arp_sniffer.cpp	/^    u_char sha[6];          \/\/ Sender harder address$/;"	m	struct:arphdr	file:
+sniff_ethernet	sniffex.c	/^struct sniff_ethernet {$/;"	s	file:
+sniff_ip	sniffex.c	/^struct sniff_ip {$/;"	s	file:
+sniff_tcp	sniffex.c	/^struct sniff_tcp {$/;"	s	file:
+spa	simple_arp_sniffer.cpp	/^    u_char spa[4];          \/\/ Sender IP address$/;"	m	struct:arphdr	file:
+tcp_seq	sniffex.c	/^typedef u_int tcp_seq;$/;"	t	file:
+th_ack	sniffex.c	/^        tcp_seq th_ack;                 \/* acknowledgement number *\/$/;"	m	struct:sniff_tcp	file:
+th_dport	sniffex.c	/^        u_short th_dport;               \/* destination port *\/$/;"	m	struct:sniff_tcp	file:
+th_flags	sniffex.c	/^        u_char  th_flags;$/;"	m	struct:sniff_tcp	file:
+th_offx2	sniffex.c	/^        u_char  th_offx2;               \/* data offset, rsvd *\/$/;"	m	struct:sniff_tcp	file:
+th_seq	sniffex.c	/^        tcp_seq th_seq;                 \/* sequence number *\/$/;"	m	struct:sniff_tcp	file:
+th_sport	sniffex.c	/^        u_short th_sport;               \/* source port *\/$/;"	m	struct:sniff_tcp	file:
+th_sum	sniffex.c	/^        u_short th_sum;                 \/* checksum *\/$/;"	m	struct:sniff_tcp	file:
+th_urp	sniffex.c	/^        u_short th_urp;                 \/* urgent pointer *\/$/;"	m	struct:sniff_tcp	file:
+th_win	sniffex.c	/^        u_short th_win;                 \/* window *\/$/;"	m	struct:sniff_tcp	file:
+tha	simple_arp_sniffer.cpp	/^    u_char tha[6];          \/\/ Target harder address$/;"	m	struct:arphdr	file:
+tpa	simple_arp_sniffer.cpp	/^    u_char tpa[4];          \/\/ Target IP address$/;"	m	struct:arphdr	file:
