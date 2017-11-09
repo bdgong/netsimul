@@ -209,149 +209,13 @@
 #include <netinet/ip_icmp.h>
 #include <arpa/inet.h>
 
-/* default snap length (maximum bytes per packet to capture) */
-#define SNAP_LEN 1518
-
-/* ethernet headers are always exactly 14 bytes [1] */
-#define SIZE_ETHERNET 14
-
-/* Ethernet addresses are 6 bytes */
-/*#define ETHER_ADDR_LEN	6*/
-
-/*MAC address in ASCII format length*/
-#define MAC_ASCII_LEN 18
-
-#define SIZE_TOK_BUF 256
-
-/*
- * Ethernet Type Defines, see /usr/include/net/ethernet.h
- * */
-
-/*#define ETHER_T_IPv4    0x0800      // Internet Protocol Version 4*/
-/*#define ETHER_T_IPv6    0x86DD      // Internet Protocol Version 6*/
-/*#define ETHER_T_ARP     0x0806      // Address Resolution Protocol */
-/*#define ETHER_T_RARP    0x8035      // Reverse Address Resolution Protocol */
-/*#define ETHER_T_ETHERTALK   0x809B  // AppleTalk over Ethernet*/
-/*#define ETHER_T_PPP     0x880B      // Point-to-Point Protocol*/
-/*#define ETHER_T_PPPoEDS     0x8863  // PPPoE Discovery Stage*/
-/*#define ETHER_T_PPPoESS     0x8864  // PPPoE Session Stage*/
-/*#define ETHER_T_SNMP    0x814C      // Simple Network Management Protocol*/
-
-/* Ethernet header */
-typedef struct sniff_ethernet {
-        u_char  ether_dhost[ETHER_ADDR_LEN];    /* destination host address */
-        u_char  ether_shost[ETHER_ADDR_LEN];    /* source host address */
-        u_short ether_type;                     /* IP? ARP? RARP? etc */
-} ethernethdr_t ;
-
-/*ARP header*/
-typedef struct sniff_arp {
-    u_int16_t htype;        // Hardware Type
-    u_int16_t ptype;        // Protocol Type
-    u_char hlen;            // Hardware Address Length
-    u_char plen;            // Protocol Address Length
-    u_int16_t oper;         // Operation Code
-    u_char sha[6];          // Sender hardware address
-    u_char spa[4];          // Sender IP address
-    u_char tha[6];          // Target hardware address
-    u_char tpa[4];          // Target IP address
-} arphdr_t;
-
-/* IP header */
-typedef struct sniff_ip {
-        u_char  ip_vhl;                 /* version << 4 | header length >> 2 */
-        u_char  ip_tos;                 /* type of service */
-        u_short ip_len;                 /* total length */
-        u_short ip_id;                  /* identification */
-        u_short ip_off;                 /* fragment offset field */
-        #define IP_RF 0x8000            /* reserved fragment flag */
-        #define IP_DF 0x4000            /* dont fragment flag */
-        #define IP_MF 0x2000            /* more fragments flag */
-        #define IP_OFFMASK 0x1fff       /* mask for fragmenting bits */
-        u_char  ip_ttl;                 /* time to live */
-        u_char  ip_p;                   /* protocol */
-        u_short ip_sum;                 /* checksum */
-        struct  in_addr ip_src,ip_dst;  /* source and dest address */
-} iphdr_t ;
-
-#define IP_HL(ip)               (((ip)->ip_vhl) & 0x0f)
-#define IP_V(ip)                (((ip)->ip_vhl) >> 4)
-
-/* TCP header */
-typedef u_int tcp_seq;
-
-typedef struct sniff_tcp {
-        u_short th_sport;               /* source port */
-        u_short th_dport;               /* destination port */
-        tcp_seq th_seq;                 /* sequence number */
-        tcp_seq th_ack;                 /* acknowledgement number */
-        u_char  th_offx2;               /* data offset, rsvd */
-#define TH_OFF(th)      (((th)->th_offx2 & 0xf0) >> 4)
-        u_char  th_flags;
-        #define TH_FIN  0x01
-        #define TH_SYN  0x02
-        #define TH_RST  0x04
-        #define TH_PUSH 0x08
-        #define TH_ACK  0x10
-        #define TH_URG  0x20
-        #define TH_ECE  0x40
-        #define TH_CWR  0x80
-        #define TH_FLAGS        (TH_FIN|TH_SYN|TH_RST|TH_ACK|TH_URG|TH_ECE|TH_CWR)
-        u_short th_win;                 /* window */
-        u_short th_sum;                 /* checksum */
-        u_short th_urp;                 /* urgent pointer */
-} tcphdr_t ;
-
-typedef struct sniff_udp {
-    uint16_t uh_sport;          // source port
-    uint16_t uh_dport;          // destination port
-    uint16_t uh_len;            // udp length
-    uint16_t uh_sum;            // udp checksum
-} udphdr_t ;
-
-typedef struct sniff_icmp {
-    uint8_t icmp_type;          // type of message
-    uint8_t icmp_code;          // type sub code
-    uint16_t icmp_sum;          // one complement check sum of struct 
-    union {
-        uint8_t ih_pptr;        // parameter problem pointer
-        struct in_addr ih_gwaddr;   // Gateway Internet Address
-        struct ih_idseque {
-            uint16_t icd_id;    // identifier
-            uint16_t icd_seq;   // sequence number
-        } ih_idseque ;
-        uint32_t ih_void;
-    } icmp_hun ;
-#define icmp_pptr_t           icmp_hun.ih_pptr
-#define icmp_gwaddr_t         icmp_hun.ih_gwaddr
-#define icmp_id_t             icmp_hun.ih_idseque.icd_id
-#define icmp_seq_t            icmp_hun.ih_idseque.icd_seq
-#define icmp_void_t           icmp_hun.ih_void
-    union {
-        struct id_ts {
-            uint32_t its_otime; // Originate timestamp
-            uint32_t its_rtime; // Receive timestamp
-            uint32_t its_ttime; // Transmit timestamp
-        } id_ts;
-        struct id_ip {          
-            struct sniff_ip idi_ip;
-            /*options and then 64bits of data*/
-        } id_ip;
-        uint32_t id_mask;
-        uint8_t id_data[1];
-    } icmp_dun ;
-#define icmp_otime_t          icmp_dun.id_ts.its_otime
-#define icmp_rtime_t          icmp_dun.id_ts.its_rtime
-#define icmp_ttime_t          icmp_dun.id_ts.its_ttime
-#define icmp_ip_t             icmp_dun.id_ip.idi_ip
-#define icmp_mask_t           icmp_dun.id_mask
-#define icmp_data_t           icmp_dun.id_data
-} icmphdr_t ;
-
-typedef struct tok {
-    int v;              // value
-    const char * s;     // string
-} tok_t ;
+#include "include/ether.h"
+#include "include/arp.h"
+#include "include/ip.h"
+#include "include/tcp.h"
+#include "include/udp.h"
+#include "include/icmp.h"
+#include "include/netsimul.h"
 
 const tok_t ethertype_values[] = {
     {ETHERTYPE_IP,          "IPv4"},
@@ -404,7 +268,7 @@ void print_arp(const struct sniff_arp * arp);
 
 const char * tok2str(const tok_t * tokp,
         const char * default_msg,
-        u_int v)
+        int v)
 {
 
     static char buf[SIZE_TOK_BUF];
@@ -685,10 +549,10 @@ void print_icmp(const struct sniff_icmp * icmp,
     uint8_t type;
     uint8_t code;
 
-    type = ntohs(icmp->icmp_type);
+    type = icmp->icmp_type;
     printf("Message Type: %s (%d)\n", tok2str(icmptype_values, "Unknown", type), type); 
 
-    code = ntohs(icmp->icmp_code);
+    code = icmp->icmp_code;
     printf("Message Code: %s (%d)\n", tok2str(icmpcode_values, "Unknown", code), code); 
 
 }
@@ -826,6 +690,7 @@ got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 	const struct sniff_ethernet *ethernet;  /* The ethernet header [1] */
 
 	printf("\nPacket number %d:\n", count);
+	printf("Packet len: %d\n", header->len);
 	count++;
 	
 	/* define ethernet header */
@@ -843,7 +708,7 @@ int main(int argc, char **argv)
 	char errbuf[PCAP_ERRBUF_SIZE];		/* error buffer */
 	pcap_t *handle;				/* packet capture handle */
 
-        char filter_exp[] = "ip or arp";		/* filter expression [3] */
+        char filter_exp[] = "";		/* filter expression [3] */
 	/*char filter_exp[] = "";		[> filter expression [3] <]*/
 	struct bpf_program fp;			/* compiled filter program (expression) */
 	bpf_u_int32 mask;			/* subnet mask */
