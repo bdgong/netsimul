@@ -206,6 +206,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/ether.h>
+#include <netinet/ip_icmp.h>
 #include <arpa/inet.h>
 
 /* default snap length (maximum bytes per packet to capture) */
@@ -219,6 +220,8 @@
 
 /*MAC address in ASCII format length*/
 #define MAC_ASCII_LEN 18
+
+#define SIZE_TOK_BUF 256
 
 /*
  * Ethernet Type Defines, see /usr/include/net/ethernet.h
@@ -300,9 +303,49 @@ typedef struct sniff_tcp {
 } tcphdr_t ;
 
 typedef struct sniff_udp {
+    uint16_t uh_sport;          // source port
+    uint16_t uh_dport;          // destination port
+    uint16_t uh_len;            // udp length
+    uint16_t uh_sum;            // udp checksum
 } udphdr_t ;
 
 typedef struct sniff_icmp {
+    uint8_t icmp_type;          // type of message
+    uint8_t icmp_code;          // type sub code
+    uint16_t icmp_sum;          // one complement check sum of struct 
+    union {
+        uint8_t ih_pptr;        // parameter problem pointer
+        struct in_addr ih_gwaddr;   // Gateway Internet Address
+        struct ih_idseque {
+            uint16_t icd_id;    // identifier
+            uint16_t icd_seq;   // sequence number
+        } ih_idseque ;
+        uint32_t ih_void;
+    } icmp_hun ;
+#define icmp_pptr_t           icmp_hun.ih_pptr
+#define icmp_gwaddr_t         icmp_hun.ih_gwaddr
+#define icmp_id_t             icmp_hun.ih_idseque.icd_id
+#define icmp_seq_t            icmp_hun.ih_idseque.icd_seq
+#define icmp_void_t           icmp_hun.ih_void
+    union {
+        struct id_ts {
+            uint32_t its_otime; // Originate timestamp
+            uint32_t its_rtime; // Receive timestamp
+            uint32_t its_ttime; // Transmit timestamp
+        } id_ts;
+        struct id_ip {          
+            struct sniff_ip idi_ip;
+            /*options and then 64bits of data*/
+        } id_ip;
+        uint32_t id_mask;
+        uint8_t id_data[1];
+    } icmp_dun ;
+#define icmp_otime_t          icmp_dun.id_ts.its_otime
+#define icmp_rtime_t          icmp_dun.id_ts.its_rtime
+#define icmp_ttime_t          icmp_dun.id_ts.its_ttime
+#define icmp_ip_t             icmp_dun.id_ip.idi_ip
+#define icmp_mask_t           icmp_dun.id_mask
+#define icmp_data_t           icmp_dun.id_data
 } icmphdr_t ;
 
 typedef struct tok {
@@ -315,7 +358,12 @@ const tok_t ethertype_values[] = {
     {ETHERTYPE_ARP,         "ARP"},
     {ETHERTYPE_REVARP,      "RARP"},
     {ETHERTYPE_IPV6,        "IPv6"},
-    {ETHERTYPE_LOOPBACK,    "Loopback"}
+    {ETHERTYPE_LOOPBACK,    "Loopback"},
+    {0, NULL}
+};
+
+const tok_t icmptype_values[] = {
+    {0, NULL}
 };
 
 void
@@ -336,6 +384,26 @@ print_app_usage(void);
 void print_ether(const struct sniff_ethernet * ethernet);
 
 void print_arp(const struct sniff_arp * arp);
+
+const char * tok2str(const tok_t * tokp,
+        const char * default_msg,
+        u_int v)
+{
+
+    static char buf[SIZE_TOK_BUF];
+
+    if(tokp != NULL) {
+        while(tokp->s != NULL) {
+            if(tokp->v == v)
+                return tokp->s;
+            else 
+                ++tokp;
+        }
+    }
+
+    snprintf(buf, SIZE_TOK_BUF, "%s", default_msg);
+    return (const char *)buf;
+}
 
 const char * get_ethertype_by_value(u_int value)
 {
@@ -495,15 +563,16 @@ void print_ether(const struct sniff_ethernet * ethernet)
     // Ether dst & src
     char dst[MAC_ASCII_LEN], src[MAC_ASCII_LEN], *tmp = NULL;          
     
-    printf("Network Layer Protocol: ");
     ether_type = ntohs(ethernet->ether_type);
-    etherstr = get_ethertype_by_value(ether_type);
-    if(etherstr != NULL) {
-        printf("%s", etherstr);
-    }
-    else {
-        printf("Unknown(%0004X)", ether_type);
-    }
+    printf("Network Layer Protocol: %s (%04X)", tok2str(ethertype_values, "Unknown", ether_type));
+
+    /*etherstr = get_ethertype_by_value(ether_type);*/
+    /*if(etherstr != NULL) {*/
+        /*printf("%s", etherstr);*/
+    /*}*/
+    /*else {*/
+        /*printf("Unknown(%0004X)", ether_type);*/
+    /*}*/
     /*
      * The ether_ntoa() function converts the Ethernet host address addr given in network byte order to a string
      * in standard hex-digits-and-colons notation, omitting leading zeros. The string is returned in a statically
@@ -578,20 +647,43 @@ void print_tcp(const struct sniff_tcp * tcp,
     	print_payload(payload, size_payload);
     }
 
+}
+
+void print_udp(const struct sniff_udp * udp,
+        const struct sniff_ip * ip,
+        const u_char * packet)
+{
+
+    const char * payload;
+
+    int size_ip = IP_HL(ip)*4;
+    int size_udp = 8;
+    int size_payload;
+
+    printf("    Src port: %d\n", ntohs(udp->uh_sport));
+    printf("    Dst port: %d\n", ntohs(udp->uh_dport));
+
+    payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_udp);
+
+    size_payload = ntohs(udp->uh_len) - size_udp;
+
+    printf("    Payload (%d bytes):\n", size_payload);
+    if(size_payload > 0) {
+        print_payload(payload, size_payload);
+    }
 
 }
 
-void print_udp(const struct sniff_udp * udp)
+void print_icmp(const struct sniff_icmp * icmp,
+        const struct sniff_ip * ip,
+        const u_char * packet)
 {
 
-    // 
+    u_short type;
+    u_short code;
 
-}
-
-void print_icmp(const struct sniff_icmp * icmp)
-{
-
-    // 
+    type = ntohs(icmp->icmp_type);
+    printf("Message Type: %s (%d)\n", tok2str(icmptype_values, "Unknown", type), type); 
 
 }
 
@@ -614,10 +706,13 @@ void handle_ip(const struct sniff_ip * ip,
 {
 
     const struct sniff_tcp *tcp;            /* The TCP header */
+    const struct sniff_udp *udp;            /* The UDP header */
+    const struct sniff_icmp *icmp;          /* The ICMP header */
     const char *payload;                    /* Packet payload */
 
     int size_ip = IP_HL(ip)*4;
     int size_tcp;
+    int size_udp;
     int size_payload;
 
     /* print source and destination IP addresses */
@@ -640,10 +735,14 @@ void handle_ip(const struct sniff_ip * ip,
     		break;
     	case IPPROTO_UDP:
     		printf("   Protocol: UDP\n");
+                udp = (const udphdr_t*)(packet + SIZE_ETHERNET + size_ip);
+                print_udp(udp, ip, packet);
     		return;
     	case IPPROTO_ICMP:
     		printf("   Protocol: ICMP\n");
-    		return;
+                icmp = (const icmphdr_t *)(packet + SIZE_ETHERNET + size_ip);
+                print_icmp(icmp, ip, packet);
+    		break;
     	case IPPROTO_IP:
     		printf("   Protocol: IP\n");
     		return;
