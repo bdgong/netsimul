@@ -363,6 +363,23 @@ const tok_t ethertype_values[] = {
 };
 
 const tok_t icmptype_values[] = {
+    {ICMP_ECHOREPLY          , "Echo Reply"},      
+    {ICMP_DEST_UNREACH       , "Destination Unreachable"},      
+    {ICMP_SOURCE_QUENCH      , "Source Quench"},      
+    {ICMP_REDIRECT           , "Redirect (change route)"},      
+    {ICMP_ECHO               , "Echo Request"},      
+    {ICMP_TIME_EXCEEDED      , "Time Exceeded"},      
+    {ICMP_PARAMETERPROB      , "Parameter Problem"},      
+    {ICMP_TIMESTAMP          , "Timestamp Request"},      
+    {ICMP_TIMESTAMPREPLY     , "Timestamp Reply"},      
+    {ICMP_INFO_REQUEST       , "Information Request"},      
+    {ICMP_INFO_REPLY         , "Information Reply"},      
+    {ICMP_ADDRESS            , "Address Mask Request"},      
+    {ICMP_ADDRESSREPLY       , "Address Mask Reply"},      
+    {0, NULL}
+};
+
+const tok_t icmpcode_values[] = {
     {0, NULL}
 };
 
@@ -403,20 +420,6 @@ const char * tok2str(const tok_t * tokp,
 
     snprintf(buf, SIZE_TOK_BUF, "%s", default_msg);
     return (const char *)buf;
-}
-
-const char * get_ethertype_by_value(u_int value)
-{
-
-    int count = sizeof(ethertype_values) / sizeof(tok_t);
-    int i;
-    for(i = 0; i<count ; ++i) {
-        if(ethertype_values[i].v == value)
-            return ethertype_values[i].s;
-    }
-
-    return NULL;
-
 }
 
 /*
@@ -679,11 +682,14 @@ void print_icmp(const struct sniff_icmp * icmp,
         const u_char * packet)
 {
 
-    u_short type;
-    u_short code;
+    uint8_t type;
+    uint8_t code;
 
     type = ntohs(icmp->icmp_type);
     printf("Message Type: %s (%d)\n", tok2str(icmptype_values, "Unknown", type), type); 
+
+    code = ntohs(icmp->icmp_code);
+    printf("Message Code: %s (%d)\n", tok2str(icmpcode_values, "Unknown", code), code); 
 
 }
 
