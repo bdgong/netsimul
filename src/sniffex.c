@@ -299,6 +299,12 @@ typedef struct sniff_tcp {
         u_short th_urp;                 /* urgent pointer */
 } tcphdr_t ;
 
+typedef struct sniff_udp {
+} udphdr_t ;
+
+typedef struct sniff_icmp {
+} icmphdr_t ;
+
 typedef struct tok {
     int v;              // value
     const char * s;     // string
@@ -542,6 +548,53 @@ void print_arp(const struct sniff_arp * arp)
 
 }
 
+void print_tcp(const struct sniff_tcp * tcp, 
+        const struct sniff_ip * ip,
+        const u_char * packet)
+{
+
+    const char *payload;                    /* Packet payload */
+
+    int size_ip = IP_HL(ip)*4;
+    int size_tcp = TH_OFF(tcp)*4;
+    int size_payload;
+
+    printf("   Src port: %d\n", ntohs(tcp->th_sport));
+    printf("   Dst port: %d\n", ntohs(tcp->th_dport));
+    
+    /* define/compute tcp payload (segment) offset */
+    payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
+    
+    /* compute tcp payload (segment) size */
+    size_payload = ntohs(ip->ip_len) - (size_ip + size_tcp);
+    
+    /*
+     * Print payload data; it might be binary, so don't just
+     * treat it as a string.
+     */
+    printf("   Payload (%d bytes):\n", size_payload);
+    if (size_payload > 0) {
+            /*printf("   Payload (%d bytes):\n", size_payload);*/
+    	print_payload(payload, size_payload);
+    }
+
+
+}
+
+void print_udp(const struct sniff_udp * udp)
+{
+
+    // 
+
+}
+
+void print_icmp(const struct sniff_icmp * icmp)
+{
+
+    // 
+
+}
+
 /*
  * Handle ARP header
  * */
@@ -575,6 +628,15 @@ void handle_ip(const struct sniff_ip * ip,
     switch(ip->ip_p) {
     	case IPPROTO_TCP:
     		printf("   Protocol: TCP\n");
+                /* define/compute tcp header offset */
+                tcp = (struct sniff_tcp*)(packet + SIZE_ETHERNET + size_ip);
+                size_tcp = TH_OFF(tcp)*4;
+                if (size_tcp < 20) {
+                    printf("   * Invalid TCP header length: %u bytes\n", size_tcp);
+                }
+                else {
+                    print_tcp(tcp, ip, packet);
+                }
     		break;
     	case IPPROTO_UDP:
     		printf("   Protocol: UDP\n");
@@ -590,37 +652,6 @@ void handle_ip(const struct sniff_ip * ip,
     		return;
     }
     
-    /*
-     *  OK, this packet is TCP.
-     */
-    
-    /* define/compute tcp header offset */
-    tcp = (struct sniff_tcp*)(packet + SIZE_ETHERNET + size_ip);
-    size_tcp = TH_OFF(tcp)*4;
-    if (size_tcp < 20) {
-    	printf("   * Invalid TCP header length: %u bytes\n", size_tcp);
-    	return;
-    }
-    
-    printf("   Src port: %d\n", ntohs(tcp->th_sport));
-    printf("   Dst port: %d\n", ntohs(tcp->th_dport));
-    
-    /* define/compute tcp payload (segment) offset */
-    payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
-    
-    /* compute tcp payload (segment) size */
-    size_payload = ntohs(ip->ip_len) - (size_ip + size_tcp);
-    
-    /*
-     * Print payload data; it might be binary, so don't just
-     * treat it as a string.
-     */
-    printf("   Payload (%d bytes):\n", size_payload);
-    if (size_payload > 0) {
-            /*printf("   Payload (%d bytes):\n", size_payload);*/
-    	print_payload(payload, size_payload);
-    }
-
 }
 
 /* 
