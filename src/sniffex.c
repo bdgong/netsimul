@@ -221,18 +221,18 @@
 #define MAC_ASCII_LEN 18
 
 /*
- * Ethernet Type Defines
+ * Ethernet Type Defines, see /usr/include/net/ethernet.h
  * */
 
-#define ETHER_T_IPv4    0x0800      // Internet Protocol Version 4
-#define ETHER_T_IPv6    0x86DD      // Internet Protocol Version 6
-#define ETHER_T_ARP     0x0806      // Address Resolution Protocol 
-#define ETHER_T_RARP    0x8035      // Reverse Address Resolution Protocol 
-#define ETHER_T_ETHERTALK   0x809B  // AppleTalk over Ethernet
-#define ETHER_T_PPP     0x880B      // Point-to-Point Protocol
-#define ETHER_T_PPPoEDS     0x8863  // PPPoE Discovery Stage
-#define ETHER_T_PPPoESS     0x8864  // PPPoE Session Stage
-#define ETHER_T_SNMP    0x814C      // Simple Network Management Protocol
+/*#define ETHER_T_IPv4    0x0800      // Internet Protocol Version 4*/
+/*#define ETHER_T_IPv6    0x86DD      // Internet Protocol Version 6*/
+/*#define ETHER_T_ARP     0x0806      // Address Resolution Protocol */
+/*#define ETHER_T_RARP    0x8035      // Reverse Address Resolution Protocol */
+/*#define ETHER_T_ETHERTALK   0x809B  // AppleTalk over Ethernet*/
+/*#define ETHER_T_PPP     0x880B      // Point-to-Point Protocol*/
+/*#define ETHER_T_PPPoEDS     0x8863  // PPPoE Discovery Stage*/
+/*#define ETHER_T_PPPoESS     0x8864  // PPPoE Session Stage*/
+/*#define ETHER_T_SNMP    0x814C      // Simple Network Management Protocol*/
 
 /* Ethernet header */
 typedef struct sniff_ethernet {
@@ -299,6 +299,19 @@ typedef struct sniff_tcp {
         u_short th_urp;                 /* urgent pointer */
 } tcphdr_t ;
 
+typedef struct tok {
+    int v;              // value
+    const char * s;     // string
+} tok_t ;
+
+const tok_t ethertype_values[] = {
+    {ETHERTYPE_IP,          "IPv4"},
+    {ETHERTYPE_ARP,         "ARP"},
+    {ETHERTYPE_REVARP,      "RARP"},
+    {ETHERTYPE_IPV6,        "IPv6"},
+    {ETHERTYPE_LOOPBACK,    "Loopback"}
+};
+
 void
 got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
 
@@ -317,6 +330,20 @@ print_app_usage(void);
 void print_ether(const struct sniff_ethernet * ethernet);
 
 void print_arp(const struct sniff_arp * arp);
+
+const char * get_ethertype_by_value(u_int value)
+{
+
+    int count = sizeof(ethertype_values) / sizeof(tok_t);
+    int i;
+    for(i = 0; i<count ; ++i) {
+        if(ethertype_values[i].v == value)
+            return ethertype_values[i].s;
+    }
+
+    return NULL;
+
+}
 
 /*
  * app name/banner
@@ -455,24 +482,21 @@ return;
 void print_ether(const struct sniff_ethernet * ethernet)
 {
 
-    u_short ether_type = 0;                 // Ethertype Value
+    u_short ether_type = 0;                 // Ethertype value
+
+    const char * etherstr = NULL;           // Ethertype string
 
     // Ether dst & src
     char dst[MAC_ASCII_LEN], src[MAC_ASCII_LEN], *tmp = NULL;          
     
     printf("Network Layer Protocol: ");
     ether_type = ntohs(ethernet->ether_type);
-    switch(ether_type) {
-        case ETHER_T_IPv4:
-            printf("IPv4"); break;
-        case ETHER_T_IPv6:
-            printf("IPv6"); break;
-        case ETHER_T_ARP: 
-            printf("ARP"); break;
-        case ETHER_T_RARP: 
-            printf("RARP"); break;
-        default:
-            printf("Unknown(%0004X)", ether_type);
+    etherstr = get_ethertype_by_value(ether_type);
+    if(etherstr != NULL) {
+        printf("%s", etherstr);
+    }
+    else {
+        printf("Unknown(%0004X)", ether_type);
     }
     /*
      * The ether_ntoa() function converts the Ethernet host address addr given in network byte order to a string
@@ -487,6 +511,9 @@ void print_ether(const struct sniff_ethernet * ethernet)
 
 }
 
+/*
+ * Print ARP header
+ * */
 void print_arp(const struct sniff_arp * arp)
 {
 
@@ -515,34 +542,31 @@ void print_arp(const struct sniff_arp * arp)
 
 }
 
-/* 
- * Handle ethernet packet
+/*
+ * Handle ARP header
  * */
-void handle_ether(const struct sniff_ethernet * ethernet,
+void handle_arp(const struct sniff_arp * arp)
+{
+
+    print_arp(arp);
+
+}
+
+/*
+ * Handle IP datagram
+ * */
+void handle_ip(const struct sniff_ip * ip,
         const struct pcap_pkthdr * header,
         const u_char * packet)
 {
 
-    const struct sniff_arp *arp;            /* The ARP header */
-    const struct sniff_ip *ip;              /* The IP header */
     const struct sniff_tcp *tcp;            /* The TCP header */
     const char *payload;                    /* Packet payload */
 
-    int size_ip;
+    int size_ip = IP_HL(ip)*4;
     int size_tcp;
     int size_payload;
-	
-    /*Print ethernet informations*/
-    print_ether(ethernet);
-	
-    /* define/compute ip header offset */
-    ip = (struct sniff_ip*)(packet + SIZE_ETHERNET);
-    size_ip = IP_HL(ip)*4;
-    if (size_ip < 20) {
-    	printf("   * Invalid IP header length: %u bytes\n", size_ip);
-    	return;
-    }
-    
+
     /* print source and destination IP addresses */
     printf("       From: %s\n", inet_ntoa(ip->ip_src));
     printf("         To: %s\n", inet_ntoa(ip->ip_dst));
@@ -596,6 +620,60 @@ void handle_ether(const struct sniff_ethernet * ethernet,
             /*printf("   Payload (%d bytes):\n", size_payload);*/
     	print_payload(payload, size_payload);
     }
+
+}
+
+/* 
+ * Handle ethernet packet
+ * */
+void handle_ether(const struct sniff_ethernet * ethernet,
+        const struct pcap_pkthdr * header,
+        const u_char * packet)
+{
+
+    const struct sniff_arp *arp;            /* The ARP header */
+    const struct sniff_ip *ip;              /* The IP header */
+
+    int size_ip;
+
+    u_short ether_type;
+	
+    /* Print ethernet informations */
+    print_ether(ethernet);
+
+    /* Handle packet according to ether_type */
+    ether_type = ntohs(ethernet->ether_type);
+    switch(ether_type) {
+        case ETHERTYPE_ARP: {
+                                arp = (const struct sniff_arp*)(packet + SIZE_ETHERNET);
+                                handle_arp(arp);
+                                break;
+                            }
+        case ETHERTYPE_REVARP: { break; }
+        case ETHERTYPE_IP: {
+                                /* define/compute ip header offset */
+                                ip = (const struct sniff_ip*)(packet + SIZE_ETHERNET);
+                                size_ip = IP_HL(ip)*4;
+                                if (size_ip < 20) {
+                                    printf("   * Invalid IP header length: %u bytes\n", size_ip);
+                                }
+                                else {
+                                    handle_ip(ip, header, packet);
+                                }
+                                break;
+                           }
+        case ETHERTYPE_IPV6: { break; }
+        case ETHERTYPE_LOOPBACK: { break; }
+        default:
+                                 break;
+    }
+	
+    /*ip = (struct sniff_ip*)(packet + SIZE_ETHERNET);*/
+    /*size_ip = IP_HL(ip)*4;*/
+    /*if (size_ip < 20) {*/
+            /*printf("   * Invalid IP header length: %u bytes\n", size_ip);*/
+            /*return;*/
+    /*}*/
 
 }
 
