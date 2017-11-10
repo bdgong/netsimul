@@ -110,10 +110,10 @@ void encap_udp(pcap_t *handler, packet_t *packet)
     u_char *buf;
 
     /*create UDP header*/
-    udp.uh_sport = packet->sport;
-    udp.uh_dport = packet->dport;
-    udp.uh_len = SIZE_UDP + packet->size;
-    udp.uh_sum = 0;
+    udp.uh_sport = htons(packet->sport);
+    udp.uh_dport = htons(packet->dport);
+    udp.uh_len = htons(SIZE_UDP + packet->size);
+    udp.uh_sum = htons(0);
 
     /*add UDP header*/
     buf = (u_char*)malloc(udp.uh_len);          // to be free() [1]
@@ -135,12 +135,12 @@ void encap_ip(pcap_t *handler, packet_t *packet)
     /*create IP header*/
     ip.ip_vhl   = 0x45;
     ip.ip_tos   = IPTOS_LOWCOST;
-    ip.ip_len   = SIZE_IP + packet->size;
-    ip.ip_id    = 0x1314;
+    ip.ip_len   = htons(SIZE_IP + packet->size);
+    ip.ip_id    = htons(0x1314);
     ip.ip_off   = 0;
     ip.ip_ttl   = MAXTTL;
     ip.ip_p     = INJECT_OP_TCP(packet) ? IPPROTO_TCP : IPPROTO_UDP;
-    ip.ip_sum   = 0;
+    ip.ip_sum   = htons(0);
     ip.ip_src   = packet->saddr;
     ip.ip_dst   = packet->daddr;
 
@@ -170,7 +170,7 @@ void encap_ether(pcap_t *handler, packet_t *packet)
     uint32_t fcs;                   // frame check sequence
 
     /*create Ethernet header*/
-    ether.ether_type = ETHERTYPE_IP;
+    ether.ether_type = htons(ETHERTYPE_IP);
 
     shost = ether_aton(default_shost);
     memcpy(ether.ether_shost, shost, ETHER_ADDR_LEN);
