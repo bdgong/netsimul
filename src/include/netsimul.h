@@ -2,8 +2,8 @@
 #ifndef NETSIMUL_H_
 #define NETSIMUL_H_
 
+char __ch;
 #define CLEAR() \
-    char __ch;    \
     while((__ch = getchar()) != '\n' && __ch != EOF)
 
 /* default snap length (maximum bytes per packet to capture) */

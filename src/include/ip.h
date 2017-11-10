@@ -3,6 +3,9 @@
 #define IP_H_
 
 #include <netinet/in.h>
+#include <netinet/ip.h>
+
+#define SIZE_IP 20
 
 /* IP header */
 typedef struct sniff_ip {

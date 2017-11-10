@@ -2,8 +2,12 @@
 #ifndef ETHER_H_
 #define ETHER_H_
 
+#include <netinet/ether.h>
+
 /* ethernet headers are always exactly 14 bytes [1] */
 #define SIZE_ETHERNET 14
+
+#define SIZE_ETHER_SUM 4
 
 /* Ethernet addresses are 6 bytes */
 #ifndef ETHER_ADDR_LEN

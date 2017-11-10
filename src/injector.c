@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <pcap.h>
 #include <arpa/inet.h>
 #include "include/ether.h"
@@ -20,18 +21,31 @@
 #include "include/netsimul.h"
 
 #define SIZE_SEND_BUFFER 4096
+#define SIZE_IP_ADDR_STR 16
+#define SIZE_PORT_STR 5
+
+/*Inject packet options*/
+typedef struct inject_packet {
+    u_char *buf;                    // packet data buffer
+    size_t size;                    // packet size
+    struct in_addr saddr, daddr;    // packet source ip address & destination ip address
+    uint16_t sport, dport;          // packet source port & destination port
+    u_char oper;                    // operation code
+#define INJECT_OP_TCP(p) (p->oper == 't' || p->oper == 'T')
+#define INJECT_OP_UDP(p) (p->oper == 'u' || p->oper == 'U')
+} packet_t ;
 
 void handle_user_input(pcap_t * handler);
 
-void handle_inject(pcap_t *handler, const char * sendbuf, size_t size, char oper);
+void handle_inject(pcap_t *handler, packet_t *packet);
 
-void encap_tcp(pcap_t *handler, const char * sendbuf, size_t size);
+void encap_tcp(pcap_t *handler, packet_t *packet);
 
-void encap_udp(pcap_t *handler, const char * sendbuf, size_t size);
+void encap_udp(pcap_t *handler, packet_t *packet);
 
-void encap_ip();
+void encap_ip(pcap_t *handler, packet_t *packet);
 
-void encap_ether();
+void encap_ether(pcap_t *handler, packet_t *packet);
 
 int send_packet(pcap_t *handler, const u_char *buf, size_t size);
 
@@ -48,46 +62,149 @@ void print_app_banner()
 
 }
 
+/*
+ * Send out packet to network
+ *
+ * @handler     A pcap_t handler use to inject packet to network
+ * @buf         The packet to send
+ * @size        The packet size
+ * */
 int send_packet(pcap_t *handler, const u_char *buf, size_t size)
-{
-
-    // 
-    return pcap_inject(handler, buf, size);
-
-}
-
-void encap_tcp(pcap_t *handler, const char * sendbuf, size_t size)
 {
 
     int bytes_send;
 
-    bytes_send = send_packet(handler, sendbuf, size);
+    bytes_send = pcap_inject(handler, buf, size);
     if(bytes_send == -1) {
-        fprintf(stderr, "Send packet failed");
+        fprintf(stderr, "Send packet failed.");
     }
     else {
-        printf("Injected packet to network (%d bytes).", bytes_send);
+        printf("Injected packet to network (%d bytes).\n", bytes_send);
     }
 
-}
-
-void encap_udp(pcap_t *handler, const char * sendbuf, size_t size)
-{
-
-    // 
+    return bytes_send;
 
 }
 
-void handle_inject(pcap_t *handler, const char * sendbuf, size_t size, char oper)
+void encap_tcp(pcap_t *handler, packet_t *packet)
 {
 
-    if(oper == 't' || oper == 'T') {
+    send_packet(handler, packet->buf, packet->size);
+    /*int bytes_send;                                                  */
+
+    /*bytes_send = send_packet(handler, packet->buf, packet->size);    */
+    /*if(bytes_send == -1) {                                           */
+    /*    fprintf(stderr, "Send packet failed");                       */
+    /*}                                                                */
+    /*else {                                                           */
+    /*    printf("Injected packet to network (%d bytes).", bytes_send);*/
+    /*}                                                                */
+
+}
+
+void encap_udp(pcap_t *handler, packet_t *packet)
+{
+
+    udphdr_t udp; 
+
+    u_char *buf;
+
+    /*create UDP header*/
+    udp.uh_sport = packet->sport;
+    udp.uh_dport = packet->dport;
+    udp.uh_len = SIZE_UDP + packet->size;
+    udp.uh_sum = 0;
+
+    /*add UDP header*/
+    buf = (u_char*)malloc(udp.uh_len);          // to be free() [1]
+    memcpy(buf, &udp, SIZE_UDP);
+    memcpy(buf+SIZE_UDP, packet->buf, packet->size);
+    packet->buf = buf;
+
+    encap_ip(handler, packet);
+
+}
+
+void encap_ip(pcap_t *handler, packet_t *packet)
+{
+
+    iphdr_t ip;
+
+    u_char *buf;
+
+    /*create IP header*/
+    ip.ip_vhl   = 0x45;
+    ip.ip_tos   = IPTOS_LOWCOST;
+    ip.ip_len   = SIZE_IP + packet->size;
+    ip.ip_id    = 0x1314;
+    ip.ip_off   = 0;
+    ip.ip_ttl   = MAXTTL;
+    ip.ip_p     = INJECT_OP_TCP(packet) ? IPPROTO_TCP : IPPROTO_UDP;
+    ip.ip_sum   = 0;
+    ip.ip_src   = packet->saddr;
+    ip.ip_dst   = packet->daddr;
+
+    /*add IP header*/
+    buf = (u_char*)malloc(ip.ip_len);
+    memcpy(buf, &ip, SIZE_IP);
+    memcpy(buf+SIZE_IP, packet->buf, packet->size);
+    free(packet->buf);          // do free() [1]
+    packet->buf = buf;          // to be free() [2]
+
+    encap_ether(handler, packet);
+
+}
+
+void encap_ether(pcap_t *handler, packet_t *packet)
+{
+    
+    ethernethdr_t ether;
+
+    struct ether_addr *shost, *dhost;
+
+    const char *default_shost = "08:00:27:a8:01:cc";  // 192.168.0.5
+    const char *default_dhost = "08:00:27:05:6e:fb";  // 192.168.0.3
+
+    u_char *buf;
+    size_t bufsize;
+    uint32_t fcs;                   // frame check sequence
+
+    /*create Ethernet header*/
+    ether.ether_type = ETHERTYPE_IP;
+
+    shost = ether_aton(default_shost);
+    memcpy(ether.ether_shost, shost, ETHER_ADDR_LEN);
+    dhost = ether_aton(default_dhost);
+    memcpy(ether.ether_dhost, dhost, ETHER_ADDR_LEN);
+
+    /*add Ethernet header*/
+    bufsize = SIZE_ETHERNET + packet->size + SIZE_ETHER_SUM;
+    buf = (u_char*)malloc(bufsize);
+    memset(buf, 0, bufsize);
+    memcpy(buf, &ether, SIZE_ETHERNET);
+    memcpy(buf+SIZE_ETHERNET, packet->buf, packet->size);
+    fcs = 0;
+    memcpy(buf+SIZE_ETHERNET+packet->size, &fcs, SIZE_ETHER_SUM);
+
+    free(packet->buf);          // do free() [2]
+    packet->buf = buf;          // to be free() [3]
+
+    send_packet(handler, buf, bufsize); 
+
+    free(packet->buf);          // do free() [3]
+
+}
+
+void handle_inject(pcap_t *handler, packet_t *packet)
+{
+
+    if(INJECT_OP_TCP(packet)) {
         printf("\nInject with TCP...\n");
-        encap_tcp(handler, sendbuf, size);
+        encap_tcp(handler, packet);
     }
     else {
         printf("\nInject with UDP...\n");
-        encap_udp(handler, sendbuf, size);
+        encap_udp(handler, packet);
     }
 
 }
@@ -95,38 +212,110 @@ void handle_inject(pcap_t *handler, const char * sendbuf, size_t size, char oper
 void handle_user_input(pcap_t * handler)
 {
 
-    char sendbuf[SIZE_SEND_BUFFER], ch;
-    int count;
+    packet_t packet;                    // inject packet 
+    char buf[SIZE_SEND_BUFFER], ch;     // temporary input buffer
+    int count;                          // inject message character count
+    char saddr[16], daddr[16];          // source & destination ip address
+    uint16_t sport, dport;              // source & destination port
+    char tmpstr[16], *tp;
 
+    const char *default_saddr = "192.168.0.5";
+    const char *default_daddr = "192.168.0.3";
+    uint16_t default_sport = 1314;
+    uint16_t default_dport = 1618;
+
+    /*Enter inject message */
     printf("\nEnter message to inject (ends with an empty line):\n"); 
     count = 0;
     while(1) {
         ch = getchar();
         if(count < SIZE_SEND_BUFFER) {
-            sendbuf[count] = ch;
+            buf[count] = ch;
         }
         else {
             printf("\n--maximum characters meeted (%d), end of input--\n", SIZE_SEND_BUFFER);
             break;
         }
 
-        if(count > 0 && ch == '\n' && sendbuf[count-1] == '\n') {
+        if(count > 0 && ch == '\n' && buf[count-1] == '\n') {
             break;
         }
         ++count;
     }
-    sendbuf[count] = '\0';
+    buf[count] = '\0';
+    packet.buf = buf;
+    packet.size = count;
 
-    printf("**MESSAGE TO SEND**\n\n%s\n\n", sendbuf);
+    printf("**MESSAGE TO SEND**\n\n%s\n\n", packet.buf);
 
+    /*Determine inject protocol*/
     printf("Inject with TCP or UDP? [T/U]: "); 
     ch = getchar(); CLEAR();
     while (!(ch == 't' || ch == 'T' || ch == 'u' || ch == 'U')) {
         printf("Please enter T(t) or U(u): ");
         ch = getchar(); CLEAR();
     }
+    packet.oper = ch;
 
-    handle_inject(handler, sendbuf, count, ch);
+    /*Determine inject source & destination*/
+    printf("Sender ip address (default 192.168.0.5, use it just press <enter>): ");
+    ch = getchar();
+    if(ch == '\n') {
+        strncpy(saddr, default_saddr, SIZE_IP_ADDR_STR);    
+    }
+    else {
+        saddr[0] = ch;
+        fgets(saddr+1, SIZE_IP_ADDR_STR, stdin);
+        saddr[strlen(saddr)-1] = '\0';          // eliminate the newline character
+    }
+
+    printf("Sender port (default 1314, use it just press <enter>): ");
+    ch = getchar();
+    if(ch == '\n') {
+        sport = default_sport;  
+    }
+    else {
+        tmpstr[0] = ch;
+        fgets(tmpstr+1, SIZE_PORT_STR, stdin);
+        sport = atoi(tmpstr);
+    }
+
+    printf("Destination ip address (default 192.168.0.3, use it just press <enter>): ");
+    ch = getchar();
+    if(ch == '\n') {
+        strncpy(daddr, default_daddr, SIZE_IP_ADDR_STR);    
+    }
+    else {
+        daddr[0] = ch;
+        fgets(daddr+1, SIZE_IP_ADDR_STR, stdin);
+        daddr[strlen(daddr)-1] = '\0';          // eliminate the newline character
+    }
+
+    printf("Destination port (default 1618, use it just press <enter>): ");
+    ch = getchar();
+    if(ch == '\n') {
+        dport = default_dport;  
+    }
+    else {
+        tmpstr[0] = ch;
+        fgets(tmpstr+1, SIZE_PORT_STR, stdin);
+        dport = atoi(tmpstr);
+    }
+
+    if( inet_aton(saddr, &packet.saddr) == 0) {
+        fprintf(stderr, "Invalid source address: %s\n", saddr); 
+        exit(EXIT_FAILURE);
+    }
+    if( inet_aton(daddr, &packet.daddr) == 0) {
+        fprintf(stderr, "Invalid destination address: %s\n", daddr); 
+        exit(EXIT_FAILURE);
+    }
+    packet.sport = sport;
+    packet.dport = dport;
+
+    printf("\n%s:%d > %s:%d\n", saddr, packet.sport, daddr, packet.dport);
+
+    handle_inject(handler, &packet);
 
 }
 

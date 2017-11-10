@@ -2,6 +2,8 @@
 #ifndef UDP_H_
 #define UDP_H_
 
+#define SIZE_UDP 8
+
 typedef struct sniff_udp {
     uint16_t uh_sport;          // source port
     uint16_t uh_dport;          // destination port
