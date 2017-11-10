@@ -1,4 +1,4 @@
-cscope 15 $HOME/share/public/project/netsimul/src -q 0000002922 0000188996
+cscope 15 $HOME/share/public/project/netsimul/src -q 0000002931 0000191090
 	@6.c
 
 1 
@@ -169,33 +169,43 @@ ETHER_H_
 
 	)
 
-6 
+5 
+	~<√töë/ëhî.h
+>
+
+8 
 	#SIZE_ETHERNET
  14
 
 	)
 
-9 #i‚de‡
+10 
+	#SIZE_ETHER_SUM
+ 4
+
+	)
+
+13 #i‚de‡
 ETHER_ADDR_LEN
 
 
-10 
+14 
 	#ETHER_ADDR_LEN
  6
 
 	)
 
-14 
+18 
 	#MAC_ASCII_LEN
  18
 
 	)
 
-31 
+35 
 	s¢iff_ëhî√t
  {
 
-32 
+36 
 u_ch¨
  
 	mëhî_dho°
@@ -203,7 +213,7 @@ u_ch¨
 ETHER_ADDR_LEN
 ];
 
-33 
+37 
 u_ch¨
  
 	mëhî_sho°
@@ -211,13 +221,13 @@ u_ch¨
 ETHER_ADDR_LEN
 ];
 
-34 
+38 
 u_sh‹t
  
 	mëhî_ty≥
 ;
 
-35 } 
+39 } 
 	tëhî√thdr_t
  ;
 
@@ -495,83 +505,93 @@ IP_H_
 	~<√töë/ö.h
 >
 
-8 
+6 
+	~<√töë/ù.h
+>
+
+8 
+	#SIZE_IP
+ 20
+
+	)
+
+11 
 	s¢iff_ù
  {
 
-9 
+12 
 u_ch¨
  
 	mù_vhl
 ;
 
-10 
+13 
 u_ch¨
  
 	mù_tos
 ;
 
-11 
+14 
 u_sh‹t
  
 	mù_Àn
 ;
 
-12 
+15 
 u_sh‹t
  
 	mù_id
 ;
 
-13 
+16 
 u_sh‹t
  
 	mù_off
 ;
 
-14 
+17 
 	#IP_RF
  0x8000
 
 	)
 
-15 
+18 
 	#IP_DF
  0x4000
 
 	)
 
-16 
+19 
 	#IP_MF
  0x2000
 
 	)
 
-17 
+20 
 	#IP_OFFMASK
  0x1ff‡
 
 	)
 
-18 
+21 
 u_ch¨
  
 	mù_âl
 ;
 
-19 
+22 
 u_ch¨
  
 	mù_p
 ;
 
-20 
+23 
 u_sh‹t
  
 	mù_sum
 ;
 
-21 
+24 
 ö_addr
  
 	mù_§c
@@ -579,11 +599,11 @@ u_sh‹t
 	mù_d°
 ;
 
-22 } 
+25 } 
 	tùhdr_t
  ;
 
-24 
+27 
 	#IP_HL
 (
 ù
@@ -593,7 +613,7 @@ u_sh‹t
 
 	)
 
-25 
+28 
 	#IP_V
 (
 ù
@@ -963,11 +983,9 @@ uöt16_t
 
 29 
 u_ch¨
- 
+ *
 	mbuf
-[
-SIZE_SEND_BUFFER
-];
+;
 
 30 
 size_t
@@ -1035,7 +1053,7 @@ h™dÀ_öje˘
 pˇp_t
  *
 h™dÀr
-, c⁄° 
+, 
 ∑ckë_t
  *
 ∑ckë
@@ -1047,7 +1065,7 @@ h™dÀr
 pˇp_t
  *
 h™dÀr
-, c⁄° 
+, 
 ∑ckë_t
  *
 ∑ckë
@@ -1059,7 +1077,7 @@ h™dÀr
 pˇp_t
  *
 h™dÀr
-, c⁄° 
+, 
 ∑ckë_t
  *
 ∑ckë
@@ -1067,11 +1085,27 @@ h™dÀr
 
 46 
 íˇp_ù
-();
+(
+pˇp_t
+ *
+h™dÀr
+, 
+∑ckë_t
+ *
+∑ckë
+);
 
 48 
 íˇp_ëhî
-();
+(
+pˇp_t
+ *
+h™dÀr
+, 
+∑ckë_t
+ *
+∑ckë
+);
 
 50 
 £nd_∑ckë
@@ -1121,7 +1155,7 @@ APP_DISCLAIMER
 	}
 }
 
-65 
+72 
 	$£nd_∑ckë
 (
 pˇp_t
@@ -1137,7 +1171,13 @@ size_t
 size
 )
 
-69  
+75 
+byãs_£nd
+;
+
+77 
+byãs_£nd
+ = 
 	`pˇp_öje˘
 (
 h™dÀr
@@ -1147,29 +1187,43 @@ buf
 size
 );
 
-71 
+78 if(
+byãs_£nd
+ == -1) {
+
+79 
+	`Ârötf
+(
+°dîr
+, "SendÖacket failed.");
+
+82 
+	`¥ötf
+("Inje˘edÖackëÅÿ√tw‹k (%d byãs).\n", 
+byãs_£nd
+);
+
+85  
+byãs_£nd
+;
+
+87 
 	}
 }
 
-73 
+89 
 	$íˇp_t˝
 (
 pˇp_t
  *
 h™dÀr
-, c⁄° 
+, 
 ∑ckë_t
  *
 ∑ckë
 )
 
-76 
-byãs_£nd
-;
-
-78 
-byãs_£nd
- = 
+92 
 	`£nd_∑ckë
 (
 h™dÀr
@@ -1181,51 +1235,35 @@ buf
 size
 );
 
-79 if(
-byãs_£nd
- == -1) {
-
-80 
-	`Ârötf
-(
-°dîr
-, "SendÖacket failed");
-
-83 
-	`¥ötf
-("Inje˘edÖackëÅÿ√tw‹k (%d byãs).", 
-byãs_£nd
-);
-
-86 
+103 
 	}
 }
 
-88 
+105 
 	$íˇp_udp
 (
 pˇp_t
  *
 h™dÀr
-, c⁄° 
+, 
 ∑ckë_t
  *
 ∑ckë
 )
 
-91 
+108 
 udphdr_t
  
 udp
 ;
 
-93 
+110 
 u_ch¨
  *
 buf
 ;
 
-95 
+113 
 udp
 .
 uh_•‹t
@@ -1235,7 +1273,7 @@ uh_•‹t
 •‹t
 ;
 
-96 
+114 
 udp
 .
 uh_dp‹t
@@ -1245,7 +1283,7 @@ uh_dp‹t
 dp‹t
 ;
 
-97 
+115 
 udp
 .
 uh_Àn
@@ -1257,39 +1295,465 @@ SIZE_UDP
 size
 ;
 
-98 
+116 
 udp
 .
 uh_sum
  = 0;
 
-101 
+119 
+buf
+ = (
+u_ch¨
+*)
+	`mÆloc
+(
+udp
+.
+uh_Àn
+);
+
+120 
+	`mem˝y
+(
+buf
+, &
+udp
+, 
+SIZE_UDP
+);
+
+121 
+	`mem˝y
+(
+buf
++
+SIZE_UDP
+, 
+∑ckë
+->buf,Öackë->
+size
+);
+
+122 
+∑ckë
+->
+buf
+ = buf;
+
+124 
+	`íˇp_ù
+(
+h™dÀr
+, 
+∑ckë
+);
+
+126 
 	}
 }
 
-103 
-	$h™dÀ_öje˘
+128 
+	$íˇp_ù
 (
 pˇp_t
  *
 h™dÀr
-, c⁄° 
+, 
 ∑ckë_t
  *
 ∑ckë
 )
 
-106 if(
+131 
+ùhdr_t
+ 
+ù
+;
+
+133 
+u_ch¨
+ *
+buf
+;
+
+136 
+ù
+.
+ù_vhl
+ = 0x45;
+
+137 
+ù
+.
+ù_tos
+ = 
+IPTOS_LOWCOST
+;
+
+138 
+ù
+.
+ù_Àn
+ = 
+SIZE_IP
+ + 
+∑ckë
+->
+size
+;
+
+139 
+ù
+.
+ù_id
+ = 0x1314;
+
+140 
+ù
+.
+ù_off
+ = 0;
+
+141 
+ù
+.
+ù_âl
+ = 
+MAXTTL
+;
+
+142 
+ù
+.
+ù_p
+ = 
+	`INJECT_OP_TCP
+(
+∑ckë
+Ë? 
+IPPROTO_TCP
+ : 
+IPPROTO_UDP
+;
+
+143 
+ù
+.
+ù_sum
+ = 0;
+
+144 
+ù
+.
+ù_§c
+ = 
+∑ckë
+->
+ßddr
+;
+
+145 
+ù
+.
+ù_d°
+ = 
+∑ckë
+->
+daddr
+;
+
+148 
+buf
+ = (
+u_ch¨
+*)
+	`mÆloc
+(
+ù
+.
+ù_Àn
+);
+
+149 
+	`mem˝y
+(
+buf
+, &
+ù
+, 
+SIZE_IP
+);
+
+150 
+	`mem˝y
+(
+buf
++
+SIZE_IP
+, 
+∑ckë
+->buf,Öackë->
+size
+);
+
+151 
+	`‰ì
+(
+∑ckë
+->
+buf
+);
+
+152 
+∑ckë
+->
+buf
+ = buf;
+
+154 
+	`íˇp_ëhî
+(
+h™dÀr
+, 
+∑ckë
+);
+
+156 
+	}
+}
+
+158 
+	$íˇp_ëhî
+(
+pˇp_t
+ *
+h™dÀr
+, 
+∑ckë_t
+ *
+∑ckë
+)
+
+161 
+ëhî√thdr_t
+ 
+ëhî
+;
+
+163 
+ëhî_addr
+ *
+sho°
+, *
+dho°
+;
+
+165 c⁄° *
+deÁu…_sho°
+ = "08:00:27:a8:01:cc";
+
+166 c⁄° *
+deÁu…_dho°
+ = "08:00:27:05:6e:fb";
+
+168 
+u_ch¨
+ *
+buf
+;
+
+169 
+size_t
+ 
+bufsize
+;
+
+170 
+uöt32_t
+ 
+fcs
+;
+
+173 
+ëhî
+.
+ëhî_ty≥
+ = 
+ETHERTYPE_IP
+;
+
+175 
+sho°
+ = 
+	`ëhî_©⁄
+(
+deÁu…_sho°
+);
+
+176 
+	`mem˝y
+(
+ëhî
+.
+ëhî_sho°
+, 
+sho°
+, 
+ETHER_ADDR_LEN
+);
+
+177 
+dho°
+ = 
+	`ëhî_©⁄
+(
+deÁu…_dho°
+);
+
+178 
+	`mem˝y
+(
+ëhî
+.
+ëhî_dho°
+, 
+dho°
+, 
+ETHER_ADDR_LEN
+);
+
+181 
+bufsize
+ = 
+SIZE_ETHERNET
+ + 
+∑ckë
+->
+size
+ + 
+SIZE_ETHER_SUM
+;
+
+182 
+buf
+ = (
+u_ch¨
+*)
+	`mÆloc
+(
+bufsize
+);
+
+183 
+	`mem£t
+(
+buf
+, 0, 
+bufsize
+);
+
+184 
+	`mem˝y
+(
+buf
+, &
+ëhî
+, 
+SIZE_ETHERNET
+);
+
+185 
+	`mem˝y
+(
+buf
++
+SIZE_ETHERNET
+, 
+∑ckë
+->buf,Öackë->
+size
+);
+
+186 
+fcs
+ = 0;
+
+187 
+	`mem˝y
+(
+buf
++
+SIZE_ETHERNET
++
+∑ckë
+->
+size
+, &
+fcs
+, 
+SIZE_ETHER_SUM
+);
+
+189 
+	`‰ì
+(
+∑ckë
+->
+buf
+);
+
+190 
+∑ckë
+->
+buf
+ = buf;
+
+192 
+	`£nd_∑ckë
+(
+h™dÀr
+, 
+buf
+, 
+bufsize
+);
+
+194 
+	`‰ì
+(
+∑ckë
+->
+buf
+);
+
+196 
+	}
+}
+
+198 
+	$h™dÀ_öje˘
+(
+pˇp_t
+ *
+h™dÀr
+, 
+∑ckë_t
+ *
+∑ckë
+)
+
+201 if(
 	`INJECT_OP_TCP
 (
 ∑ckë
 )) {
 
-107 
+202 
 	`¥ötf
 ("\nInject with TCP...\n");
 
-108 
+203 
 	`íˇp_t˝
 (
 h™dÀr
@@ -1297,11 +1761,11 @@ h™dÀr
 ∑ckë
 );
 
-111 
+206 
 	`¥ötf
 ("\nInject with UDP...\n");
 
-112 
+207 
 	`íˇp_udp
 (
 h™dÀr
@@ -1309,11 +1773,11 @@ h™dÀr
 ∑ckë
 );
 
-115 
+210 
 	}
 }
 
-117 
+212 
 	$h™dÀ_u£r_öput
 (
 pˇp_t
@@ -1321,27 +1785,31 @@ pˇp_t
 h™dÀr
 )
 
-120 
+215 
 ∑ckë_t
  
 ∑ckë
 ;
 
-121 
+216 
+buf
+[
+SIZE_SEND_BUFFER
+], 
 ch
 ;
 
-122 
+217 
 cou¡
 ;
 
-123 
+218 
 ßddr
 [16], 
 daddr
 [16];
 
-124 
+219 
 uöt16_t
  
 •‹t
@@ -1349,55 +1817,53 @@ uöt16_t
 dp‹t
 ;
 
-125 
+220 
 tmp°r
 [16], *
 ç
 ;
 
-127 c⁄° *
+222 c⁄° *
 deÁu…_ßddr
  = "192.168.0.5";
 
-128 c⁄° *
+223 c⁄° *
 deÁu…_daddr
  = "192.168.0.3";
 
-129 
+224 
 uöt16_t
  
 deÁu…_•‹t
  = 1314;
 
-130 
+225 
 uöt16_t
  
 deÁu…_dp‹t
  = 1618;
 
-133 
+228 
 	`¥ötf
 ("\nEnter messageÅo inject (ends withánÉmptyÜine):\n");
 
-134 
+229 
 cou¡
  = 0;
 
-136 
+231 
 ch
  = 
 	`gëch¨
 ();
 
-137 if(
+232 if(
 cou¡
  < 
 SIZE_SEND_BUFFER
 ) {
 
-138 
-∑ckë
-.
+233 
 buf
 [
 cou¡
@@ -1405,35 +1871,37 @@ cou¡
 ch
 ;
 
-141 
+236 
 	`¥ötf
 ("\n--maximum ch¨a˘î†mìãd (%d),Énd o‡öput--\n", 
 SIZE_SEND_BUFFER
 );
 
-145 if(
+240 if(
 cou¡
  > 0 && 
 ch
  ='\n' && 
-∑ckë
-.
 buf
 [count-1] == '\n') {
 
-148 ++
+243 ++
 cou¡
 ;
 
-150 
-∑ckë
-.
+245 
 buf
 [
 cou¡
 ] = '\0';
 
-151 
+246 
+∑ckë
+.
+buf
+ = buf;
+
+247 
 ∑ckë
 .
 size
@@ -1441,7 +1909,7 @@ size
 cou¡
 ;
 
-153 
+249 
 	`¥ötf
 ("**MESSAGE TO SEND**\n\n%s\n\n", 
 ∑ckë
@@ -1449,11 +1917,11 @@ cou¡
 buf
 );
 
-156 
+252 
 	`¥ötf
 ("Inject with TCP or UDP? [T/U]: ");
 
-157 
+253 
 ch
  = 
 	`gëch¨
@@ -1461,15 +1929,15 @@ ch
 	`CLEAR
 ();
 
-158 !(
+254 !(
 ch
  == 't' || ch == 'T' || ch == 'u' || ch == 'U')) {
 
-159 
+255 
 	`¥ötf
 ("PleaseÉnter T(t) or U(u): ");
 
-160 
+256 
 ch
  = 
 	`gëch¨
@@ -1477,7 +1945,7 @@ ch
 	`CLEAR
 ();
 
-162 
+258 
 ∑ckë
 .
 ›î
@@ -1485,21 +1953,21 @@ ch
 ch
 ;
 
-165 
+261 
 	`¥ötf
 ("Sender ipáddress (default 192.168.0.5, use it justÖress <enter>): ");
 
-166 
+262 
 ch
  = 
 	`gëch¨
 ();
 
-167 if(
+263 if(
 ch
  == '\n') {
 
-168 
+264 
 	`°∫˝y
 (
 ßddr
@@ -1509,13 +1977,13 @@ deÁu…_ßddr
 SIZE_IP_ADDR_STR
 );
 
-171 
+267 
 ßddr
 [0] = 
 ch
 ;
 
-172 
+268 
 	`fgës
 (
 ßddr
@@ -1525,39 +1993,39 @@ SIZE_IP_ADDR_STR
 °dö
 );
 
-173 
+269 
 ßddr
 [
 	`°æí
 (saddr)-1] = '\0';
 
-176 
+272 
 	`¥ötf
 ("SenderÖort (default 1314, use it justÖress <enter>): ");
 
-177 
+273 
 ch
  = 
 	`gëch¨
 ();
 
-178 if(
+274 if(
 ch
  == '\n') {
 
-179 
+275 
 •‹t
  = 
 deÁu…_•‹t
 ;
 
-182 
+278 
 tmp°r
 [0] = 
 ch
 ;
 
-183 
+279 
 	`fgës
 (
 tmp°r
@@ -1567,7 +2035,7 @@ SIZE_PORT_STR
 °dö
 );
 
-184 
+280 
 •‹t
  = 
 	`©oi
@@ -1575,21 +2043,21 @@ SIZE_PORT_STR
 tmp°r
 );
 
-187 
+283 
 	`¥ötf
 ("Destination ipáddress (default 192.168.0.3, use it justÖress <enter>): ");
 
-188 
+284 
 ch
  = 
 	`gëch¨
 ();
 
-189 if(
+285 if(
 ch
  == '\n') {
 
-190 
+286 
 	`°∫˝y
 (
 daddr
@@ -1599,13 +2067,13 @@ deÁu…_daddr
 SIZE_IP_ADDR_STR
 );
 
-193 
+289 
 daddr
 [0] = 
 ch
 ;
 
-194 
+290 
 	`fgës
 (
 daddr
@@ -1615,39 +2083,39 @@ SIZE_IP_ADDR_STR
 °dö
 );
 
-195 
+291 
 daddr
 [
 	`°æí
 (daddr)-1] = '\0';
 
-198 
+294 
 	`¥ötf
 ("DestinationÖort (default 1618, use it justÖress <enter>): ");
 
-199 
+295 
 ch
  = 
 	`gëch¨
 ();
 
-200 if(
+296 if(
 ch
  == '\n') {
 
-201 
+297 
 dp‹t
  = 
 deÁu…_dp‹t
 ;
 
-204 
+300 
 tmp°r
 [0] = 
 ch
 ;
 
-205 
+301 
 	`fgës
 (
 tmp°r
@@ -1657,7 +2125,7 @@ SIZE_PORT_STR
 °dö
 );
 
-206 
+302 
 dp‹t
  = 
 	`©oi
@@ -1665,7 +2133,7 @@ dp‹t
 tmp°r
 );
 
-209 if–
+305 if–
 	`öë_©⁄
 (
 ßddr
@@ -1673,7 +2141,7 @@ tmp°r
 ∑ckë
 .saddr) == 0) {
 
-210 
+306 
 	`Ârötf
 (
 °dîr
@@ -1681,13 +2149,13 @@ tmp°r
 ßddr
 );
 
-211 
+307 
 	`exô
 (
 EXIT_FAILURE
 );
 
-213 if–
+309 if–
 	`öë_©⁄
 (
 daddr
@@ -1695,7 +2163,7 @@ daddr
 ∑ckë
 .daddr) == 0) {
 
-214 
+310 
 	`Ârötf
 (
 °dîr
@@ -1703,25 +2171,25 @@ daddr
 daddr
 );
 
-215 
+311 
 	`exô
 (
 EXIT_FAILURE
 );
 
-217 
+313 
 ∑ckë
 .
 •‹t
  = sport;
 
-218 
+314 
 ∑ckë
 .
 dp‹t
  = dport;
 
-220 
+316 
 	`¥ötf
 ("\n%s:%d > %s:%d\n", 
 ßddr
@@ -1735,7 +2203,7 @@ daddr
 dp‹t
 );
 
-222 
+318 
 	`h™dÀ_öje˘
 (
 h™dÀr
@@ -1743,11 +2211,11 @@ h™dÀr
 ∑ckë
 );
 
-224 
+320 
 	}
 }
 
-226 
+322 
 	$maö
 (
 ¨gc
@@ -1755,37 +2223,37 @@ h™dÀr
 ¨gv
 ) {
 
-227 *
+323 *
 dev
  = 
 NULL
 ;
 
-228 
+324 
 îrbuf
 [
 PCAP_ERRBUF_SIZE
 ];
 
-229 
+325 
 pˇp_t
  *
 h™dÀr
 ;
 
-231 
+327 
 bpf_u_öt32
  
 mask
 ;
 
-232 
+328 
 bpf_u_öt32
  
 √t
 ;
 
-233 
+329 
 ö_addr
  
 addr_√t
@@ -1793,21 +2261,21 @@ addr_√t
 addr_mask
 ;
 
-235 
+331 
 	`¥öt_≠p_b™√r
 ();
 
-238 if(
+334 if(
 ¨gc
  == 2) {
 
-239 
+335 
 dev
  = 
 ¨gv
 [1];
 
-242 
+338 
 dev
  = 
 	`pˇp_lookupdev
@@ -1815,13 +2283,13 @@ dev
 îrbuf
 );
 
-243 if(
+339 if(
 dev
  =
 NULL
 ) {
 
-244 
+340 
 	`Ârötf
 (
 °dîr
@@ -1829,13 +2297,13 @@ NULL
 îrbuf
 );
 
-245 
+341 
 	`exô
 (
 EXIT_FAILURE
 );
 
-250 i‡(
+346 i‡(
 	`pˇp_looku≤ë
 (
 dev
@@ -1847,7 +2315,7 @@ mask
 îrbuf
 ) == -1) {
 
-251 
+347 
 	`Ârötf
 (
 °dîr
@@ -1857,15 +2325,15 @@ dev
 îrbuf
 );
 
-252 
+348 
 √t
  = 0;
 
-253 
+349 
 mask
  = 0;
 
-256 
+352 
 addr_√t
 .
 s_addr
@@ -1873,7 +2341,7 @@ s_addr
 √t
 ;
 
-257 
+353 
 addr_mask
 .
 s_addr
@@ -1881,7 +2349,7 @@ s_addr
 mask
 ;
 
-258 
+354 
 	`¥ötf
 ("IP: %s\n", 
 	`öë_¡ﬂ
@@ -1889,7 +2357,7 @@ mask
 addr_√t
 ));
 
-259 
+355 
 	`¥ötf
 ("Nëmask: %s\n", 
 	`öë_¡ﬂ
@@ -1897,7 +2365,7 @@ addr_√t
 addr_mask
 ));
 
-263 
+359 
 h™dÀr
  = 
 	`pˇp_›í_live
@@ -1909,13 +2377,13 @@ SNAP_LEN
 îrbuf
 );
 
-264 if(
+360 if(
 h™dÀr
  =
 NULL
 ) {
 
-265 
+361 
 	`Ârötf
 (
 °dîr
@@ -1925,13 +2393,13 @@ dev
 îrbuf
 );
 
-266 
+362 
 	`exô
 (
 EXIT_FAILURE
 );
 
-270 i‡(
+366 i‡(
 	`pˇp_d©Æök
 (
 h™dÀr
@@ -1939,7 +2407,7 @@ h™dÀr
 DLT_EN10MB
 ) {
 
-271 
+367 
 	`Ârötf
 (
 °dîr
@@ -1947,29 +2415,29 @@ DLT_EN10MB
 dev
 );
 
-272 
+368 
 	`exô
 (
 EXIT_FAILURE
 );
 
-276 
+372 
 	`h™dÀ_u£r_öput
 (
 h™dÀr
 );
 
-279 
+375 
 	`pˇp_˛o£
 (
 h™dÀr
 );
 
-281 
+377 
 	`¥ötf
 ("\nInject complete.\n");
 
-284 
+380 
 	}
 }
 
@@ -8943,6 +9411,982 @@ __THROW
 
 628 
 __END_DECLS
+
+
+	@/usr/include/netinet/ip.h
+
+18 #i‚de‡
+__NETINET_IP_H
+
+
+19 
+	#__NETINET_IP_H
+ 1
+
+	)
+
+21 
+	~<„©uªs.h
+>
+
+22 
+	~<sys/ty≥s.h
+>
+
+24 
+	~<√töë/ö.h
+>
+
+26 
+__BEGIN_DECLS
+
+
+28 
+	stime°amp
+
+
+30 
+u_öt8_t
+ 
+	mÀn
+;
+
+31 
+u_öt8_t
+ 
+	m±r
+;
+
+32 #i‡
+__BYTE_ORDER
+ =
+__LITTLE_ENDIAN
+
+
+33 
+	mÊags
+:4;
+
+34 
+	movîÊow
+:4;
+
+35 #ñi‡
+__BYTE_ORDER
+ =
+__BIG_ENDIAN
+
+
+36 
+	movîÊow
+:4;
+
+37 
+	mÊags
+:4;
+
+41 
+u_öt32_t
+ 
+	md©a
+[9];
+
+44 
+	sùhdr
+
+
+46 #i‡
+__BYTE_ORDER
+ =
+__LITTLE_ENDIAN
+
+
+47 
+	mihl
+:4;
+
+48 
+	mvîsi⁄
+:4;
+
+49 #ñi‡
+__BYTE_ORDER
+ =
+__BIG_ENDIAN
+
+
+50 
+	mvîsi⁄
+:4;
+
+51 
+	mihl
+:4;
+
+55 
+u_öt8_t
+ 
+	mtos
+;
+
+56 
+u_öt16_t
+ 
+	mtŸ_Àn
+;
+
+57 
+u_öt16_t
+ 
+	mid
+;
+
+58 
+u_öt16_t
+ 
+	m‰ag_off
+;
+
+59 
+u_öt8_t
+ 
+	mâl
+;
+
+60 
+u_öt8_t
+ 
+	m¥Ÿocﬁ
+;
+
+61 
+u_öt16_t
+ 
+	mcheck
+;
+
+62 
+u_öt32_t
+ 
+	mßddr
+;
+
+63 
+u_öt32_t
+ 
+	mdaddr
+;
+
+67 #ifde‡
+__USE_BSD
+
+
+107 
+	sù
+
+
+109 #i‡
+__BYTE_ORDER
+ =
+__LITTLE_ENDIAN
+
+
+110 
+	mù_hl
+:4;
+
+111 
+	mù_v
+:4;
+
+113 #i‡
+__BYTE_ORDER
+ =
+__BIG_ENDIAN
+
+
+114 
+	mù_v
+:4;
+
+115 
+	mù_hl
+:4;
+
+117 
+u_öt8_t
+ 
+	mù_tos
+;
+
+118 
+u_sh‹t
+ 
+	mù_Àn
+;
+
+119 
+u_sh‹t
+ 
+	mù_id
+;
+
+120 
+u_sh‹t
+ 
+	mù_off
+;
+
+121 
+	#IP_RF
+ 0x8000
+
+	)
+
+122 
+	#IP_DF
+ 0x4000
+
+	)
+
+123 
+	#IP_MF
+ 0x2000
+
+	)
+
+124 
+	#IP_OFFMASK
+ 0x1ff‡
+
+	)
+
+125 
+u_öt8_t
+ 
+	mù_âl
+;
+
+126 
+u_öt8_t
+ 
+	mù_p
+;
+
+127 
+u_sh‹t
+ 
+	mù_sum
+;
+
+128 
+ö_addr
+ 
+	mù_§c
+, 
+	mù_d°
+;
+
+134 
+	sù_time°amp
+
+
+136 
+u_öt8_t
+ 
+	mùt_code
+;
+
+137 
+u_öt8_t
+ 
+	mùt_Àn
+;
+
+138 
+u_öt8_t
+ 
+	mùt_±r
+;
+
+139 #i‡
+__BYTE_ORDER
+ =
+__LITTLE_ENDIAN
+
+
+140 
+	mùt_Êg
+:4;
+
+141 
+	mùt_oÊw
+:4;
+
+143 #i‡
+__BYTE_ORDER
+ =
+__BIG_ENDIAN
+
+
+144 
+	mùt_oÊw
+:4;
+
+145 
+	mùt_Êg
+:4;
+
+147 
+u_öt32_t
+ 
+	md©a
+[9];
+
+151 
+	#IPVERSION
+ 4
+
+	)
+
+152 
+	#IP_MAXPACKET
+ 65535
+
+	)
+
+160 
+	#IPTOS_ECN_MASK
+ 0x03
+
+	)
+
+161 
+	#IPTOS_ECN
+(
+x
+Ë((xË& 
+IPTOS_ECN_MASK
+)
+
+	)
+
+162 
+	#IPTOS_ECN_NOT_ECT
+ 0x00
+
+	)
+
+163 
+	#IPTOS_ECN_ECT1
+ 0x01
+
+	)
+
+164 
+	#IPTOS_ECN_ECT0
+ 0x02
+
+	)
+
+165 
+	#IPTOS_ECN_CE
+ 0x03
+
+	)
+
+173 
+	#IPTOS_DSCP_MASK
+ 0xfc
+
+	)
+
+174 
+	#IPTOS_DSCP
+(
+x
+Ë((xË& 
+IPTOS_DSCP_MASK
+)
+
+	)
+
+175 
+	#IPTOS_DSCP_AF11
+ 0x28
+
+	)
+
+176 
+	#IPTOS_DSCP_AF12
+ 0x30
+
+	)
+
+177 
+	#IPTOS_DSCP_AF13
+ 0x38
+
+	)
+
+178 
+	#IPTOS_DSCP_AF21
+ 0x48
+
+	)
+
+179 
+	#IPTOS_DSCP_AF22
+ 0x50
+
+	)
+
+180 
+	#IPTOS_DSCP_AF23
+ 0x58
+
+	)
+
+181 
+	#IPTOS_DSCP_AF31
+ 0x68
+
+	)
+
+182 
+	#IPTOS_DSCP_AF32
+ 0x70
+
+	)
+
+183 
+	#IPTOS_DSCP_AF33
+ 0x78
+
+	)
+
+184 
+	#IPTOS_DSCP_AF41
+ 0x88
+
+	)
+
+185 
+	#IPTOS_DSCP_AF42
+ 0x90
+
+	)
+
+186 
+	#IPTOS_DSCP_AF43
+ 0x98
+
+	)
+
+187 
+	#IPTOS_DSCP_EF
+ 0xb8
+
+	)
+
+194 
+	#IPTOS_CLASS_MASK
+ 0xe0
+
+	)
+
+195 
+	#IPTOS_CLASS
+(
+˛ass
+Ë((˛assË& 
+IPTOS_CLASS_MASK
+)
+
+	)
+
+196 
+	#IPTOS_CLASS_CS0
+ 0x00
+
+	)
+
+197 
+	#IPTOS_CLASS_CS1
+ 0x20
+
+	)
+
+198 
+	#IPTOS_CLASS_CS2
+ 0x40
+
+	)
+
+199 
+	#IPTOS_CLASS_CS3
+ 0x60
+
+	)
+
+200 
+	#IPTOS_CLASS_CS4
+ 0x80
+
+	)
+
+201 
+	#IPTOS_CLASS_CS5
+ 0xa0
+
+	)
+
+202 
+	#IPTOS_CLASS_CS6
+ 0xc0
+
+	)
+
+203 
+	#IPTOS_CLASS_CS7
+ 0xe0
+
+	)
+
+205 
+	#IPTOS_CLASS_DEFAULT
+ 
+IPTOS_CLASS_CS0
+
+
+	)
+
+211 
+	#IPTOS_TOS_MASK
+ 0x1E
+
+	)
+
+212 
+	#IPTOS_TOS
+(
+tos
+Ë(—osË& 
+IPTOS_TOS_MASK
+)
+
+	)
+
+213 
+	#IPTOS_LOWDELAY
+ 0x10
+
+	)
+
+214 
+	#IPTOS_THROUGHPUT
+ 0x08
+
+	)
+
+215 
+	#IPTOS_RELIABILITY
+ 0x04
+
+	)
+
+216 
+	#IPTOS_LOWCOST
+ 0x02
+
+	)
+
+217 
+	#IPTOS_MINCOST
+ 
+IPTOS_LOWCOST
+
+
+	)
+
+222 
+	#IPTOS_PREC_MASK
+ 
+IPTOS_CLASS_MASK
+
+
+	)
+
+223 
+	#IPTOS_PREC
+(
+tos
+Ë
+	`IPTOS_CLASS
+—os)
+
+	)
+
+224 
+	#IPTOS_PREC_NETCONTROL
+ 
+IPTOS_CLASS_CS7
+
+
+	)
+
+225 
+	#IPTOS_PREC_INTERNETCONTROL
+ 
+IPTOS_CLASS_CS6
+
+
+	)
+
+226 
+	#IPTOS_PREC_CRITIC_ECP
+ 
+IPTOS_CLASS_CS5
+
+
+	)
+
+227 
+	#IPTOS_PREC_FLASHOVERRIDE
+ 
+IPTOS_CLASS_CS4
+
+
+	)
+
+228 
+	#IPTOS_PREC_FLASH
+ 
+IPTOS_CLASS_CS3
+
+
+	)
+
+229 
+	#IPTOS_PREC_IMMEDIATE
+ 
+IPTOS_CLASS_CS2
+
+
+	)
+
+230 
+	#IPTOS_PREC_PRIORITY
+ 
+IPTOS_CLASS_CS1
+
+
+	)
+
+231 
+	#IPTOS_PREC_ROUTINE
+ 
+IPTOS_CLASS_CS0
+
+
+	)
+
+236 
+	#IPOPT_COPY
+ 0x80
+
+	)
+
+237 
+	#IPOPT_CLASS_MASK
+ 0x60
+
+	)
+
+238 
+	#IPOPT_NUMBER_MASK
+ 0x1f
+
+	)
+
+240 
+	#IPOPT_COPIED
+(
+o
+Ë((oË& 
+IPOPT_COPY
+)
+
+	)
+
+241 
+	#IPOPT_CLASS
+(
+o
+Ë((oË& 
+IPOPT_CLASS_MASK
+)
+
+	)
+
+242 
+	#IPOPT_NUMBER
+(
+o
+Ë((oË& 
+IPOPT_NUMBER_MASK
+)
+
+	)
+
+244 
+	#IPOPT_CONTROL
+ 0x00
+
+	)
+
+245 
+	#IPOPT_RESERVED1
+ 0x20
+
+	)
+
+246 
+	#IPOPT_DEBMEAS
+ 0x40
+
+	)
+
+247 
+	#IPOPT_MEASUREMENT
+ 
+IPOPT_DEBMEAS
+
+
+	)
+
+248 
+	#IPOPT_RESERVED2
+ 0x60
+
+	)
+
+250 
+	#IPOPT_EOL
+ 0
+
+	)
+
+251 
+	#IPOPT_END
+ 
+IPOPT_EOL
+
+
+	)
+
+252 
+	#IPOPT_NOP
+ 1
+
+	)
+
+253 
+	#IPOPT_NOOP
+ 
+IPOPT_NOP
+
+
+	)
+
+255 
+	#IPOPT_RR
+ 7
+
+	)
+
+256 
+	#IPOPT_TS
+ 68
+
+	)
+
+257 
+	#IPOPT_TIMESTAMP
+ 
+IPOPT_TS
+
+
+	)
+
+258 
+	#IPOPT_SECURITY
+ 130
+
+	)
+
+259 
+	#IPOPT_SEC
+ 
+IPOPT_SECURITY
+
+
+	)
+
+260 
+	#IPOPT_LSRR
+ 131
+
+	)
+
+261 
+	#IPOPT_SATID
+ 136
+
+	)
+
+262 
+	#IPOPT_SID
+ 
+IPOPT_SATID
+
+
+	)
+
+263 
+	#IPOPT_SSRR
+ 137
+
+	)
+
+264 
+	#IPOPT_RA
+ 148
+
+	)
+
+269 
+	#IPOPT_OPTVAL
+ 0
+
+	)
+
+270 
+	#IPOPT_OLEN
+ 1
+
+	)
+
+271 
+	#IPOPT_OFFSET
+ 2
+
+	)
+
+272 
+	#IPOPT_MINOFF
+ 4
+
+	)
+
+274 
+	#MAX_IPOPTLEN
+ 40
+
+	)
+
+277 
+	#IPOPT_TS_TSONLY
+ 0
+
+	)
+
+278 
+	#IPOPT_TS_TSANDADDR
+ 1
+
+	)
+
+279 
+	#IPOPT_TS_PRESPEC
+ 3
+
+	)
+
+282 
+	#IPOPT_SECUR_UNCLASS
+ 0x0000
+
+	)
+
+283 
+	#IPOPT_SECUR_CONFID
+ 0xf135
+
+	)
+
+284 
+	#IPOPT_SECUR_EFTO
+ 0x789a
+
+	)
+
+285 
+	#IPOPT_SECUR_MMMM
+ 0xbc4d
+
+	)
+
+286 
+	#IPOPT_SECUR_RESTR
+ 0xaf13
+
+	)
+
+287 
+	#IPOPT_SECUR_SECRET
+ 0xd788
+
+	)
+
+288 
+	#IPOPT_SECUR_TOPSECRET
+ 0x6bc5
+
+	)
+
+293 
+	#MAXTTL
+ 255
+
+	)
+
+294 
+	#IPDEFTTL
+ 64
+
+	)
+
+295 
+	#IPFRAGTTL
+ 60
+
+	)
+
+296 
+	#IPTTLDEC
+ 1
+
+	)
+
+298 
+	#IP_MSS
+ 576
+
+	)
+
+300 
+	g__END_DECLS
 
 
 	@/usr/include/netinet/ip_icmp.h
@@ -22491,982 +23935,6 @@ u_öt8_t
 	g__END_DECLS
 
 
-	@/usr/include/netinet/ip.h
-
-18 #i‚de‡
-__NETINET_IP_H
-
-
-19 
-	#__NETINET_IP_H
- 1
-
-	)
-
-21 
-	~<„©uªs.h
->
-
-22 
-	~<sys/ty≥s.h
->
-
-24 
-	~<√töë/ö.h
->
-
-26 
-__BEGIN_DECLS
-
-
-28 
-	stime°amp
-
-
-30 
-u_öt8_t
- 
-	mÀn
-;
-
-31 
-u_öt8_t
- 
-	m±r
-;
-
-32 #i‡
-__BYTE_ORDER
- =
-__LITTLE_ENDIAN
-
-
-33 
-	mÊags
-:4;
-
-34 
-	movîÊow
-:4;
-
-35 #ñi‡
-__BYTE_ORDER
- =
-__BIG_ENDIAN
-
-
-36 
-	movîÊow
-:4;
-
-37 
-	mÊags
-:4;
-
-41 
-u_öt32_t
- 
-	md©a
-[9];
-
-44 
-	sùhdr
-
-
-46 #i‡
-__BYTE_ORDER
- =
-__LITTLE_ENDIAN
-
-
-47 
-	mihl
-:4;
-
-48 
-	mvîsi⁄
-:4;
-
-49 #ñi‡
-__BYTE_ORDER
- =
-__BIG_ENDIAN
-
-
-50 
-	mvîsi⁄
-:4;
-
-51 
-	mihl
-:4;
-
-55 
-u_öt8_t
- 
-	mtos
-;
-
-56 
-u_öt16_t
- 
-	mtŸ_Àn
-;
-
-57 
-u_öt16_t
- 
-	mid
-;
-
-58 
-u_öt16_t
- 
-	m‰ag_off
-;
-
-59 
-u_öt8_t
- 
-	mâl
-;
-
-60 
-u_öt8_t
- 
-	m¥Ÿocﬁ
-;
-
-61 
-u_öt16_t
- 
-	mcheck
-;
-
-62 
-u_öt32_t
- 
-	mßddr
-;
-
-63 
-u_öt32_t
- 
-	mdaddr
-;
-
-67 #ifde‡
-__USE_BSD
-
-
-107 
-	sù
-
-
-109 #i‡
-__BYTE_ORDER
- =
-__LITTLE_ENDIAN
-
-
-110 
-	mù_hl
-:4;
-
-111 
-	mù_v
-:4;
-
-113 #i‡
-__BYTE_ORDER
- =
-__BIG_ENDIAN
-
-
-114 
-	mù_v
-:4;
-
-115 
-	mù_hl
-:4;
-
-117 
-u_öt8_t
- 
-	mù_tos
-;
-
-118 
-u_sh‹t
- 
-	mù_Àn
-;
-
-119 
-u_sh‹t
- 
-	mù_id
-;
-
-120 
-u_sh‹t
- 
-	mù_off
-;
-
-121 
-	#IP_RF
- 0x8000
-
-	)
-
-122 
-	#IP_DF
- 0x4000
-
-	)
-
-123 
-	#IP_MF
- 0x2000
-
-	)
-
-124 
-	#IP_OFFMASK
- 0x1ff‡
-
-	)
-
-125 
-u_öt8_t
- 
-	mù_âl
-;
-
-126 
-u_öt8_t
- 
-	mù_p
-;
-
-127 
-u_sh‹t
- 
-	mù_sum
-;
-
-128 
-ö_addr
- 
-	mù_§c
-, 
-	mù_d°
-;
-
-134 
-	sù_time°amp
-
-
-136 
-u_öt8_t
- 
-	mùt_code
-;
-
-137 
-u_öt8_t
- 
-	mùt_Àn
-;
-
-138 
-u_öt8_t
- 
-	mùt_±r
-;
-
-139 #i‡
-__BYTE_ORDER
- =
-__LITTLE_ENDIAN
-
-
-140 
-	mùt_Êg
-:4;
-
-141 
-	mùt_oÊw
-:4;
-
-143 #i‡
-__BYTE_ORDER
- =
-__BIG_ENDIAN
-
-
-144 
-	mùt_oÊw
-:4;
-
-145 
-	mùt_Êg
-:4;
-
-147 
-u_öt32_t
- 
-	md©a
-[9];
-
-151 
-	#IPVERSION
- 4
-
-	)
-
-152 
-	#IP_MAXPACKET
- 65535
-
-	)
-
-160 
-	#IPTOS_ECN_MASK
- 0x03
-
-	)
-
-161 
-	#IPTOS_ECN
-(
-x
-Ë((xË& 
-IPTOS_ECN_MASK
-)
-
-	)
-
-162 
-	#IPTOS_ECN_NOT_ECT
- 0x00
-
-	)
-
-163 
-	#IPTOS_ECN_ECT1
- 0x01
-
-	)
-
-164 
-	#IPTOS_ECN_ECT0
- 0x02
-
-	)
-
-165 
-	#IPTOS_ECN_CE
- 0x03
-
-	)
-
-173 
-	#IPTOS_DSCP_MASK
- 0xfc
-
-	)
-
-174 
-	#IPTOS_DSCP
-(
-x
-Ë((xË& 
-IPTOS_DSCP_MASK
-)
-
-	)
-
-175 
-	#IPTOS_DSCP_AF11
- 0x28
-
-	)
-
-176 
-	#IPTOS_DSCP_AF12
- 0x30
-
-	)
-
-177 
-	#IPTOS_DSCP_AF13
- 0x38
-
-	)
-
-178 
-	#IPTOS_DSCP_AF21
- 0x48
-
-	)
-
-179 
-	#IPTOS_DSCP_AF22
- 0x50
-
-	)
-
-180 
-	#IPTOS_DSCP_AF23
- 0x58
-
-	)
-
-181 
-	#IPTOS_DSCP_AF31
- 0x68
-
-	)
-
-182 
-	#IPTOS_DSCP_AF32
- 0x70
-
-	)
-
-183 
-	#IPTOS_DSCP_AF33
- 0x78
-
-	)
-
-184 
-	#IPTOS_DSCP_AF41
- 0x88
-
-	)
-
-185 
-	#IPTOS_DSCP_AF42
- 0x90
-
-	)
-
-186 
-	#IPTOS_DSCP_AF43
- 0x98
-
-	)
-
-187 
-	#IPTOS_DSCP_EF
- 0xb8
-
-	)
-
-194 
-	#IPTOS_CLASS_MASK
- 0xe0
-
-	)
-
-195 
-	#IPTOS_CLASS
-(
-˛ass
-Ë((˛assË& 
-IPTOS_CLASS_MASK
-)
-
-	)
-
-196 
-	#IPTOS_CLASS_CS0
- 0x00
-
-	)
-
-197 
-	#IPTOS_CLASS_CS1
- 0x20
-
-	)
-
-198 
-	#IPTOS_CLASS_CS2
- 0x40
-
-	)
-
-199 
-	#IPTOS_CLASS_CS3
- 0x60
-
-	)
-
-200 
-	#IPTOS_CLASS_CS4
- 0x80
-
-	)
-
-201 
-	#IPTOS_CLASS_CS5
- 0xa0
-
-	)
-
-202 
-	#IPTOS_CLASS_CS6
- 0xc0
-
-	)
-
-203 
-	#IPTOS_CLASS_CS7
- 0xe0
-
-	)
-
-205 
-	#IPTOS_CLASS_DEFAULT
- 
-IPTOS_CLASS_CS0
-
-
-	)
-
-211 
-	#IPTOS_TOS_MASK
- 0x1E
-
-	)
-
-212 
-	#IPTOS_TOS
-(
-tos
-Ë(—osË& 
-IPTOS_TOS_MASK
-)
-
-	)
-
-213 
-	#IPTOS_LOWDELAY
- 0x10
-
-	)
-
-214 
-	#IPTOS_THROUGHPUT
- 0x08
-
-	)
-
-215 
-	#IPTOS_RELIABILITY
- 0x04
-
-	)
-
-216 
-	#IPTOS_LOWCOST
- 0x02
-
-	)
-
-217 
-	#IPTOS_MINCOST
- 
-IPTOS_LOWCOST
-
-
-	)
-
-222 
-	#IPTOS_PREC_MASK
- 
-IPTOS_CLASS_MASK
-
-
-	)
-
-223 
-	#IPTOS_PREC
-(
-tos
-Ë
-	`IPTOS_CLASS
-—os)
-
-	)
-
-224 
-	#IPTOS_PREC_NETCONTROL
- 
-IPTOS_CLASS_CS7
-
-
-	)
-
-225 
-	#IPTOS_PREC_INTERNETCONTROL
- 
-IPTOS_CLASS_CS6
-
-
-	)
-
-226 
-	#IPTOS_PREC_CRITIC_ECP
- 
-IPTOS_CLASS_CS5
-
-
-	)
-
-227 
-	#IPTOS_PREC_FLASHOVERRIDE
- 
-IPTOS_CLASS_CS4
-
-
-	)
-
-228 
-	#IPTOS_PREC_FLASH
- 
-IPTOS_CLASS_CS3
-
-
-	)
-
-229 
-	#IPTOS_PREC_IMMEDIATE
- 
-IPTOS_CLASS_CS2
-
-
-	)
-
-230 
-	#IPTOS_PREC_PRIORITY
- 
-IPTOS_CLASS_CS1
-
-
-	)
-
-231 
-	#IPTOS_PREC_ROUTINE
- 
-IPTOS_CLASS_CS0
-
-
-	)
-
-236 
-	#IPOPT_COPY
- 0x80
-
-	)
-
-237 
-	#IPOPT_CLASS_MASK
- 0x60
-
-	)
-
-238 
-	#IPOPT_NUMBER_MASK
- 0x1f
-
-	)
-
-240 
-	#IPOPT_COPIED
-(
-o
-Ë((oË& 
-IPOPT_COPY
-)
-
-	)
-
-241 
-	#IPOPT_CLASS
-(
-o
-Ë((oË& 
-IPOPT_CLASS_MASK
-)
-
-	)
-
-242 
-	#IPOPT_NUMBER
-(
-o
-Ë((oË& 
-IPOPT_NUMBER_MASK
-)
-
-	)
-
-244 
-	#IPOPT_CONTROL
- 0x00
-
-	)
-
-245 
-	#IPOPT_RESERVED1
- 0x20
-
-	)
-
-246 
-	#IPOPT_DEBMEAS
- 0x40
-
-	)
-
-247 
-	#IPOPT_MEASUREMENT
- 
-IPOPT_DEBMEAS
-
-
-	)
-
-248 
-	#IPOPT_RESERVED2
- 0x60
-
-	)
-
-250 
-	#IPOPT_EOL
- 0
-
-	)
-
-251 
-	#IPOPT_END
- 
-IPOPT_EOL
-
-
-	)
-
-252 
-	#IPOPT_NOP
- 1
-
-	)
-
-253 
-	#IPOPT_NOOP
- 
-IPOPT_NOP
-
-
-	)
-
-255 
-	#IPOPT_RR
- 7
-
-	)
-
-256 
-	#IPOPT_TS
- 68
-
-	)
-
-257 
-	#IPOPT_TIMESTAMP
- 
-IPOPT_TS
-
-
-	)
-
-258 
-	#IPOPT_SECURITY
- 130
-
-	)
-
-259 
-	#IPOPT_SEC
- 
-IPOPT_SECURITY
-
-
-	)
-
-260 
-	#IPOPT_LSRR
- 131
-
-	)
-
-261 
-	#IPOPT_SATID
- 136
-
-	)
-
-262 
-	#IPOPT_SID
- 
-IPOPT_SATID
-
-
-	)
-
-263 
-	#IPOPT_SSRR
- 137
-
-	)
-
-264 
-	#IPOPT_RA
- 148
-
-	)
-
-269 
-	#IPOPT_OPTVAL
- 0
-
-	)
-
-270 
-	#IPOPT_OLEN
- 1
-
-	)
-
-271 
-	#IPOPT_OFFSET
- 2
-
-	)
-
-272 
-	#IPOPT_MINOFF
- 4
-
-	)
-
-274 
-	#MAX_IPOPTLEN
- 40
-
-	)
-
-277 
-	#IPOPT_TS_TSONLY
- 0
-
-	)
-
-278 
-	#IPOPT_TS_TSANDADDR
- 1
-
-	)
-
-279 
-	#IPOPT_TS_PRESPEC
- 3
-
-	)
-
-282 
-	#IPOPT_SECUR_UNCLASS
- 0x0000
-
-	)
-
-283 
-	#IPOPT_SECUR_CONFID
- 0xf135
-
-	)
-
-284 
-	#IPOPT_SECUR_EFTO
- 0x789a
-
-	)
-
-285 
-	#IPOPT_SECUR_MMMM
- 0xbc4d
-
-	)
-
-286 
-	#IPOPT_SECUR_RESTR
- 0xaf13
-
-	)
-
-287 
-	#IPOPT_SECUR_SECRET
- 0xd788
-
-	)
-
-288 
-	#IPOPT_SECUR_TOPSECRET
- 0x6bc5
-
-	)
-
-293 
-	#MAXTTL
- 255
-
-	)
-
-294 
-	#IPDEFTTL
- 64
-
-	)
-
-295 
-	#IPFRAGTTL
- 60
-
-	)
-
-296 
-	#IPTTLDEC
- 1
-
-	)
-
-298 
-	#IP_MSS
- 576
-
-	)
-
-300 
-	g__END_DECLS
-
-
 	@/usr/include/pcap/pcap.h
 
 35 #i‚de‡
@@ -33870,6 +34338,7 @@ sniffex.c
 /usr/include/errno.h
 /usr/include/netinet/ether.h
 /usr/include/netinet/in.h
+/usr/include/netinet/ip.h
 /usr/include/netinet/ip_icmp.h
 /usr/include/pcap.h
 /usr/include/stdio.h
@@ -33881,7 +34350,6 @@ sniffex.c
 /usr/include/getopt.h
 /usr/include/libio.h
 /usr/include/netinet/if_ether.h
-/usr/include/netinet/ip.h
 /usr/include/pcap/pcap.h
 /usr/include/stdint.h
 /usr/include/xlocale.h

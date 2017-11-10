@@ -15,26 +15,31 @@ APP_NAME	sniffex.c	194;"	d	file:
 ARP_H_	include/arp.h	3;"	d
 ARP_REPLY	simple_arp_sniffer.cpp	14;"	d	file:
 ARP_REQUEST	simple_arp_sniffer.cpp	13;"	d	file:
-CLEAR	include/netsimul.h	5;"	d
-ETHER_ADDR_LEN	include/ether.h	10;"	d
+CLEAR	include/netsimul.h	6;"	d
+ETHER_ADDR_LEN	include/ether.h	14;"	d
 ETHER_H_	include/ether.h	3;"	d
 ICMP_H_	include/icmp.h	3;"	d
-INJECT_OP_TCP	injector.c	31;"	d	file:
-INJECT_OP_UDP	injector.c	32;"	d	file:
-IP_DF	include/ip.h	15;"	d
-IP_HL	include/ip.h	24;"	d
+INJECT_OP_TCP	injector.c	34;"	d	file:
+INJECT_OP_UDP	injector.c	35;"	d	file:
+IP_DF	include/ip.h	18;"	d
+IP_HL	include/ip.h	27;"	d
 IP_H_	include/ip.h	3;"	d
-IP_MF	include/ip.h	16;"	d
-IP_OFFMASK	include/ip.h	17;"	d
-IP_RF	include/ip.h	14;"	d
-IP_V	include/ip.h	25;"	d
-MAC_ASCII_LEN	include/ether.h	14;"	d
+IP_MF	include/ip.h	19;"	d
+IP_OFFMASK	include/ip.h	20;"	d
+IP_RF	include/ip.h	17;"	d
+IP_V	include/ip.h	28;"	d
+MAC_ASCII_LEN	include/ether.h	18;"	d
 MAXBYTES2CAPTURE	simple_arp_sniffer.cpp	28;"	d	file:
 MAXBYTES2CAPTURE	simple_sniffer.cpp	6;"	d	file:
 NETSIMUL_H_	include/netsimul.h	3;"	d
-SIZE_ETHERNET	include/ether.h	6;"	d
-SIZE_SEND_BUFFER	injector.c	22;"	d	file:
+SIZE_ETHERNET	include/ether.h	8;"	d
+SIZE_ETHER_SUM	include/ether.h	10;"	d
+SIZE_IP	include/ip.h	8;"	d
+SIZE_IP_ADDR_STR	injector.c	24;"	d	file:
+SIZE_PORT_STR	injector.c	25;"	d	file:
+SIZE_SEND_BUFFER	injector.c	23;"	d	file:
 SIZE_TOK_BUF	include/netsimul.h	12;"	d
+SIZE_UDP	include/udp.h	5;"	d
 SNAP_LEN	include/netsimul.h	10;"	d
 TCP_H_	include/tcp.h	3;"	d
 TH_ACK	include/tcp.h	20;"	d
@@ -48,14 +53,17 @@ TH_RST	include/tcp.h	18;"	d
 TH_SYN	include/tcp.h	17;"	d
 TH_URG	include/tcp.h	21;"	d
 UDP_H_	include/udp.h	3;"	d
+__ch	include/netsimul.h	/^char __ch;$/;"	v
 arphdr	simple_arp_sniffer.cpp	/^typedef struct arphdr {$/;"	s	file:
 arphdr_t	include/arp.h	/^} arphdr_t;$/;"	t	typeref:struct:sniff_arp
 arphdr_t	simple_arp_sniffer.cpp	/^} arphdr_t;$/;"	t	typeref:struct:arphdr	file:
-buf	injector.c	/^    u_char buf[SIZE_SEND_BUFFER];   \/\/ packet data buffer$/;"	m	struct:inject_packet	file:
+buf	injector.c	/^    u_char *buf;                    \/\/ packet data buffer$/;"	m	struct:inject_packet	file:
 daddr	injector.c	/^    struct in_addr saddr, daddr;    \/\/ packet source ip address & destination ip address$/;"	m	struct:inject_packet	typeref:struct:inject_packet::	file:
 dport	injector.c	/^    uint16_t sport, dport;          \/\/ packet source port & destination port$/;"	m	struct:inject_packet	file:
-encap_tcp	injector.c	/^void encap_tcp(pcap_t *handler, const packet_t *packet)$/;"	f
-encap_udp	injector.c	/^void encap_udp(pcap_t *handler, const packet_t *packet)$/;"	f
+encap_ether	injector.c	/^void encap_ether(pcap_t *handler, packet_t *packet)$/;"	f
+encap_ip	injector.c	/^void encap_ip(pcap_t *handler, packet_t *packet)$/;"	f
+encap_tcp	injector.c	/^void encap_tcp(pcap_t *handler, packet_t *packet)$/;"	f
+encap_udp	injector.c	/^void encap_udp(pcap_t *handler, packet_t *packet)$/;"	f
 ether_dhost	include/ether.h	/^        u_char  ether_dhost[ETHER_ADDR_LEN];    \/* destination host address *\/$/;"	m	struct:sniff_ethernet
 ether_shost	include/ether.h	/^        u_char  ether_shost[ETHER_ADDR_LEN];    \/* source host address *\/$/;"	m	struct:sniff_ethernet
 ether_type	include/ether.h	/^        u_short ether_type;                     \/* IP? ARP? RARP? etc *\/$/;"	m	struct:sniff_ethernet
@@ -64,7 +72,7 @@ ethertype_values	sniffex.c	/^const tok_t ethertype_values[] = {$/;"	v
 got_packet	sniffex.c	/^got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)$/;"	f
 handle_arp	sniffex.c	/^void handle_arp(const struct sniff_arp * arp)$/;"	f
 handle_ether	sniffex.c	/^void handle_ether(const struct sniff_ethernet * ethernet,$/;"	f
-handle_inject	injector.c	/^void handle_inject(pcap_t *handler, const packet_t *packet)$/;"	f
+handle_inject	injector.c	/^void handle_inject(pcap_t *handler, packet_t *packet)$/;"	f
 handle_ip	sniffex.c	/^void handle_ip(const struct sniff_ip * ip,$/;"	f
 handle_user_input	injector.c	/^void handle_user_input(pcap_t * handler)$/;"	f
 hlen	include/arp.h	/^    u_char hlen;            \/\/ Hardware Address Length$/;"	m	struct:sniff_arp
