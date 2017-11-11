@@ -27,7 +27,7 @@
 /*Inject packet options*/
 typedef struct inject_packet {
     u_char *buf;                    // packet data buffer
-    size_t size;                    // packet size
+    size_t size;                    // size of data bufer
     struct in_addr saddr, daddr;    // packet source ip address & destination ip address
     uint16_t sport, dport;          // packet source port & destination port
     u_char oper;                    // operation code
@@ -108,18 +108,22 @@ void encap_udp(pcap_t *handler, packet_t *packet)
     udphdr_t udp; 
 
     u_char *buf;
+    size_t size_new;
+
+    size_new = SIZE_UDP + packet->size;
 
     /*create UDP header*/
-    udp.uh_sport = htons(packet->sport);
-    udp.uh_dport = htons(packet->dport);
-    udp.uh_len = htons(SIZE_UDP + packet->size);
-    udp.uh_sum = htons(0);
+    udp.uh_sport    = htons(packet->sport);
+    udp.uh_dport    = htons(packet->dport);
+    udp.uh_len      = htons(size_new);
+    udp.uh_sum      = htons(0);
 
     /*add UDP header*/
-    buf = (u_char*)malloc(udp.uh_len);          // to be free() [1]
+    buf = (u_char*)malloc(size_new);            // to be free() [1]
     memcpy(buf, &udp, SIZE_UDP);
     memcpy(buf+SIZE_UDP, packet->buf, packet->size);
-    packet->buf = buf;
+    packet->buf     = buf;
+    packet->size    = size_new;
 
     encap_ip(handler, packet);
 
@@ -131,11 +135,14 @@ void encap_ip(pcap_t *handler, packet_t *packet)
     iphdr_t ip;
 
     u_char *buf;
+    size_t size_new;
+
+    size_new = SIZE_IP + packet->size;
 
     /*create IP header*/
     ip.ip_vhl   = 0x45;
     ip.ip_tos   = IPTOS_LOWCOST;
-    ip.ip_len   = htons(SIZE_IP + packet->size);
+    ip.ip_len   = htons(size_new);
     ip.ip_id    = htons(0x1314);
     ip.ip_off   = 0;
     ip.ip_ttl   = MAXTTL;
@@ -144,12 +151,19 @@ void encap_ip(pcap_t *handler, packet_t *packet)
     ip.ip_src   = packet->saddr;
     ip.ip_dst   = packet->daddr;
 
+    /*printf("Debug - header length: %d\n", IP_HL(&ip));                    */
+    /*printf("Debug - total length: %d(%d)\n", ip.ip_len, ntohs(ip.ip_len));*/
+    /*printf("Debug - protocol: %d\n", ip.ip_p);                            */
+    /*printf("Debug - src: %s\n", inet_ntoa(ip.ip_src));                    */
+    /*printf("Debug - dst: %s\n", inet_ntoa(ip.ip_dst));                    */
+
     /*add IP header*/
-    buf = (u_char*)malloc(ip.ip_len);
+    buf = (u_char*)malloc(size_new);
     memcpy(buf, &ip, SIZE_IP);
     memcpy(buf+SIZE_IP, packet->buf, packet->size);
     free(packet->buf);          // do free() [1]
-    packet->buf = buf;          // to be free() [2]
+    packet->buf     = buf;      // to be free() [2]
+    packet->size    = size_new;
 
     encap_ether(handler, packet);
 
@@ -166,7 +180,7 @@ void encap_ether(pcap_t *handler, packet_t *packet)
     const char *default_dhost = "08:00:27:05:6e:fb";  // 192.168.0.3
 
     u_char *buf;
-    size_t bufsize;
+    size_t size_new;
     uint32_t fcs;                   // frame check sequence
 
     /*create Ethernet header*/
@@ -178,18 +192,19 @@ void encap_ether(pcap_t *handler, packet_t *packet)
     memcpy(ether.ether_dhost, dhost, ETHER_ADDR_LEN);
 
     /*add Ethernet header*/
-    bufsize = SIZE_ETHERNET + packet->size + SIZE_ETHER_SUM;
-    buf = (u_char*)malloc(bufsize);
-    memset(buf, 0, bufsize);
+    size_new = SIZE_ETHERNET + packet->size + SIZE_ETHER_SUM;
+    buf = (u_char*)malloc(size_new);
+    memset(buf, 0, size_new);
     memcpy(buf, &ether, SIZE_ETHERNET);
     memcpy(buf+SIZE_ETHERNET, packet->buf, packet->size);
     fcs = 0;
     memcpy(buf+SIZE_ETHERNET+packet->size, &fcs, SIZE_ETHER_SUM);
 
     free(packet->buf);          // do free() [2]
-    packet->buf = buf;          // to be free() [3]
+    packet->buf     = buf;      // to be free() [3]
+    packet->size    = size_new;
 
-    send_packet(handler, buf, bufsize); 
+    send_packet(handler, buf, size_new); 
 
     free(packet->buf);          // do free() [3]
 
