@@ -51,6 +51,32 @@ Set guests Ga, Gb, Gr.  Let Gr be the gateway(Rounter), Ga and Gb communicate wi
 
 3. Start two VMs.
 
+### Lab2: Sniffe packet 
+
+Define those protocol headers.
+
+1. Fetch packet with `pcap_loop()`.
+2. In callback function handle ethernet packet.
+3. Handle arp & ip packet.
+4. Handle ip datagrams - TCP, UDP, ICMP.
+
+For more see `sniffex.c`.
+
+### Lab3: Inject packet 
+
+1. Let user input some message - `msg`.
+2. Manually construct packet `[ether_header + ip_header + udp_header + msg + frame_checksum_sequence]`.
+
+    Notice
+    
+    - Leave those checksum(just set to 0).
+    - The `htons()` method.
+
+3. Inject with `pcap_inject(pcap_t *handler, u_char *buf, size_t buf_size)`.
+4. Sniffe packet with `sniffex`.
+
+For more see `injector.c`.
+
 ## References
 
 [协议栈](http://blog.csdn.net/maochengtao/article/details/37729281)
