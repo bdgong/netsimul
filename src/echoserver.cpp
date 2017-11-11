@@ -7,6 +7,7 @@
  * */
 #include <arpa/inet.h>
 #include <netinet/ip.h>
+#include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -29,6 +30,12 @@ class CEchoServer {
         {
             init();
         }
+
+        ~CEchoServer() 
+        {
+            close(_svrsock);
+        }
+
         void init();
         void run();
         void handleClient(const struct sockaddr_in *cliaddr, const char *msg, size_t bytes_recv);

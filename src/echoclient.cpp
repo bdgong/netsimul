@@ -7,6 +7,7 @@
  * */
 #include <arpa/inet.h>
 #include <netinet/ip.h>
+#include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -31,6 +32,11 @@ class CEchoClient
             _svraddrstr(svraddr), _svrport(svrport)
         {
             init();
+        }
+
+        ~CEchoClient()
+        {
+            close(_clisock);
         }
 
         void init();

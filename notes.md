@@ -41,7 +41,7 @@ Set guests Ga, Gb, Gr.  Let Gr be the gateway(Rounter), Ga and Gb communicate wi
 
 4G disk space should be enough.
 
->       root password: 
+>       root password: moon@ROOT
 >       user         : bdg
 >       user password: moon@Bdg
 
@@ -50,6 +50,7 @@ Set guests Ga, Gb, Gr.  Let Gr be the gateway(Rounter), Ga and Gb communicate wi
 >       user password: ga@Ga
 
 3. Start two VMs.
+
 
 ### Lab2: Sniffe packet 
 
@@ -62,6 +63,7 @@ Define those protocol headers.
 
 For more see `sniffex.c`.
 
+
 ### Lab3: Inject packet 
 
 1. Let user input some message - `msg`.
@@ -73,9 +75,14 @@ For more see `sniffex.c`.
     - The `htons()` method.
 
 3. Inject with `pcap_inject(pcap_t *handler, u_char *buf, size_t buf_size)`.
-4. Sniffe packet with `sniffex`.
+4. Sniffe packet with `sniffex` and tcpdump.
 
 For more see `injector.c`.
+
+
+### Lab4: Inject UDP packet as echoclient's message, send to echoserver
+
+1. The tcpdump show bad check sum.
 
 ## References
 
