@@ -102,6 +102,57 @@ void encap_tcp(pcap_t *handler, packet_t *packet)
 
 }
 
+uint16_t cksum(const u_char *const buf, size_t size)
+{
+    uint32_t sum;
+    uint16_t *p = (uint16_t *)buf;
+
+    sum = 0;
+    while(size > 1) {
+        sum += *p++;
+        size -= 2;
+    }
+
+    // padding as needed
+    if(size == 1) {
+        sum += *((u_char *)p);
+    }
+
+    while(sum >> 16)
+        sum = (sum & 0xFFFF) + (sum >> 16);
+
+    return (uint16_t)((~sum) & 0xFFFF);
+}
+
+uint16_t cksum_udp(const udphdr_t *const udp, const packet_t *const packet)
+{
+
+    uint16_t sum;
+    u_char *buf;
+    size_t size;
+
+    pseudo_udp_t pseudo_udp;
+
+    pseudo_udp.saddr    = packet->saddr;
+    pseudo_udp.daddr    = packet->daddr;
+    pseudo_udp.zero     = 0;
+    pseudo_udp.protocol = IPPROTO_UDP;
+    pseudo_udp.len      = udp->uh_len;
+
+    size = SIZE_PSEUDO_UDP + SIZE_UDP + packet->size;
+    buf = (u_char *)malloc(size);
+    memcpy(buf, &pseudo_udp, SIZE_PSEUDO_UDP);
+    memcpy(buf+SIZE_PSEUDO_UDP, udp, SIZE_UDP);
+    memcpy(buf+SIZE_PSEUDO_UDP+SIZE_UDP, packet->buf, packet->size);
+
+    sum = cksum(buf, size);
+
+    free(buf);
+
+    return sum;
+
+}
+
 void encap_udp(pcap_t *handler, packet_t *packet)
 {
 
@@ -116,7 +167,9 @@ void encap_udp(pcap_t *handler, packet_t *packet)
     udp.uh_sport    = htons(packet->sport);
     udp.uh_dport    = htons(packet->dport);
     udp.uh_len      = htons(size_new);
-    udp.uh_sum      = htons(0);
+    udp.uh_sum      = 0;
+
+    udp.uh_sum      = htons(cksum_udp(&udp, packet));
 
     /*add UDP header*/
     buf = (u_char*)malloc(size_new);            // to be free() [1]
@@ -126,6 +179,13 @@ void encap_udp(pcap_t *handler, packet_t *packet)
     packet->size    = size_new;
 
     encap_ip(handler, packet);
+
+}
+
+uint16_t cksum_ip(const iphdr_t * const ip, const packet_t * const packet)
+{
+
+    return cksum((u_char *)ip, SIZE_IP);
 
 }
 
@@ -147,9 +207,11 @@ void encap_ip(pcap_t *handler, packet_t *packet)
     ip.ip_off   = 0;
     ip.ip_ttl   = MAXTTL;
     ip.ip_p     = INJECT_OP_TCP(packet) ? IPPROTO_TCP : IPPROTO_UDP;
-    ip.ip_sum   = htons(0);
+    ip.ip_sum   = 0;
     ip.ip_src   = packet->saddr;
     ip.ip_dst   = packet->daddr;
+
+    ip.ip_sum   = htons(cksum_ip(&ip, packet));
 
     /*printf("Debug - header length: %d\n", IP_HL(&ip));                    */
     /*printf("Debug - total length: %d(%d)\n", ip.ip_len, ntohs(ip.ip_len));*/
