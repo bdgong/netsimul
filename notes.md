@@ -84,6 +84,45 @@ For more see `injector.c`.
 
 1. The tcpdump show bad check sum.
 
+    output with system UDP protocol
+
+        16:22:17.195763 08:00:27:a8:01:cc (oui Unknown) > 08:00:27:05:6e:fb (oui Unknown), ethertype IPv4 (0x0800),
+        length 60: (tos 0x0, ttl 64, id 63853, offset 0, flags [DF], proto UDP (17), length 31)
+        192.168.0.5.48114 > 192.168.0.3.1314: [udp sum ok] UDP, length 3
+        0x0000:  0800 2705 6efb 0800 27a8 01cc 0800 4500
+        0x0010:  001f f96d 4000 4011 c007 c0a8 0005 c0a8
+        0x0020:  0003 bbf2 0522 000b 6b21 4849 0a00 0000
+        0x0030:  0000 0000 0000 0000 0000 0000
+
+    output with injector UDP packet
+
+        16:35:29.387398 08:00:27:a8:01:cc (oui Unknown) > 08:00:27:05:6e:fb (oui Unknown), ethertype IPv4 (0x0800),
+        length 60: (tos 0x2,ECT(0), ttl 255, id 4884, offset 0, flags [none], proto UDP (17), length 31, bad cksum 5f27 (->275f)!)
+        192.168.0.5.48114 > 192.168.0.3.1314: [bad udp cksum 0x216b -> 0x6b21!] UDP, length 3
+        0x0000:  0800 2705 6efb 0800 27a8 01cc 0800 4502
+        0x0010:  001f 1314 0000 ff11 5f27 c0a8 0005 c0a8
+        0x0020:  0003 bbf2 0522 000b 216b 4849 0a00 0000
+        0x0030:  0000 0000 0000 0000 0000 0000
+
+    so, now you see, its just the byte order problem.
+
+    No! the difference at: type of service, ttl, flags, identifier.
+
+    After fix up,
+
+        17:01:00.746197 08:00:27:a8:01:cc (oui Unknown) > 08:00:27:05:6e:fb (oui Unknown), ethertype IPv4 (0x0800),
+        length 60: (tos 0x0, ttl 64, id 63853, offset 0, flags [DF], proto UDP (17), length 31, bad cksum 7c0 (->c007)!)
+        192.168.0.5.48114 > 192.168.0.3.1314: [bad udp cksum 0x216b -> 0x6b21!] UDP, length 3
+        0x0000:  0800 2705 6efb 0800 27a8 01cc 0800 4500
+        0x0010:  001f f96d 4000 4011 07c0 c0a8 0005 c0a8
+        0x0020:  0003 bbf2 0522 000b 216b 4849 0a00 0000
+        0x0030:  0000 0000 0000 0000 0000 0000
+
+    The result shows that the check sum does not need byte order transfer.
+
+For more, see `echoclient.c`, `echoserver.c`.
+
+
 ## References
 
 [协议栈](http://blog.csdn.net/maochengtao/article/details/37729281)

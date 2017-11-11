@@ -169,7 +169,7 @@ void encap_udp(pcap_t *handler, packet_t *packet)
     udp.uh_len      = htons(size_new);
     udp.uh_sum      = 0;
 
-    udp.uh_sum      = htons(cksum_udp(&udp, packet));
+    udp.uh_sum      = cksum_udp(&udp, packet);
 
     /*add UDP header*/
     buf = (u_char*)malloc(size_new);            // to be free() [1]
@@ -201,17 +201,17 @@ void encap_ip(pcap_t *handler, packet_t *packet)
 
     /*create IP header*/
     ip.ip_vhl   = 0x45;
-    ip.ip_tos   = IPTOS_LOWCOST;
+    ip.ip_tos   = 0;
     ip.ip_len   = htons(size_new);
-    ip.ip_id    = htons(0x1314);
-    ip.ip_off   = 0;
-    ip.ip_ttl   = MAXTTL;
+    ip.ip_id    = htons(0xF96D);
+    ip.ip_off   = htons(IP_DF);     // don't fragment
+    ip.ip_ttl   = IPDEFTTL;         // default TTL
     ip.ip_p     = INJECT_OP_TCP(packet) ? IPPROTO_TCP : IPPROTO_UDP;
     ip.ip_sum   = 0;
     ip.ip_src   = packet->saddr;
     ip.ip_dst   = packet->daddr;
 
-    ip.ip_sum   = htons(cksum_ip(&ip, packet));
+    ip.ip_sum   = cksum_ip(&ip, packet);
 
     /*printf("Debug - header length: %d\n", IP_HL(&ip));                    */
     /*printf("Debug - total length: %d(%d)\n", ip.ip_len, ntohs(ip.ip_len));*/
