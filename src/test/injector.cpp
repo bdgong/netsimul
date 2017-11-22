@@ -5,20 +5,20 @@
 
 #define APP_NAME		"injector"
 #define APP_DESC		"Injector example using libpcap"
-#define APP_COPYRIGHT	"Copyright (c) 2017 BiDong Gong"
+#define APP_COPYRIGHT	"Copyright (c) 2017 BiDong Gong (Antonio)"
 #define APP_DISCLAIMER	"THERE IS ABSOLUTELY NO WARRANTY FOR THIS PROGRAM."
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <pcap.h>
 #include <arpa/inet.h>
-#include "include/ether.h"
-#include "include/arp.h"
-#include "include/ip.h"
-#include "include/tcp.h"
-#include "include/udp.h"
-#include "include/netsimul.h"
+#include "ether.h"
+#include "arp.h"
+#include "ip.h"
+#include "tcp.h"
+#include "udp.h"
+#include "netsimul.h"
 
 #define SIZE_SEND_BUFFER 4096
 #define SIZE_IP_ADDR_STR 16
@@ -182,7 +182,7 @@ void encap_udp(pcap_t *handler, packet_t *packet)
 
 }
 
-uint16_t cksum_ip(const iphdr_t * const ip, const packet_t * const packet)
+uint16_t cksum_ip(const iphdr_t * const ip)
 {
 
     return cksum((u_char *)ip, SIZE_IP);
@@ -211,7 +211,7 @@ void encap_ip(pcap_t *handler, packet_t *packet)
     ip.ip_src   = packet->saddr;
     ip.ip_dst   = packet->daddr;
 
-    ip.ip_sum   = cksum_ip(&ip, packet);
+    ip.ip_sum   = cksum_ip(&ip);
 
     /*printf("Debug - header length: %d\n", IP_HL(&ip));                    */
     /*printf("Debug - total length: %d(%d)\n", ip.ip_len, ntohs(ip.ip_len));*/
@@ -294,7 +294,7 @@ void handle_user_input(pcap_t * handler)
     int count;                          // inject message character count
     char saddr[16], daddr[16];          // source & destination ip address
     uint16_t sport, dport;              // source & destination port
-    char tmpstr[16], *tp;
+    char tmpstr[16];
 
     const char *default_saddr = "192.168.0.5";
     const char *default_daddr = "192.168.0.3";
@@ -320,7 +320,7 @@ void handle_user_input(pcap_t * handler)
         ++count;
     }
     buf[count] = '\0';
-    packet.buf = buf;
+    packet.buf = (u_char *)buf;
     packet.size = count;
 
     printf("**MESSAGE TO SEND**\n\n%s\n\n", packet.buf);
