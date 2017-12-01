@@ -56,11 +56,11 @@ CMAKE_BINARY_DIR = /home/bdg/share/public/project/netsimul/src
 # Directory level rules for directory test
 
 # Convenience name for "all" pass in the directory.
-test/all: test/CMakeFiles/injector.dir/all
+test/all: test/CMakeFiles/injector2.dir/all
 .PHONY : test/all
 
 # Convenience name for "clean" pass in the directory.
-test/clean: test/CMakeFiles/injector.dir/clean
+test/clean: test/CMakeFiles/injector2.dir/clean
 .PHONY : test/clean
 
 # Convenience name for "preinstall" pass in the directory.
@@ -68,38 +68,38 @@ test/preinstall:
 .PHONY : test/preinstall
 
 #=============================================================================
-# Target rules for target test/CMakeFiles/injector.dir
+# Target rules for target test/CMakeFiles/injector2.dir
 
 # All Build rule for target.
-test/CMakeFiles/injector.dir/all:
-	$(MAKE) -f test/CMakeFiles/injector.dir/build.make test/CMakeFiles/injector.dir/depend
-	$(MAKE) -f test/CMakeFiles/injector.dir/build.make test/CMakeFiles/injector.dir/build
+test/CMakeFiles/injector2.dir/all:
+	$(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/depend
+	$(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/bdg/share/public/project/netsimul/src/CMakeFiles  1
-	@echo "Built target injector"
-.PHONY : test/CMakeFiles/injector.dir/all
+	@echo "Built target injector2"
+.PHONY : test/CMakeFiles/injector2.dir/all
 
 # Include target in all.
-all: test/CMakeFiles/injector.dir/all
+all: test/CMakeFiles/injector2.dir/all
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-test/CMakeFiles/injector.dir/rule: cmake_check_build_system
+test/CMakeFiles/injector2.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/bdg/share/public/project/netsimul/src/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/injector.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/injector2.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/bdg/share/public/project/netsimul/src/CMakeFiles 0
-.PHONY : test/CMakeFiles/injector.dir/rule
+.PHONY : test/CMakeFiles/injector2.dir/rule
 
 # Convenience name for target.
-injector: test/CMakeFiles/injector.dir/rule
-.PHONY : injector
+injector2: test/CMakeFiles/injector2.dir/rule
+.PHONY : injector2
 
 # clean rule for target.
-test/CMakeFiles/injector.dir/clean:
-	$(MAKE) -f test/CMakeFiles/injector.dir/build.make test/CMakeFiles/injector.dir/clean
-.PHONY : test/CMakeFiles/injector.dir/clean
+test/CMakeFiles/injector2.dir/clean:
+	$(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/clean
+.PHONY : test/CMakeFiles/injector2.dir/clean
 
 # clean rule for target.
-clean: test/CMakeFiles/injector.dir/clean
+clean: test/CMakeFiles/injector2.dir/clean
 .PHONY : clean
 
 #=============================================================================

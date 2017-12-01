@@ -36,7 +36,10 @@ import ycm_core
 flags = [
     '-x',
     'c++',
+    '-std=c++11',
     '-I/home/bdg/share/public/project/netsimul/src/include',
+    '-isystem', '/usr/include',
+    '-isystem', '/usr/include/x86_64-linux-gnu',
 ]
 
 

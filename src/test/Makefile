@@ -103,25 +103,25 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-test/CMakeFiles/injector.dir/rule:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/injector.dir/rule
-.PHONY : test/CMakeFiles/injector.dir/rule
+test/CMakeFiles/injector2.dir/rule:
+	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/injector2.dir/rule
+.PHONY : test/CMakeFiles/injector2.dir/rule
 
 # Convenience name for target.
-injector: test/CMakeFiles/injector.dir/rule
-.PHONY : injector
+injector2: test/CMakeFiles/injector2.dir/rule
+.PHONY : injector2
 
 # fast build rule for target.
-injector/fast:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector.dir/build.make test/CMakeFiles/injector.dir/build
-.PHONY : injector/fast
+injector2/fast:
+	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/build
+.PHONY : injector2/fast
 
 injector.o: injector.cpp.o
 .PHONY : injector.o
 
 # target to build an object file
 injector.cpp.o:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector.dir/build.make test/CMakeFiles/injector.dir/injector.cpp.o
+	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.o
 .PHONY : injector.cpp.o
 
 injector.i: injector.cpp.i
@@ -129,7 +129,7 @@ injector.i: injector.cpp.i
 
 # target to preprocess a source file
 injector.cpp.i:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector.dir/build.make test/CMakeFiles/injector.dir/injector.cpp.i
+	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.i
 .PHONY : injector.cpp.i
 
 injector.s: injector.cpp.s
@@ -137,7 +137,7 @@ injector.s: injector.cpp.s
 
 # target to generate assembly for a file
 injector.cpp.s:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector.dir/build.make test/CMakeFiles/injector.dir/injector.cpp.s
+	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.s
 .PHONY : injector.cpp.s
 
 # Help Target
@@ -147,7 +147,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... injector"
+	@echo "... injector2"
 	@echo "... rebuild_cache"
 	@echo "... injector.o"
 	@echo "... injector.i"

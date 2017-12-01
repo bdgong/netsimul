@@ -13,6 +13,7 @@
 #include <cstring>
 #include <pcap.h>
 #include <arpa/inet.h>
+#include <linux/netdevice.h>
 #include "ether.h"
 #include "arp.h"
 #include "ip.h"
@@ -248,8 +249,10 @@ void encap_ether(pcap_t *handler, packet_t *packet)
     /*create Ethernet header*/
     ether.ether_type = htons(ETHERTYPE_IP);
 
+    //shost = ether_aton(default_shost);
     shost = ether_aton(default_shost);
     memcpy(ether.ether_shost, shost, ETHER_ADDR_LEN);
+    //dhost = ether_aton(default_dhost);
     dhost = ether_aton(default_dhost);
     memcpy(ether.ether_dhost, dhost, ETHER_ADDR_LEN);
 
@@ -397,6 +400,7 @@ void handle_user_input(pcap_t * handler)
 }
 
 int main(int argc, char** argv) {
+    pcap_if_t *pfound_device;
     char *dev = NULL;                           // capture device name
     char errbuf[PCAP_ERRBUF_SIZE];              // error buffer
     pcap_t *handler;                             // packet capture handle
@@ -407,30 +411,77 @@ int main(int argc, char** argv) {
 
     print_app_banner();
 
-    /* get device name */
-    if(argc == 2) {
-        dev = argv[1];
+
+    if (pcap_findalldevs(&pfound_device, errbuf) == -1) {
+        fprintf(stderr, "Couldn't find any device: %s\n", errbuf);
+        exit(EXIT_FAILURE);
     }
-    else {
-        dev = pcap_lookupdev(errbuf);
-        if(dev == NULL) {
-            fprintf(stderr, "Couldn't find default device: %s\n", errbuf);
-            exit(EXIT_FAILURE);
+    
+    while (pfound_device != NULL) {
+        bpf_u_int32 flag = pfound_device->flags;
+        // find running and not loopback device
+        if ((flag & PCAP_IF_RUNNING) && !(flag & PCAP_IF_LOOPBACK)) {
+            char *name = pfound_device->name;
+            fprintf(stdout, "name: %s\n", name);
+
+            // print address info
+            pcap_addr_t *paddress = pfound_device->addresses;
+            while(paddress != NULL) {
+                //fprintf(stdout, " sa_family: %d\n", paddress->addr->sa_family);
+                struct sockaddr *sa = paddress->addr;
+                if(sa->sa_family == AF_PACKET) {
+                    struct sockaddr_ll *la = (struct sockaddr_ll *) sa;
+                    char *mac = ether_ntoa((struct ether_addr *)la->sll_addr);
+                    fprintf(stdout, "MAC: %s\n", mac);
+                }
+                if(sa->sa_family == AF_INET) {
+                    //
+                    struct sockaddr_in * addr = (struct sockaddr_in *)paddress->addr;
+                //if(addr->sin_family == AF_INET) {
+                    //fprintf(stdout, "* ");
+                    //fprintf(stdout, "address: %s, family: %d\n",
+                        //inet_ntoa(addr->sin_addr), addr->sin_family);
+                    fprintf(stdout, "IP: %s\n", inet_ntoa(addr->sin_addr));
+
+                    dev = name;
+                    break;
+                //}
+                }
+
+                paddress = paddress->next;
+            }
+
+            if(dev != NULL) 
+                break;
         }
+
+        pfound_device = pfound_device->next;
     }
 
-    /* get network number and mask associated with capture device */
-    if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1) {
-        fprintf(stderr, "Couldn't get netmask for device %s: %s\n", dev, errbuf);
-        net = 0;
-        mask = 0;
-    }
-    else {
-        addr_net.s_addr = net;
-        addr_mask.s_addr = mask;
-        printf("IP: %s\n", inet_ntoa(addr_net));
-        printf("Netmask: %s\n", inet_ntoa(addr_mask));
-    }
+    //[> get device name <]
+    //if(argc == 2) {
+    //    dev = argv[1];
+    //}
+    //else {
+    //    dev = pcap_lookupdev(errbuf);
+    //    if(dev == NULL) {
+    //        fprintf(stderr, "Couldn't find default device: %s\n", errbuf);
+    //        exit(EXIT_FAILURE);
+    //    }
+    //}
+
+    //[> get network number and mask associated with capture device <]
+    //if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1) {
+    //    fprintf(stderr, "Couldn't get netmask for device %s: %s\n", dev, errbuf);
+    //    net = 0;
+    //    mask = 0;
+    //}
+    //else {
+    //    addr_net.s_addr = net;
+    //    addr_mask.s_addr = mask;
+    //    printf("IP: %s\n", inet_ntoa(addr_net));
+    //    printf("Netmask: %s\n", inet_ntoa(addr_mask));
+    //}
 
     /*open inject device*/
     handler = pcap_open_live(dev, SNAP_LEN, 1, 1000, errbuf);
@@ -450,6 +501,7 @@ int main(int argc, char** argv) {
 
     /*cleanup*/
     pcap_close(handler);
+    pcap_freealldevs(pfound_device);
 
     printf("\nInject complete.\n");
 

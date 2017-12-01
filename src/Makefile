@@ -103,17 +103,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named injector
+# Target rules for targets named injector2
 
 # Build rule for target.
-injector: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 injector
-.PHONY : injector
+injector2: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 injector2
+.PHONY : injector2
 
 # fast build rule for target.
-injector/fast:
-	$(MAKE) -f test/CMakeFiles/injector.dir/build.make test/CMakeFiles/injector.dir/build
-.PHONY : injector/fast
+injector2/fast:
+	$(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/build
+.PHONY : injector2/fast
 
 # Help Target
 help:
@@ -123,7 +123,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... injector"
+	@echo "... injector2"
 .PHONY : help
 
 
