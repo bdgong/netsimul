@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++11 -g    CMakeFiles/injector2.dir/injector.cpp.o  -o injector2 -rdynamic -lpcap 
