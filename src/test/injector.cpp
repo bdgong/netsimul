@@ -21,20 +21,12 @@
 #include "udp.h"
 #include "netsimul.h"
 
+#include "Link.h"
+//#include "Hardware.h"
+
 #define SIZE_SEND_BUFFER 4096
 #define SIZE_IP_ADDR_STR 16
 #define SIZE_PORT_STR 5
-
-/*Inject packet options*/
-typedef struct inject_packet {
-    u_char *buf;                    // packet data buffer
-    size_t size;                    // size of data bufer
-    struct in_addr saddr, daddr;    // packet source ip address & destination ip address
-    uint16_t sport, dport;          // packet source port & destination port
-    u_char oper;                    // operation code
-#define INJECT_OP_TCP(p) (p->oper == 't' || p->oper == 'T')
-#define INJECT_OP_UDP(p) (p->oper == 'u' || p->oper == 'U')
-} packet_t ;
 
 void handle_user_input(pcap_t * handler);
 
@@ -228,7 +220,13 @@ void encap_ip(pcap_t *handler, packet_t *packet)
     packet->buf     = buf;      // to be free() [2]
     packet->size    = size_new;
 
-    encap_ether(handler, packet);
+    //encap_ether(handler, packet);
+
+    CLink *link = CLink::instance();
+    link->init();
+    link->send(packet);
+
+    delete packet->buf;         // do free() [2]
 
 }
 
@@ -269,7 +267,9 @@ void encap_ether(pcap_t *handler, packet_t *packet)
     packet->buf     = buf;      // to be free() [3]
     packet->size    = size_new;
 
-    send_packet(handler, buf, size_new); 
+    //CHardware *hardware = CHardware::instance();
+    //hardware->transmit(packet);
+    //send_packet(handler, buf, size_new); 
 
     free(packet->buf);          // do free() [3]
 
@@ -400,110 +400,10 @@ void handle_user_input(pcap_t * handler)
 }
 
 int main(int argc, char** argv) {
-    pcap_if_t *pfound_device;
-    char *dev = NULL;                           // capture device name
-    char errbuf[PCAP_ERRBUF_SIZE];              // error buffer
-    pcap_t *handler;                             // packet capture handle
+    //CHardware * hardware = CHardware::instance();
+    //hardware->init();
 
-    bpf_u_int32 mask;                           // subnet mask
-    bpf_u_int32 net;                            // ip
-    struct in_addr addr_net, addr_mask;
-
-    print_app_banner();
-
-
-    if (pcap_findalldevs(&pfound_device, errbuf) == -1) {
-        fprintf(stderr, "Couldn't find any device: %s\n", errbuf);
-        exit(EXIT_FAILURE);
-    }
-    
-    while (pfound_device != NULL) {
-        bpf_u_int32 flag = pfound_device->flags;
-        // find running and not loopback device
-        if ((flag & PCAP_IF_RUNNING) && !(flag & PCAP_IF_LOOPBACK)) {
-            char *name = pfound_device->name;
-            fprintf(stdout, "name: %s\n", name);
-
-            // print address info
-            pcap_addr_t *paddress = pfound_device->addresses;
-            while(paddress != NULL) {
-                //fprintf(stdout, " sa_family: %d\n", paddress->addr->sa_family);
-                struct sockaddr *sa = paddress->addr;
-                if(sa->sa_family == AF_PACKET) {
-                    struct sockaddr_ll *la = (struct sockaddr_ll *) sa;
-                    char *mac = ether_ntoa((struct ether_addr *)la->sll_addr);
-                    fprintf(stdout, "MAC: %s\n", mac);
-                }
-                if(sa->sa_family == AF_INET) {
-                    //
-                    struct sockaddr_in * addr = (struct sockaddr_in *)paddress->addr;
-                //if(addr->sin_family == AF_INET) {
-                    //fprintf(stdout, "* ");
-                    //fprintf(stdout, "address: %s, family: %d\n",
-                        //inet_ntoa(addr->sin_addr), addr->sin_family);
-                    fprintf(stdout, "IP: %s\n", inet_ntoa(addr->sin_addr));
-
-                    dev = name;
-                    break;
-                //}
-                }
-
-                paddress = paddress->next;
-            }
-
-            if(dev != NULL) 
-                break;
-        }
-
-        pfound_device = pfound_device->next;
-    }
-
-    //[> get device name <]
-    //if(argc == 2) {
-    //    dev = argv[1];
-    //}
-    //else {
-    //    dev = pcap_lookupdev(errbuf);
-    //    if(dev == NULL) {
-    //        fprintf(stderr, "Couldn't find default device: %s\n", errbuf);
-    //        exit(EXIT_FAILURE);
-    //    }
-    //}
-
-    //[> get network number and mask associated with capture device <]
-    //if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1) {
-    //    fprintf(stderr, "Couldn't get netmask for device %s: %s\n", dev, errbuf);
-    //    net = 0;
-    //    mask = 0;
-    //}
-    //else {
-    //    addr_net.s_addr = net;
-    //    addr_mask.s_addr = mask;
-    //    printf("IP: %s\n", inet_ntoa(addr_net));
-    //    printf("Netmask: %s\n", inet_ntoa(addr_mask));
-    //}
-
-    /*open inject device*/
-    handler = pcap_open_live(dev, SNAP_LEN, 1, 1000, errbuf);
-    if(handler == NULL) {
-        fprintf(stderr, "Couldn't open device %s : %s\n", dev, errbuf);
-        exit(EXIT_FAILURE);
-    }
-
-    /*make sure we're capturing on an Ethernet device*/
-    if (pcap_datalink(handler) != DLT_EN10MB) {
-        fprintf(stderr, "%s is not an Ethernet\n", dev);
-        exit(EXIT_FAILURE);
-    }
-
-    /*handle user's input*/
-    handle_user_input(handler);
-
-    /*cleanup*/
-    pcap_close(handler);
-    pcap_freealldevs(pfound_device);
-
-    printf("\nInject complete.\n");
+    handle_user_input(nullptr);
 
     return 0;
 }

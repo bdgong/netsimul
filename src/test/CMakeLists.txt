@@ -1,5 +1,14 @@
-set(CMAKE_CXX_FLAGS "-std=c++11 -g")
+#set(CMAKE_CXX_FLAGS "-std=c++11 -g")
 
-add_executable(injector2 injector.cpp)
+set(INJECTOR_SRCS 
+    injector.cpp)
+set(SNIFFEX_SRCS
+    sniffex.c)
+add_executable(injector2 ${INJECTOR_SRCS})
+add_executable(sniffex ${SNIFFEX_SRCS})
 
-target_link_libraries(injector2 pcap)
+#message("LINK_SRCS: ${LINK_SRCS}")
+#message("NEIGHBOR_SRCS: ${NEIGHBOR_SRCS}")
+
+target_link_libraries(injector2 pcap link)
+target_link_libraries(sniffex pcap)

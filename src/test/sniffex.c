@@ -209,13 +209,13 @@
 #include <netinet/ip_icmp.h>
 #include <arpa/inet.h>
 
-#include "include/ether.h"
-#include "include/arp.h"
-#include "include/ip.h"
-#include "include/tcp.h"
-#include "include/udp.h"
-#include "include/icmp.h"
-#include "include/netsimul.h"
+#include "ether.h"
+#include "ip_arp.h"
+#include "ip.h"
+#include "tcp.h"
+#include "udp.h"
+#include "icmp.h"
+#include "netsimul.h"
 
 const tok_t ethertype_values[] = {
     {ETHERTYPE_IP,          "IPv4"},
@@ -431,7 +431,7 @@ void print_ether(const struct sniff_ethernet * ethernet)
     char dst[MAC_ASCII_LEN], src[MAC_ASCII_LEN], *tmp = NULL;          
     
     ether_type = ntohs(ethernet->ether_type);
-    printf("Network Layer Protocol: %s (%04X)", tok2str(ethertype_values, "Unknown", ether_type));
+    printf("Network Layer Protocol: %s (%4X)", tok2str(ethertype_values, "Unknown", ether_type));
 
     /*etherstr = get_ethertype_by_value(ether_type);*/
     /*if(etherstr != NULL) {*/
@@ -471,14 +471,20 @@ void print_arp(const struct sniff_arp * arp)
         for(i=0; i<6 ; ++i)
             printf("%02X:", arp->sha[i]);
         printf("\nSender IP: ");
-        for(i=0; i<4 ; ++i)
-            printf("%d.", arp->spa[i]);
+        struct in_addr spa; 
+        spa.s_addr = arp->spa;
+        printf("%s", inet_ntoa(spa));
+        /*for(i=0; i<4 ; ++i)*/
+            /*printf("%d.", arp->spa[i]);*/
         printf("\nTarget MAC: ");
         for(i=0; i<6 ; ++i)
             printf("%02X:", arp->tha[i]);
         printf("\nTarget IP: ");
-        for(i=0; i<4 ; ++i)
-            printf("%d.", arp->tpa[i]);
+        struct in_addr tpa;
+        tpa.s_addr = arp->tpa;
+        printf("%s", inet_ntoa(tpa));
+        /*for(i=0; i<4 ; ++i)*/
+            /*printf("%d.", arp->tpa[i]);*/
         printf("\n");
     }
 
@@ -708,7 +714,7 @@ int main(int argc, char **argv)
 	char errbuf[PCAP_ERRBUF_SIZE];		/* error buffer */
 	pcap_t *handle;				/* packet capture handle */
 
-        char filter_exp[] = "";		/* filter expression [3] */
+        char filter_exp[] = "arp";		/* filter expression [3] */
 	/*char filter_exp[] = "";		[> filter expression [3] <]*/
 	struct bpf_program fp;			/* compiled filter program (expression) */
 	bpf_u_int32 mask;			/* subnet mask */

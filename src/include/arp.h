@@ -1,6 +1,9 @@
+#pragma once
+//#ifndef ARP_H_
+//#define ARP_H_
 
-#ifndef ARP_H_
-#define ARP_H_
+#include "packet.h"
+#include "Link.h"
 
 #include <sys/types.h>
 #include <map>
@@ -10,54 +13,59 @@
 using std::map;
 using std::list;
 
-/*ARP header*/
-typedef struct sniff_arp {
-    u_int16_t htype;        // Hardware Type
-    u_int16_t ptype;        // Protocol Type
-    u_int8_t hlen;          // Hardware Address Length
-    u_int8_t plen;          // Protocol Address Length
-    u_int16_t oper;         // Operation Code
-    u_int8_t sha[6];        // Sender hardware address
-    u_int8_t spa[4];        // Sender IP address
-    u_int8_t tha[6];        // Target hardware address
-    u_int8_t tpa[4];        // Target IP address
-} arphdr_t;
+/*
+ * ARPPacket - ARP packet 
+ * */
+typedef struct arp_packet {
+    ether_header etherhdr;
+    ARPHdr arp;
+} ARPPacket;
 
 /*
  * struct ARPTableItem - Cache avaliable neighbors
  * */
 typedef struct arp_table_item { 
-    // 
+    in_addr_t ip;
+    struct ether_addr mac;
+    u_int16_t ttl;
 } ARPTableItem; 
-typedef std::map<std::string, ARPTableItem> ARPTable;
+
+typedef std::map<in_addr_t, ARPTableItem> ARPTable; 
 
 /*
  * struct ARPQueueItem - Cache pending datagrams
  * */
 typedef struct arp_queue_item { 
+    packet_t packet;
 } ARPQueueItem;
-typedef std::map<std::string, std::list<ARPQueueItem> > ARPQueue;
+
+typedef std::map<in_addr_t, std::list<ARPQueueItem> > ARPQueue;
+
+class CLink;
+class CHardware;
 
 class CARP 
 {
 public:
-    CARP()
+    static CARP * instance() 
     {
+        static CARP inst;
+        return &inst;
     }
 
-    ~CARP() 
-    {
-    }
+    void init();
+
+    ~CARP();
 
     /*
      * Send out network layer datagram 
      * */
-    void sendDatagram();
+    void sendDatagram(packet_t *packet);
 
     /*
      * Send out ARP packet
      * */
-    void sendARP();
+    void sendARP(const struct in_addr &addr, packet_t *packet);
 
     /*
      * Received ARP packet
@@ -65,10 +73,24 @@ public:
     void recvARP();
 
 private:
+    bool _isInited;
+
     ARPTable _arpTable;          // arp table cache - Neighbors
     ARPQueue _arpQueue;          // arp queue - Pending datagrams wait for ARP resolve
 
+    CLink *_link;
+
+    /*
+     * Cache packet to queue with key.  
+     *
+     * @return The item number has been cached with key.
+     * */
+    int cache(const struct in_addr &key, packet_t *packet);
+
+    CARP() : _isInited(false), _link(nullptr)
+    {
+    }
+
 };
 
-#endif  // ARP_H_
-
+//#endif  // ARP_H_

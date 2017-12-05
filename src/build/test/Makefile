@@ -46,7 +46,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/bdg/share/public/project/netsimul/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/bdg/share/public/project/netsimul/src
+CMAKE_BINARY_DIR = /home/bdg/share/public/project/netsimul/src/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -73,14 +73,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/bdg/share/public/project/netsimul/src && $(CMAKE_COMMAND) -E cmake_progress_start /home/bdg/share/public/project/netsimul/src/CMakeFiles /home/bdg/share/public/project/netsimul/src/test/CMakeFiles/progress.marks
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 test/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bdg/share/public/project/netsimul/src/CMakeFiles 0
+	cd /home/bdg/share/public/project/netsimul/src/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/bdg/share/public/project/netsimul/src/build/CMakeFiles /home/bdg/share/public/project/netsimul/src/build/test/CMakeFiles/progress.marks
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f CMakeFiles/Makefile2 test/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bdg/share/public/project/netsimul/src/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 test/clean
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f CMakeFiles/Makefile2 test/clean
 .PHONY : clean
 
 # The main clean target
@@ -89,22 +89,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/bdg/share/public/project/netsimul/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/bdg/share/public/project/netsimul/src/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 test/CMakeFiles/injector2.dir/rule:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/injector2.dir/rule
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/injector2.dir/rule
 .PHONY : test/CMakeFiles/injector2.dir/rule
 
 # Convenience name for target.
@@ -113,15 +113,29 @@ injector2: test/CMakeFiles/injector2.dir/rule
 
 # fast build rule for target.
 injector2/fast:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/build
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/build
 .PHONY : injector2/fast
+
+# Convenience name for target.
+test/CMakeFiles/sniffex.dir/rule:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/sniffex.dir/rule
+.PHONY : test/CMakeFiles/sniffex.dir/rule
+
+# Convenience name for target.
+sniffex: test/CMakeFiles/sniffex.dir/rule
+.PHONY : sniffex
+
+# fast build rule for target.
+sniffex/fast:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/build
+.PHONY : sniffex/fast
 
 injector.o: injector.cpp.o
 .PHONY : injector.o
 
 # target to build an object file
 injector.cpp.o:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.o
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.o
 .PHONY : injector.cpp.o
 
 injector.i: injector.cpp.i
@@ -129,7 +143,7 @@ injector.i: injector.cpp.i
 
 # target to preprocess a source file
 injector.cpp.i:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.i
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.i
 .PHONY : injector.cpp.i
 
 injector.s: injector.cpp.s
@@ -137,8 +151,32 @@ injector.s: injector.cpp.s
 
 # target to generate assembly for a file
 injector.cpp.s:
-	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.s
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.s
 .PHONY : injector.cpp.s
+
+sniffex.o: sniffex.c.o
+.PHONY : sniffex.o
+
+# target to build an object file
+sniffex.c.o:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/sniffex.c.o
+.PHONY : sniffex.c.o
+
+sniffex.i: sniffex.c.i
+.PHONY : sniffex.i
+
+# target to preprocess a source file
+sniffex.c.i:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/sniffex.c.i
+.PHONY : sniffex.c.i
+
+sniffex.s: sniffex.c.s
+.PHONY : sniffex.s
+
+# target to generate assembly for a file
+sniffex.c.s:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/sniffex.c.s
+.PHONY : sniffex.c.s
 
 # Help Target
 help:
@@ -149,9 +187,13 @@ help:
 	@echo "... edit_cache"
 	@echo "... injector2"
 	@echo "... rebuild_cache"
+	@echo "... sniffex"
 	@echo "... injector.o"
 	@echo "... injector.i"
 	@echo "... injector.s"
+	@echo "... sniffex.o"
+	@echo "... sniffex.i"
+	@echo "... sniffex.s"
 .PHONY : help
 
 
@@ -163,6 +205,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/bdg/share/public/project/netsimul/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/bdg/share/public/project/netsimul/src/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
