@@ -6,7 +6,11 @@
 
 const u_int8_t cARPHeaderLen = 28;
 
-/*ARP header*/
+/*
+ * ARP header - 
+ *
+ * attribute packed is needed to align one byte.
+ * */
 struct sniff_arp {
     u_int16_t htype;        // Hardware Type
     u_int16_t ptype;        // Protocol Type
