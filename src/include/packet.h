@@ -26,6 +26,7 @@ struct inject_packet {
 
     inject_packet() {
         buf = nullptr;
+        rcvbuf = nullptr;
         size = 0;
     }
 };

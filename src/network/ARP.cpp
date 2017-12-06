@@ -68,11 +68,11 @@ int CARP::cache(const struct in_addr &key, packet_t *packet)
 {
     packet_t copy = *packet;
     copy.buf = new u_char[packet->size];
-    memcpy(&copy.buf, packet->buf, packet->size);
+    memmove(copy.buf, packet->buf, packet->size);   // in case overlap, use memmove instead
 
     std::list<ARPQueueItem> & kList = _arpQueue[key.s_addr];
     ARPQueueItem item{
-        .packet = std::move(copy)           // save copy time by move
+        .packet = std::move(copy)               // save copy time by move
     };
     kList.push_back(item);
 
@@ -125,7 +125,7 @@ void CARP::recvARP(packet_t *packet)
 
             _arpTable.emplace(item.ip, item);   // cache to arp table
             // can not call it here? why
-            //processPendingDatagrams(item.ip);   // notify for pending ip datagram
+            processPendingDatagrams(item.ip);   // notify for pending ip datagram
             //debug("processed pending datagrams with %s.\n", inet_ntoa(*(struct in_addr*)&item.ip));
         }
         else if(oper == ARPOP_REQUEST)  {
@@ -147,10 +147,17 @@ void CARP::processPendingDatagrams(in_addr_t addr)
     if (it != _arpQueue.end()) {
         auto &itemList = it->second;
 
-        for_each(itemList.begin(), itemList.end(), [=](ARPQueueItem &item) {
-                packet_t &pkt = item.packet;
-                _link->transmit(&pkt);
-        });
+        for (auto &item : itemList) {
+            _link->transmit(&item.packet);
+            delete[] item.packet.buf;
+            item.packet.size = 0;
+            item.packet.buf = nullptr;
+        }
+
+        //for_each(itemList.begin(), itemList.end(), [=](ARPQueueItem &item) {
+                //packet_t &pkt = item.packet;
+                //_link->transmit(&pkt);
+        //});
 
         _arpQueue.erase(it);
     }
