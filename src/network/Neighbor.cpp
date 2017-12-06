@@ -17,3 +17,9 @@ void CNeighbor::send(packet_t *packet)
 {
     _arp->sendDatagram(packet);
 }
+
+void CNeighbor::received(packet_t *packet)
+{
+    _arp->recvARP(packet);
+
+}

@@ -8,5 +8,5 @@ add_library(link SHARED
     ${NEIGHBOR_SRCS})
 
 ##target_link_libraries(hardware util)
-target_link_libraries(link util)
+target_link_libraries(link util pthread)
 

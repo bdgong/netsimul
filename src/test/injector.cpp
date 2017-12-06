@@ -8,6 +8,7 @@
 #define APP_COPYRIGHT	"Copyright (c) 2017 BiDong Gong (Antonio)"
 #define APP_DISCLAIMER	"THERE IS ABSOLUTELY NO WARRANTY FOR THIS PROGRAM."
 
+#include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -220,6 +221,8 @@ void encap_ip(pcap_t *handler, packet_t *packet)
     packet->buf     = buf;      // to be free() [2]
     packet->size    = size_new;
 
+    packet->ept     = ETH_P_IP;
+
     //encap_ether(handler, packet);
 
     CLink *link = CLink::instance();
@@ -300,7 +303,8 @@ void handle_user_input(pcap_t * handler)
 
     const char *default_saddr = "192.168.0.5";
     default_saddr = inet_ntoa( CLink::instance()->getDefaultDevice()->ipAddr );
-    const char *default_daddr = "192.168.0.3";
+    //const char *default_daddr = "192.168.0.3";
+    const char *default_daddr = "211.67.27.254";
     uint16_t default_sport = 1314;
     uint16_t default_dport = 1618;
 
@@ -405,7 +409,12 @@ int main(int argc, char** argv) {
     CLink *link = CLink::instance();
     link->init();
 
-    handle_user_input(nullptr);
+    int k = 2;
+    while (k-- > 0) {
+        handle_user_input(nullptr);
+
+        sleep(1);
+    }
 
     return 0;
 }

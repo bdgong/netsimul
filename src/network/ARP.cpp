@@ -4,6 +4,7 @@
 
 #include <cstring>
 #include <utility>
+#include <algorithm>
 
 void CARP::init()
 {
@@ -100,3 +101,58 @@ void CARP::sendARP(const struct in_addr &addr, packet_t *packet)
 
 }
 
+void CARP::recvARP(packet_t *packet)
+{
+    debug("<ARP> received.\n");
+
+    ARPHdr *arphdr = (ARPHdr *)packet->rcvbuf;
+
+    if (ntohs(arphdr->htype) == ARPHRD_ETHER && ntohs(arphdr->ptype) == ETH_P_IP) {
+        u_int16_t oper = ntohs(arphdr->oper);
+
+        struct in_addr spa, tpa;
+        spa.s_addr = arphdr->spa;
+        tpa.s_addr = arphdr->tpa;
+        debug("Sender      IP: %s, MAC: %s\n", inet_ntoa(spa), ether_ntoa((struct ether_addr *)arphdr->sha));
+        debug("Destination IP: %s, MAC: %s\n", inet_ntoa(tpa), ether_ntoa((struct ether_addr *)arphdr->tha));
+
+        if (oper == ARPOP_REPLY) {
+            debug("arp reply.  cache it.\n");
+            ARPTableItem item;          
+            item.ip     = arphdr->spa;
+            memcpy(&item.mac, &arphdr->sha, ETH_ALEN);
+            item.ttl    = cARPMaxTTL;
+
+            _arpTable.emplace(item.ip, item);   // cache to arp table
+            // can not call it here? why
+            //processPendingDatagrams(item.ip);   // notify for pending ip datagram
+            //debug("processed pending datagrams with %s.\n", inet_ntoa(*(struct in_addr*)&item.ip));
+        }
+        else if(oper == ARPOP_REQUEST)  {
+            debug("arp request\n");
+        }
+        else {
+            debug("Unknown arp operation code: %d\n", oper);
+        }
+    }
+    else {
+        error("Invalid ARP packet.\n");
+    }
+
+}
+
+void CARP::processPendingDatagrams(in_addr_t addr)
+{
+    ARPQueue::iterator it = _arpQueue.find(addr);
+    if (it != _arpQueue.end()) {
+        auto &itemList = it->second;
+
+        for_each(itemList.begin(), itemList.end(), [=](ARPQueueItem &item) {
+                packet_t &pkt = item.packet;
+                _link->transmit(&pkt);
+        });
+
+        _arpQueue.erase(it);
+    }
+
+}

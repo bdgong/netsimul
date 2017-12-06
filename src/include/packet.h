@@ -9,7 +9,7 @@
 
 /*Inject packet options*/
 struct inject_packet {
-    u_char                  *buf;   // packet data buffer
+    u_char                  *buf;   // packet data send buffer
     size_t                  size;   // size of data bufer
     struct in_addr          saddr,  // source ip address
                             daddr;  // destination ip address
@@ -22,6 +22,7 @@ struct inject_packet {
     ARPHdr                  arphdr; // arp header 
 #define INJECT_OP_TCP(p) (p->oper == 't' || p->oper == 'T')
 #define INJECT_OP_UDP(p) (p->oper == 'u' || p->oper == 'U')
+    const u_char            *rcvbuf;// packet data receive buffer
 
     inject_packet() {
         buf = nullptr;

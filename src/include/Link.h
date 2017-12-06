@@ -41,8 +41,14 @@ public:
      * */
     void send(packet_t *packet);
 
-    void received();
+    /*
+     * Receive packet from device
+     * */
+    void received(const u_char *, size_t);
 
+    /*
+     * The default device used to send and receive packet
+     * */
     const Device * getDefaultDevice() const;
 
 private:

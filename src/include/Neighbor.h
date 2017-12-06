@@ -24,7 +24,8 @@ public:
 
     void send(packet_t *packet);
 
-    void received();
+    void received(packet_t *packet);
+
 private:
     bool _isInited;
     CARP *_arp;

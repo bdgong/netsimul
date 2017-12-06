@@ -3,18 +3,61 @@
 /*network*/
 #include <arpa/inet.h>
 #include <linux/netdevice.h>
-#include <cstring>
 
+#include <cstring>
 #include <algorithm>
+
+#include <thread>
 
 #include "Util.h"
 
-void CHardware::init()
-{
-    if(_isInited) 
-        return;
 
-    char errbuf[PCAP_ERRBUF_SIZE];
+void CHardware::transmit(const u_char *bytes, size_t size)
+{
+    if(_defaultDev == nullptr || _defaultDev->handler == nullptr) {
+        error("Default device not avaliable.");
+        return ;
+    }
+
+    int byteSend = pcap_inject(_defaultDev->handler, bytes, size);
+    if(byteSend == -1) {
+        error("Send packet failed.");
+    }
+    else {
+        debug("Transmited packet to network (%d bytes).\n", byteSend);
+    }
+    //delete packet->buf;
+    
+}
+
+void CHardware::getPacket(u_char *user, const struct pcap_pkthdr *h, const u_char *bytes)
+{
+    debug("\n<Hardware> received packet (%d bytes).\n", h->len);
+    CHardware *inst = CHardware::instance();
+
+    inst->_link->received(bytes, h->len);
+}
+
+void CHardware::up()
+{
+    if (_defaultDev != nullptr) {
+        pcap_loop(_defaultDev->handler, -1, &CHardware::getPacket, nullptr);
+    }
+    else {
+    }
+}
+
+void CHardware::down()
+{
+    if (_defaultDev != nullptr) {
+        pcap_breakloop(_defaultDev->handler);
+    }
+    else {
+    }
+}
+
+void CHardware::detectDevices(char *errbuf)
+{
     if (pcap_findalldevs(&_foundDevs, errbuf) == -1) {          // cal pcap findalldevs
         error("Couldn't find any device: %s\n", errbuf);
         return;
@@ -23,7 +66,6 @@ void CHardware::init()
     pcap_if_t *pDev = _foundDevs;
     while (pDev != NULL) {
         bpf_u_int32 flag = pDev->flags;
-
 #ifdef DEBUG
         static bool t = true;
         if(t) {
@@ -33,16 +75,13 @@ void CHardware::init()
         else
             log(" %s", pDev->name);
 #endif 
-
-        // find running and not loopback device
-        if ((flag & PCAP_IF_RUNNING) && !(flag & PCAP_IF_LOOPBACK)) {
+        if ((flag & PCAP_IF_RUNNING) && !(flag & PCAP_IF_LOOPBACK)) {   // find running and not loopback device
             Device dev;
             dev.name = pDev->name; 
 
             int progress = 0;
 
-            // address
-            pcap_addr_t *paddr = pDev->addresses;
+            pcap_addr_t *paddr = pDev->addresses;   // get address
             while (paddr != NULL) {
                 struct sockaddr *sa = paddr->addr;
                 
@@ -64,13 +103,23 @@ void CHardware::init()
                 paddr = paddr->next;
             }
 
-            _devs.push_back(dev);           // save to cache
+            _devs.push_back(dev);                   // save to cache
         }
         else {}
 
         pDev = pDev->next;
     }
 
+}
+
+void CHardware::init()
+{
+    if(_isInited) 
+        return;
+
+    char errbuf[PCAP_ERRBUF_SIZE];
+
+    detectDevices(errbuf);                          // detect avaliable devices
     log("\n");
     
     if (_devs.size() <= 0) {                        // make sure we get at least one device
@@ -79,7 +128,7 @@ void CHardware::init()
     }
 
     _defaultDev = &_devs.front();                   // open the first device as default handler
-    _defaultDev->handler = pcap_open_live (_defaultDev->name, SNAP_LEN, 1, 1000, errbuf);
+    _defaultDev->handler = pcap_open_live (_defaultDev->name, SNAP_LEN, 0, PKT_BUFF_TIME, errbuf);
     if (_defaultDev->handler == NULL) {
         error("Couldn't open device %s : %s\n", _defaultDev->name, errbuf); 
         return ;
@@ -90,8 +139,11 @@ void CHardware::init()
         return ;
     }
 
-    _link = CLink::instance();
-    _isInited = true;
+    std::thread listenThread(std::bind(&CHardware::up, this));
+    listenThread.detach();
+    //pcap_dispatch(_defaultDev->handler, -1, &CHardware::getPacket, nullptr);  // only dispatch once
+                                                    // start listen 
+
 #ifdef DEBUG
     debug("Hardware inited:\n");
     for (const Device& dev : _devs) {
@@ -101,26 +153,8 @@ void CHardware::init()
         dev.show();
     }
 #endif 
+    _link = CLink::instance();
+    _isInited = true;
+
+
 }
-
-void CHardware::transmit(packet_t *packet)
-{
-    if(_defaultDev == nullptr || _defaultDev->handler == nullptr) {
-        error("Default device not avaliable.");
-        return ;
-    }
-
-    unsigned char *buf = packet->buf;
-    size_t size = packet->size;
-
-    int byteSend = pcap_inject(_defaultDev->handler, buf, size);
-    if(byteSend == -1) {
-        error("Send packet failed.");
-    }
-    else {
-        debug("Transmited packet to network (%d bytes).\n", byteSend);
-    }
-    //delete packet->buf;
-    
-}
-

@@ -431,7 +431,7 @@ void print_ether(const struct sniff_ethernet * ethernet)
     char dst[MAC_ASCII_LEN], src[MAC_ASCII_LEN], *tmp = NULL;          
     
     ether_type = ntohs(ethernet->ether_type);
-    printf("Network Layer Protocol: %s (%4X)", tok2str(ethertype_values, "Unknown", ether_type));
+    printf("Network Layer Protocol: %s (%4X)", tok2str(ethertype_values, "Unknown", ether_type),ether_type );
 
     /*etherstr = get_ethertype_by_value(ether_type);*/
     /*if(etherstr != NULL) {*/

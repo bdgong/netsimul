@@ -13,6 +13,8 @@
 using std::map;
 using std::list;
 
+const uint16_t cARPMaxTTL = 500;
+
 /*
  * ARPPacket - ARP packet 
  * */
@@ -70,7 +72,7 @@ public:
     /*
      * Received ARP packet
      * */
-    void recvARP();
+    void recvARP(packet_t *packet);
 
 private:
     bool _isInited;
@@ -86,6 +88,13 @@ private:
      * @return The item number has been cached with key.
      * */
     int cache(const struct in_addr &key, packet_t *packet);
+
+    /*
+     * Process cached datagrams when arp reply received
+     *
+     * @addr The address resolved
+     * */
+    void processPendingDatagrams(in_addr_t addr);
 
     CARP() : _isInited(false), _link(nullptr)
     {

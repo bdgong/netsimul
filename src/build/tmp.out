@@ -1,0 +1,2118 @@
+Open file: debug.txt
+Detected device: eth0 any lo wlan0 bluetooth0 nflog nfqueue usbmon1 usbmon2 usbmon3
+Hardware inited:
+* (default) Device [id=0, type=0, name=eth0, ip=211.67.24.159, mac=f0:76:1c:3f:47:49]
+Device [id=0, type=0, name=any, ip=211.67.24.159, mac=f0:76:1c:3f:47:49]
+ARP initied.
+Neighbor initied.
+Link inited.
+
+Enter message to inject (ends with an empty line):
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 20:6a:8a:5b:72:67
+not handled
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (456 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (448 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (512 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (504 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (510 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (522 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (520 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (456 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (448 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (512 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (504 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (510 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (522 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (520 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 98:e7:f4:65:42:f8
+<ARP> received.
+Sender      IP: 211.67.26.99, MAC: 98:e7:f4:65:42:f8
+Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 98:e7:f4:65:42:f8
+<ARP> received.
+Sender      IP: 211.67.26.99, MAC: 98:e7:f4:65:42:f8
+Destination IP: 10.13.3.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (98 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: c:c4:7a:1b:e5:30
+**MESSAGE TO SEND**
+
+BDG 
+
+
+Inject with TCP or UDP? [T/U]: 
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: f8:32:e4:8c:b:61
+not handled
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: f8:32:e4:8c:b:61
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (888E)
+Destination MAC: 0:1a:a9:17:ff:ff
+Sender      MAC: cc:81:da:19:9a:5b
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: f8:32:e4:8c:b:61
+not handled
+
+<Hardware> received packet (148 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: 14:dd:a9:78:ef:40
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: f8:32:e4:8c:b:61
+not handled
+Please enter T(t) or U(u): Please enter T(t) or U(u): Please enter T(t) or U(u): 
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+Please enter T(t) or U(u): 
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (888E)
+Destination MAC: 0:1a:a9:17:ff:ff
+Sender      MAC: 0:11:22:33:44:5b
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (118 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:1
+Sender      MAC: 14:14:4b:75:fc:7f
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (214 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: ac:1f:6b:21:a5:0
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (214 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: ac:1f:6b:21:a5:0
+not handled
+
+<Hardware> received packet (171 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (171 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+Please enter T(t) or U(u): Please enter T(t) or U(u): 
+<Hardware> received packet (214 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: ac:1f:6b:21:a5:0
+not handled
+
+<Hardware> received packet (456 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (448 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (512 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (504 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (510 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (522 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (520 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (456 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (448 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (512 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (504 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (510 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (522 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (520 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (214 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: ac:1f:6b:21:a5:0
+not handled
+
+<Hardware> received packet (42 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+<ARP> received.
+Sender      IP: 211.67.24.159, MAC: f0:76:1c:3f:47:49
+Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+<ARP> received.
+Sender      IP: 211.67.27.254, MAC: 14:14:4b:75:fc:7f
+Destination IP: 211.67.24.159, MAC: f0:76:1c:3f:47:49
+arp reply.  cache it.
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (394 bytes).
+Network Layer Protocol: Unknown (88CC)
+Destination MAC: 1:80:c2:0:0:e
+Sender      MAC: 58:69:6c:15:b:1b
+Please enter T(t) or U(u): Please enter T(t) or U(u): Please enter T(t) or U(u): Please enter T(t) or U(u): 
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (393 bytes).
+Network Layer Protocol: Unknown (88CC)
+Destination MAC: 1:80:c2:0:0:e
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (63 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (138 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (181 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:c
+Sender      MAC: 2c:59:e5:4:a6:bb
+
+<Hardware> received packet (167 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (179 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:c
+Sender      MAC: 2c:59:e5:4:a6:bb
+
+<Hardware> received packet (165 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: bc:ee:7b:59:e3:b4
+not handled
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (74 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (74 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (1514 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (199 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (596 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: bc:ee:7b:59:e3:b4
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: bc:ee:7b:59:e3:b4
+not handled
+
+<Hardware> received packet (179 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:c
+Sender      MAC: 2c:59:e5:4:a6:bb
+
+<Hardware> received packet (165 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (181 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:c
+Sender      MAC: 2c:59:e5:4:a6:bb
+
+<Hardware> received packet (167 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (98 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: c:c4:7a:1b:e4:c0
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: bc:ee:7b:59:e3:b4
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 10:c3:7b:4a:da:16
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 10:c3:7b:4a:da:16
+not handled
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+Please enter T(t) or U(u): 
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (350 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (370 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 211.67.25.197, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 211.67.25.197, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (181 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:c
+Sender      MAC: 2c:59:e5:4:a6:bb
+
+<Hardware> received packet (167 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (179 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:c
+Sender      MAC: 2c:59:e5:4:a6:bb
+
+<Hardware> received packet (165 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 10:c3:7b:4a:da:16
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 211.67.25.197, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 0.0.0.0, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.25.197, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:16
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (78 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:50:b2:ee
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (78 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:50:b2:ee
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (78 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:c7:ed:92
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (70 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:2
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (130 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:16
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (118 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:1
+Sender      MAC: 14:14:4b:75:fc:7f
+
+<Hardware> received packet (106 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (84 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (64 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (84 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (64 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:16
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (130 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:16
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (91 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (93 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (89 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (69 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (71 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (73 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (93 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (89 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (91 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (69 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (73 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (71 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 10:c3:7b:4a:da:16
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (888E)
+Destination MAC: 0:1a:a9:17:ff:ff
+Sender      MAC: cc:81:da:19:9a:5b
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: f4:8e:38:f4:f8:d4
+<ARP> received.
+Sender      IP: 211.67.25.102, MAC: f4:8e:38:f4:f8:d4
+Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (93 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (91 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (89 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (69 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (73 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (71 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (93 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (89 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (69 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (73 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (91 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (71 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 0.0.0.0, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.25.197, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:1
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:1
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:1
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 211.67.25.197, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (106 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:16
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:16
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (530 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:16
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:16
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 0.0.0.0, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.25.197, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (530 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (82 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (102 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (82 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (102 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 211.67.25.197, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.25.197, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (342 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 211.67.25.197, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (82 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (102 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (82 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (102 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (312 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (324 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (384 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (376 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (300 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (110 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (82 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (102 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (82 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (102 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (348 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (84 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (64 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (106 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (456 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (448 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (512 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (504 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (510 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (522 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (520 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (380 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (84 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (64 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (456 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (448 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (512 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (504 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (510 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (522 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (520 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: d0:17:c2:86:55:f
+not handled
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+<ARP> received.
+Sender      IP: 211.67.25.197, MAC: 38:d5:47:12:75:5c
+Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
+arp request
+
+<Hardware> received packet (320 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (378 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (372 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 88:25:93:64:e:9a
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (93 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (73 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (87 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (67 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (95 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (75 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (93 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (73 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (95 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (87 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (75 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (67 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (530 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (106 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (888E)
+Destination MAC: 0:1a:a9:17:ff:ff
+Sender      MAC: 0:11:22:33:44:5b
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (530 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (98 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: c:c4:7a:1b:e5:6a
+
+<Hardware> received packet (82 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (102 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (82 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (102 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:0:0:fb
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (93 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (73 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (95 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (87 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (75 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (67 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (93 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (73 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (87 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (95 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:3
+Sender      MAC: 38:d5:47:12:75:5c
+
+<Hardware> received packet (67 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (75 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:0:0:fc
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (216 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 2c:59:e5:4:a6:bb
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 38:d5:47:12:75:5c
+not handled
+
+<Hardware> received packet (92 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 

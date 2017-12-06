@@ -12,6 +12,7 @@
 
 /* default snap length (maximum bytes per packet to capture) */
 #define SNAP_LEN 1518
+#define PKT_BUFF_TIME 2000
 
 class CLink;
 
@@ -27,13 +28,16 @@ public:
 
     ~CHardware() 
     {
+        if (_defaultDev != nullptr && _defaultDev->handler != nullptr) {
+            pcap_close(_defaultDev->handler);
+        }
         pcap_freealldevs(_foundDevs); 
     }
 
     void init();
-    void up(Device *);
-    void down(Device *);
-    void transmit(packet_t *);
+    void up();
+    void down();
+    void transmit(const u_char*, size_t size);
     void received();
 
     const Device * getDefaultDevice() const 
@@ -50,6 +54,10 @@ private:
     Device *_defaultDev;            // default device
 
     CLink *_link;
+
+    void detectDevices(char *errbuf);
+
+    static void getPacket(u_char *user, const struct pcap_pkthdr *h, const u_char *bytes);
 
     CHardware() : _isInited(false), _defaultDev(nullptr), _link(nullptr)
     {
