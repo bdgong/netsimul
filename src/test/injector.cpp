@@ -223,7 +223,6 @@ void encap_ip(pcap_t *handler, packet_t *packet)
     //encap_ether(handler, packet);
 
     CLink *link = CLink::instance();
-    link->init();
     link->send(packet);
 
     delete packet->buf;         // do free() [2]
@@ -300,6 +299,7 @@ void handle_user_input(pcap_t * handler)
     char tmpstr[16];
 
     const char *default_saddr = "192.168.0.5";
+    default_saddr = inet_ntoa( CLink::instance()->getDefaultDevice()->ipAddr );
     const char *default_daddr = "192.168.0.3";
     uint16_t default_sport = 1314;
     uint16_t default_dport = 1618;
@@ -338,7 +338,7 @@ void handle_user_input(pcap_t * handler)
     packet.oper = ch;
 
     /*Determine inject source & destination*/
-    printf("Sender ip address (default 192.168.0.5, use it just press <enter>): ");
+    printf("Sender ip address (default %s, use it just press <enter>): ", default_saddr);
     ch = getchar();
     if(ch == '\n') {
         strncpy(saddr, default_saddr, SIZE_IP_ADDR_STR);    
@@ -349,7 +349,7 @@ void handle_user_input(pcap_t * handler)
         saddr[strlen(saddr)-1] = '\0';          // eliminate the newline character
     }
 
-    printf("Sender port (default 1314, use it just press <enter>): ");
+    printf("Sender port (default %d, use it just press <enter>): ", default_sport);
     ch = getchar();
     if(ch == '\n') {
         sport = default_sport;  
@@ -360,7 +360,7 @@ void handle_user_input(pcap_t * handler)
         sport = atoi(tmpstr);
     }
 
-    printf("Destination ip address (default 192.168.0.3, use it just press <enter>): ");
+    printf("Destination ip address (default %s, use it just press <enter>): ", default_daddr);
     ch = getchar();
     if(ch == '\n') {
         strncpy(daddr, default_daddr, SIZE_IP_ADDR_STR);    
@@ -371,7 +371,7 @@ void handle_user_input(pcap_t * handler)
         daddr[strlen(daddr)-1] = '\0';          // eliminate the newline character
     }
 
-    printf("Destination port (default 1618, use it just press <enter>): ");
+    printf("Destination port (default %d, use it just press <enter>): ", default_dport);
     ch = getchar();
     if(ch == '\n') {
         dport = default_dport;  
@@ -402,6 +402,8 @@ void handle_user_input(pcap_t * handler)
 int main(int argc, char** argv) {
     //CHardware * hardware = CHardware::instance();
     //hardware->init();
+    CLink *link = CLink::instance();
+    link->init();
 
     handle_user_input(nullptr);
 
