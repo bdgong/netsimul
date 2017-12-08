@@ -2,6 +2,7 @@
 #include <cstdarg>
 
 File fileDebug("debug.txt");
+FILE *debugOut = fileDebug.get();
 
 void log(const char *fmt, ...)
 {
@@ -14,14 +15,24 @@ void log(const char *fmt, ...)
 void debug(const char *fmt, ...) 
 {
 #ifdef DEBUG
-    //FILE *out = fileDebug.get();
-    FILE *out = stdout;
-    //fprintf(out, "DEBUG: ");
     va_list va;
     va_start(va, fmt);
-    vfprintf(out, fmt, va); 
+    vfprintf(debugOut, fmt, va); 
     va_end(va);
+#endif 
+}
 
+void debug(int flag, const char *fmt, ...) 
+{
+#ifdef DEBUG
+    if (flag & DBG_PREFIX) 
+        fprintf(debugOut, "DEBUG: ");
+    va_list va;
+    va_start(va, fmt);
+    vfprintf(debugOut, fmt, va); 
+    va_end(va);
+    if (flag & DBG_NEWLINE) 
+        fprintf(debugOut, "\n");
 #endif 
 }
 

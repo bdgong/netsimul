@@ -5,6 +5,7 @@
 #include <linux/netdevice.h>
 
 #include <cstring>
+#include <sstream>
 #include <algorithm>
 
 #include <thread>
@@ -24,9 +25,9 @@ void CHardware::transmit(const u_char *bytes, size_t size)
         error("Send packet failed.");
     }
     else {
-        debug("Transmited packet to network (%d bytes).\n", byteSend);
+        debug(DBG_DEFAULT, "Transmited packet to network (%d bytes).", byteSend);
+        log("Transmited packet to network (%d bytes).\n", byteSend);
     }
-    //delete packet->buf;
     
 }
 
@@ -56,25 +57,21 @@ void CHardware::down()
     }
 }
 
-void CHardware::detectDevices(char *errbuf)
+int CHardware::detectDevices(char *errbuf)
 {
     if (pcap_findalldevs(&_foundDevs, errbuf) == -1) {          // cal pcap findalldevs
         error("Couldn't find any device: %s\n", errbuf);
-        return;
+        return -1;
     }
+
+    std::ostringstream oss;
+    oss << "Detected devices:";
+    int count = 0;
 
     pcap_if_t *pDev = _foundDevs;
     while (pDev != NULL) {
         bpf_u_int32 flag = pDev->flags;
-#ifdef DEBUG
-        static bool t = true;
-        if(t) {
-            debug("Detected device: %s", pDev->name);
-            t = false;
-        }
-        else
-            log(" %s", pDev->name);
-#endif 
+
         if ((flag & PCAP_IF_RUNNING) && !(flag & PCAP_IF_LOOPBACK)) {   // find running and not loopback device
             Device dev;
             dev.name = pDev->name; 
@@ -107,8 +104,14 @@ void CHardware::detectDevices(char *errbuf)
         }
         else {}
 
+        oss << "\n" << ++count << "." << pDev->name;
         pDev = pDev->next;
     }
+
+    log("%s\n", oss.str().c_str());
+    debug(DBG_DEFAULT, oss.str().c_str());
+
+    return _devs.size();
 
 }
 
@@ -119,10 +122,8 @@ void CHardware::init()
 
     char errbuf[PCAP_ERRBUF_SIZE];
 
-    detectDevices(errbuf);                          // detect avaliable devices
-    log("\n");
-    
-    if (_devs.size() <= 0) {                        // make sure we get at least one device
+    int nDevice = detectDevices(errbuf);            // detect avaliable devices
+    if (nDevice <= 0) {                             // make sure we get at least one device
         error("No suitable device found.\n");
         return ;
     }
@@ -140,19 +141,22 @@ void CHardware::init()
     }
 
     std::thread listenThread(std::bind(&CHardware::up, this));
-    listenThread.detach();
+    listenThread.detach();                          // start listen 
     //pcap_dispatch(_defaultDev->handler, -1, &CHardware::getPacket, nullptr);  // only dispatch once
-                                                    // start listen 
-
-#ifdef DEBUG
-    debug("Hardware inited:\n");
+                                                    
+    debug(DBG_DEFAULT, "Hardware inited, suitable device list:");
+    log("Hardware inited, suitable device list:\n");
     for (const Device& dev : _devs) {
         if(dev.name == _defaultDev->name) {         // use == because we use pointer for default device
-            log("* (default) ");
+            debug(DBG_DEFAULT, "* (default) %s.", dev.toString().c_str());
+            log("* (default) %s.\n", dev.toString().c_str());
         }
-        dev.show();
+        else {
+            debug(DBG_DEFAULT, dev.toString().c_str());
+            log("%s.\n", dev.toString().c_str());
+        }
     }
-#endif 
+
     _link = CLink::instance();
     _isInited = true;
 

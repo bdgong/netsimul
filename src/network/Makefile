@@ -73,14 +73,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bdg/share/public/project/netsimul/src/CMakeFiles /home/bdg/share/public/project/netsimul/src/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /home/bdg/share/public/project/netsimul/src && $(CMAKE_COMMAND) -E cmake_progress_start /home/bdg/share/public/project/netsimul/src/CMakeFiles /home/bdg/share/public/project/netsimul/src/network/CMakeFiles/progress.marks
+	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 network/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/bdg/share/public/project/netsimul/src/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 network/clean
 .PHONY : clean
 
 # The main clean target
@@ -89,94 +89,18 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 network/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/bdg/share/public/project/netsimul/src && $(MAKE) -f CMakeFiles/Makefile2 network/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/bdg/share/public/project/netsimul/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-#=============================================================================
-# Target rules for targets named util
-
-# Build rule for target.
-util: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 util
-.PHONY : util
-
-# fast build rule for target.
-util/fast:
-	$(MAKE) -f CMakeFiles/util.dir/build.make CMakeFiles/util.dir/build
-.PHONY : util/fast
-
-#=============================================================================
-# Target rules for targets named injector2
-
-# Build rule for target.
-injector2: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 injector2
-.PHONY : injector2
-
-# fast build rule for target.
-injector2/fast:
-	$(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/build
-.PHONY : injector2/fast
-
-#=============================================================================
-# Target rules for targets named sniffex
-
-# Build rule for target.
-sniffex: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sniffex
-.PHONY : sniffex
-
-# fast build rule for target.
-sniffex/fast:
-	$(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/build
-.PHONY : sniffex/fast
-
-#=============================================================================
-# Target rules for targets named link
-
-# Build rule for target.
-link: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 link
-.PHONY : link
-
-# fast build rule for target.
-link/fast:
-	$(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/build
-.PHONY : link/fast
-
-Util.o: Util.cpp.o
-.PHONY : Util.o
-
-# target to build an object file
-Util.cpp.o:
-	$(MAKE) -f CMakeFiles/util.dir/build.make CMakeFiles/util.dir/Util.cpp.o
-.PHONY : Util.cpp.o
-
-Util.i: Util.cpp.i
-.PHONY : Util.i
-
-# target to preprocess a source file
-Util.cpp.i:
-	$(MAKE) -f CMakeFiles/util.dir/build.make CMakeFiles/util.dir/Util.cpp.i
-.PHONY : Util.cpp.i
-
-Util.s: Util.cpp.s
-.PHONY : Util.s
-
-# target to generate assembly for a file
-Util.cpp.s:
-	$(MAKE) -f CMakeFiles/util.dir/build.make CMakeFiles/util.dir/Util.cpp.s
-.PHONY : Util.cpp.s
 
 # Help Target
 help:
@@ -186,13 +110,6 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... util"
-	@echo "... injector2"
-	@echo "... sniffex"
-	@echo "... link"
-	@echo "... Util.o"
-	@echo "... Util.i"
-	@echo "... Util.s"
 .PHONY : help
 
 
@@ -204,6 +121,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/bdg/share/public/project/netsimul/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

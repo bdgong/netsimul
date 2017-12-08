@@ -90,11 +90,18 @@ private:
     int cache(const struct in_addr &key, packet_t *packet);
 
     /*
+     * Cache ARP item to table.
+     * */
+    void cache(const ARPHdr *arphdr);
+
+    /*
      * Process cached datagrams when arp reply received
      *
      * @addr The address resolved
      * */
     void processPendingDatagrams(in_addr_t addr);
+
+    void replyARP(const ARPHdr *arphdr);
 
     CARP() : _isInited(false), _link(nullptr)
     {

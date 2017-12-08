@@ -101,6 +101,17 @@ void CARP::sendARP(const struct in_addr &addr, packet_t *packet)
 
 }
 
+void CARP::cache(const ARPHdr *arphdr)
+{
+    ARPTableItem item;          
+    item.ip     = arphdr->spa;
+    memcpy(&item.mac, &arphdr->sha, ETH_ALEN);
+    item.ttl    = cARPMaxTTL;
+
+    _arpTable.emplace(item.ip, item);           // cache to arp table
+
+}
+
 void CARP::recvARP(packet_t *packet)
 {
     debug("<ARP> received.\n");
@@ -116,20 +127,25 @@ void CARP::recvARP(packet_t *packet)
         debug("Sender      IP: %s, MAC: %s\n", inet_ntoa(spa), ether_ntoa((struct ether_addr *)arphdr->sha));
         debug("Destination IP: %s, MAC: %s\n", inet_ntoa(tpa), ether_ntoa((struct ether_addr *)arphdr->tha));
 
-        if (oper == ARPOP_REPLY) {
-            debug("arp reply.  cache it.\n");
-            ARPTableItem item;          
-            item.ip     = arphdr->spa;
-            memcpy(&item.mac, &arphdr->sha, ETH_ALEN);
-            item.ttl    = cARPMaxTTL;
+        const Device *dev = _link->getDefaultDevice();
+        in_addr_t thisDevAddr = dev->ipAddr.s_addr;
 
-            _arpTable.emplace(item.ip, item);   // cache to arp table
-            // can not call it here? why
-            processPendingDatagrams(item.ip);   // notify for pending ip datagram
-            //debug("processed pending datagrams with %s.\n", inet_ntoa(*(struct in_addr*)&item.ip));
+        if (arphdr->tpa != thisDevAddr) {
+            debug(DBG_DEFAULT, "ARP not to this device, ignore.");
+            return;
+        }
+
+        if (oper == ARPOP_REPLY) {
+            debug(DBG_DEFAULT, "arp reply.  cache and process.");
+            cache(arphdr);
+
+            processPendingDatagrams(arphdr->spa);   // notify for pending ip datagram
         }
         else if(oper == ARPOP_REQUEST)  {
-            debug("arp request\n");
+            debug(DBG_DEFAULT, "arp request, cache and reply.");
+            cache(arphdr);
+
+            replyARP(arphdr);
         }
         else {
             debug("Unknown arp operation code: %d\n", oper);
@@ -148,18 +164,40 @@ void CARP::processPendingDatagrams(in_addr_t addr)
         auto &itemList = it->second;
 
         for (auto &item : itemList) {
+            debug(DBG_DEFAULT, "<ARP> process pending datagrams for %s...", inet_ntoa(*(struct in_addr*)&addr));
+            log("<ARP> process pending datagrams for %s...\n", inet_ntoa(*(struct in_addr*)&addr));
             _link->transmit(&item.packet);
             delete[] item.packet.buf;
             item.packet.size = 0;
             item.packet.buf = nullptr;
         }
 
-        //for_each(itemList.begin(), itemList.end(), [=](ARPQueueItem &item) {
-                //packet_t &pkt = item.packet;
-                //_link->transmit(&pkt);
-        //});
-
         _arpQueue.erase(it);
     }
+
+}
+
+void CARP::replyARP(const ARPHdr *arphdr)
+{
+    packet_t packet; 
+    ARPHdr &arp = packet.arphdr; 
+
+    arp = *arphdr;
+    arp.oper    = htons(ARPOP_REPLY);
+
+    const Device *dev = _link->getDefaultDevice();
+    memcpy(&arp.sha, &dev->hAddr, ETH_ALEN);
+    arp.spa     = dev->ipAddr.s_addr;
+    memcpy(&arp.tha, &arphdr->sha, ETH_ALEN);
+    arp.tpa     = arphdr->spa;
+
+    memcpy(&packet.dha, &arphdr->sha, ETH_ALEN);
+    memcpy(&packet.sha, &arp.sha, ETH_ALEN);
+    packet.ept  = ETH_P_ARP;
+
+    struct in_addr tpa {.s_addr = arp.tpa };
+    debug(DBG_DEFAULT, "<ARP> reply to %s.", inet_ntoa(tpa));
+    log("<ARP> reply to %s.\n", inet_ntoa(tpa));
+    _link->transmit(&packet);
 
 }

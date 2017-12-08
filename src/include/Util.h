@@ -12,6 +12,7 @@
 
 extern void log(const char *format,  ...);
 extern void debug(const char *format,  ...);
+extern void debug(int flag, const char *format,  ...);
 extern void error(const char *format,  ...);
 
 #define SIZE_TOK_BUF 256

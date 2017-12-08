@@ -7,6 +7,7 @@
 #include <pcap/pcap.h>
 
 #include <iostream>
+#include <sstream>
 
 typedef struct device {
     u_int16_t           id;
@@ -26,14 +27,22 @@ typedef struct device {
 
     void show() const
     {
-        std::cout << "Device ["
+        std::cout << toString() << std::endl;
+    }
+
+    std::string toString() const
+    {
+        std::ostringstream oss;
+        oss << "Device ["
             << "id=" << id
             << ", type=" << type
             << ", name=" << name
             << ", ip=" << inet_ntoa(ipAddr)
             << ", mac=" << ether_ntoa(&hAddr)
-            << "]" << std::endl;
+            << "]";
+        return oss.str();
     }
+
 } Device; 
 
 #endif  // DEVICE_H_

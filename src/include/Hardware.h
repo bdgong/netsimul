@@ -55,7 +55,7 @@ private:
 
     CLink *_link;
 
-    void detectDevices(char *errbuf);
+    int detectDevices(char *errbuf);
 
     static void getPacket(u_char *user, const struct pcap_pkthdr *h, const u_char *bytes);
 

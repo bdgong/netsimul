@@ -413,7 +413,7 @@ int main(int argc, char** argv) {
     while (k-- > 0) {
         handle_user_input(nullptr);
 
-        sleep(1);
+        sleep(2);
     }
 
     return 0;
