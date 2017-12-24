@@ -6,10 +6,14 @@ void CNeighbor::init()
 {
     if (_isInited)
         return;
+
+    _link       = CLink::instance();
+    _link->init();
+
     _arp        = CARP::instance();
     _arp->init();
-    _isInited   = true;
 
+    _isInited   = true;
     debug("Neighbor initied.\n");
 }
 

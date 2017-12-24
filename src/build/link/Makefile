@@ -102,116 +102,6 @@ depend:
 	cd /home/bdg/share/public/project/netsimul/src/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-link/CMakeFiles/link.dir/rule:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f CMakeFiles/Makefile2 link/CMakeFiles/link.dir/rule
-.PHONY : link/CMakeFiles/link.dir/rule
-
-# Convenience name for target.
-link: link/CMakeFiles/link.dir/rule
-.PHONY : link
-
-# fast build rule for target.
-link/fast:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/build
-.PHONY : link/fast
-
-Hardware.o: Hardware.cpp.o
-.PHONY : Hardware.o
-
-# target to build an object file
-Hardware.cpp.o:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/Hardware.cpp.o
-.PHONY : Hardware.cpp.o
-
-Hardware.i: Hardware.cpp.i
-.PHONY : Hardware.i
-
-# target to preprocess a source file
-Hardware.cpp.i:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/Hardware.cpp.i
-.PHONY : Hardware.cpp.i
-
-Hardware.s: Hardware.cpp.s
-.PHONY : Hardware.s
-
-# target to generate assembly for a file
-Hardware.cpp.s:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/Hardware.cpp.s
-.PHONY : Hardware.cpp.s
-
-Link.o: Link.cpp.o
-.PHONY : Link.o
-
-# target to build an object file
-Link.cpp.o:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/Link.cpp.o
-.PHONY : Link.cpp.o
-
-Link.i: Link.cpp.i
-.PHONY : Link.i
-
-# target to preprocess a source file
-Link.cpp.i:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/Link.cpp.i
-.PHONY : Link.cpp.i
-
-Link.s: Link.cpp.s
-.PHONY : Link.s
-
-# target to generate assembly for a file
-Link.cpp.s:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/Link.cpp.s
-.PHONY : Link.cpp.s
-
-__/network/ARP.o: __/network/ARP.cpp.o
-.PHONY : __/network/ARP.o
-
-# target to build an object file
-__/network/ARP.cpp.o:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/__/network/ARP.cpp.o
-.PHONY : __/network/ARP.cpp.o
-
-__/network/ARP.i: __/network/ARP.cpp.i
-.PHONY : __/network/ARP.i
-
-# target to preprocess a source file
-__/network/ARP.cpp.i:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/__/network/ARP.cpp.i
-.PHONY : __/network/ARP.cpp.i
-
-__/network/ARP.s: __/network/ARP.cpp.s
-.PHONY : __/network/ARP.s
-
-# target to generate assembly for a file
-__/network/ARP.cpp.s:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/__/network/ARP.cpp.s
-.PHONY : __/network/ARP.cpp.s
-
-__/network/Neighbor.o: __/network/Neighbor.cpp.o
-.PHONY : __/network/Neighbor.o
-
-# target to build an object file
-__/network/Neighbor.cpp.o:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/__/network/Neighbor.cpp.o
-.PHONY : __/network/Neighbor.cpp.o
-
-__/network/Neighbor.i: __/network/Neighbor.cpp.i
-.PHONY : __/network/Neighbor.i
-
-# target to preprocess a source file
-__/network/Neighbor.cpp.i:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/__/network/Neighbor.cpp.i
-.PHONY : __/network/Neighbor.cpp.i
-
-__/network/Neighbor.s: __/network/Neighbor.cpp.s
-.PHONY : __/network/Neighbor.s
-
-# target to generate assembly for a file
-__/network/Neighbor.cpp.s:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/__/network/Neighbor.cpp.s
-.PHONY : __/network/Neighbor.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -219,20 +109,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... link"
 	@echo "... rebuild_cache"
-	@echo "... Hardware.o"
-	@echo "... Hardware.i"
-	@echo "... Hardware.s"
-	@echo "... Link.o"
-	@echo "... Link.i"
-	@echo "... Link.s"
-	@echo "... __/network/ARP.o"
-	@echo "... __/network/ARP.i"
-	@echo "... __/network/ARP.s"
-	@echo "... __/network/Neighbor.o"
-	@echo "... __/network/Neighbor.i"
-	@echo "... __/network/Neighbor.s"
 .PHONY : help
 
 

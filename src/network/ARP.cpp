@@ -12,6 +12,8 @@ void CARP::init()
         return;
 
     _link       = CLink::instance();
+    // Since the init() is called up to down order, ARP no need to call link's init() any more
+    //_link->init();
 
     _isInited   = true;
     debug("ARP initied.\n");

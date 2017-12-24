@@ -2,6 +2,7 @@
 //#ifndef NEIGHBOR_H_
 //#define NEIGHBOR_H_
 
+#include "Link.h"
 #include "arp.h"
 #include "packet.h"
 
@@ -28,6 +29,8 @@ public:
 
 private:
     bool _isInited;
+
+    CLink *_link;
     CARP *_arp;
 
     CNeighbor() : _isInited(false), _arp(nullptr)

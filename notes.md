@@ -123,6 +123,13 @@ For more see `injector.c`.
 For more, see `echoclient.c`, `echoserver.c`.
 
 
+## Implementations
+
+### IP
+
+Only implement slow fragment(there is no fragment queue).
+
+
 ## References
 
 [协议栈](http://blog.csdn.net/maochengtao/article/details/37729281)

@@ -7,7 +7,9 @@
 
 #include "ip_arp.h"
 
-/*Inject packet options*/
+/*
+ * Core structure used for networking, referece to Linux struct sk_buff design.
+ * */
 struct inject_packet {
     u_char                  *buf;   // packet data send buffer
     size_t                  size;   // size of data bufer
@@ -24,11 +26,81 @@ struct inject_packet {
 #define INJECT_OP_UDP(p) (p->oper == 'u' || p->oper == 'U')
     const u_char            *rcvbuf;// packet data receive buffer
 
-    inject_packet() {
-        buf = nullptr;
+    bool                    allocated;// True if this struct allocated by heap memory
+    unsigned int            len;    // Length of the actual data
+
+    unsigned char           *tail;  // Data tail
+    unsigned char           *end;   // Buffer end
+    unsigned char           *head,  // Buffer head
+                            *data;  // Data pointer
+
+    inject_packet() : size(0), allocated(false)
+    {
+        buf = head = tail = data = tail = nullptr;
         rcvbuf = nullptr;
-        size = 0;
     }
+
+    inject_packet(unsigned int size) : size(size), allocated(true)
+    {
+        buf = new unsigned char[size];
+
+        head = data = tail = buf;
+        end = buf + size;
+    }
+
+    ~inject_packet()
+    {
+        if (allocated && buf != nullptr) {
+            delete [] buf;
+            buf = nullptr;
+            head = data = tail = end = buf;
+        }
+    }
+
+    /*
+     * Reserve space of headroom.
+     *
+     * Increase the headroom of an empty &sk_buff by reducing the tail
+     * room. This is only allowed for an empty buffer.
+     * */
+    void reserve(unsigned int length)
+    {
+        data += length;
+        tail += length;
+    }
+
+    /*
+     * Add data length to a buffer.
+     *
+     * Extends the used data area of the buffer.
+     * */
+    void put(unsigned int length)
+    {
+        tail += length;
+        len += length;
+    }
+
+    /*
+     * Add data to the start of a buffer.
+     *
+     * Extends the used data area of the buffer at the buffer start.
+     * */
+    void push(unsigned int length)
+    {
+        data -= length;
+        len += length;
+    }
+
+    /*
+     * Remove data from the start of a buffer.
+     *
+     * */
+    void pull(unsigned int length)
+    {
+        data += length;
+        len -= length;
+    }
+
 };
 
 typedef struct inject_packet packet_t;

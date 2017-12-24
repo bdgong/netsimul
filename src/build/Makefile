@@ -142,17 +142,17 @@ sniffex/fast:
 .PHONY : sniffex/fast
 
 #=============================================================================
-# Target rules for targets named link
+# Target rules for targets named network
 
 # Build rule for target.
-link: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 link
-.PHONY : link
+network: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 network
+.PHONY : network
 
 # fast build rule for target.
-link/fast:
-	$(MAKE) -f link/CMakeFiles/link.dir/build.make link/CMakeFiles/link.dir/build
-.PHONY : link/fast
+network/fast:
+	$(MAKE) -f network/CMakeFiles/network.dir/build.make network/CMakeFiles/network.dir/build
+.PHONY : network/fast
 
 Util.o: Util.cpp.o
 .PHONY : Util.o
@@ -189,7 +189,7 @@ help:
 	@echo "... util"
 	@echo "... injector2"
 	@echo "... sniffex"
-	@echo "... link"
+	@echo "... network"
 	@echo "... Util.o"
 	@echo "... Util.i"
 	@echo "... Util.s"

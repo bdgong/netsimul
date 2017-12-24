@@ -107,7 +107,10 @@ void CLink::init()
     _hardware   = CHardware::instance();
     _hardware->init();
     _neigh      = CNeighbor::instance();
-    _neigh->init();
+    // Since this init() is called by CNeighbor's init(), it must be initialized
+    //   there is no need to call
+    //_neigh->init();
+
     _isInited   = true;
     debug("Link inited.\n");
 

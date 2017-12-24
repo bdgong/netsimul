@@ -22,7 +22,8 @@
 #include "udp.h"
 #include "netsimul.h"
 
-#include "Link.h"
+#include "Network.h"
+//#include "Link.h"
 //#include "Hardware.h"
 
 #define SIZE_SEND_BUFFER 4096
@@ -176,6 +177,13 @@ void encap_udp(pcap_t *handler, packet_t *packet)
 
 }
 
+void encap_udp2(pcap_t *handler, packet_t *packet)
+{
+
+    // 
+
+}
+
 uint16_t cksum_ip(const iphdr_t * const ip)
 {
 
@@ -225,8 +233,10 @@ void encap_ip(pcap_t *handler, packet_t *packet)
 
     //encap_ether(handler, packet);
 
-    CLink *link = CLink::instance();
-    link->send(packet);
+    CNetwork *network = CNetwork::instance();
+    network->send(packet);
+    //CLink *link = CLink::instance();
+    //link->send(packet);
 
     delete packet->buf;         // do free() [2]
 
@@ -406,8 +416,9 @@ void handle_user_input(pcap_t * handler)
 int main(int argc, char** argv) {
     //CHardware * hardware = CHardware::instance();
     //hardware->init();
-    CLink *link = CLink::instance();
-    link->init();
+    //CLink *link = CLink::instance();
+    //link->init();
+    CNetwork::instance()->init();
 
     int k = 2;
     while (k-- > 0) {

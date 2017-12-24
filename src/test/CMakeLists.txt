@@ -10,5 +10,5 @@ add_executable(sniffex ${SNIFFEX_SRCS})
 #message("LINK_SRCS: ${LINK_SRCS}")
 #message("NEIGHBOR_SRCS: ${NEIGHBOR_SRCS}")
 
-target_link_libraries(injector2 pcap link)
+target_link_libraries(injector2 network)
 target_link_libraries(sniffex pcap)
