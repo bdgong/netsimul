@@ -1,4 +1,5 @@
 #include "arp.h"
+#include "ether.h"
 
 #include "Util.h"
 
@@ -68,13 +69,13 @@ void CARP::sendDatagram(packet_t *packet)
 
 int CARP::cache(const struct in_addr &key, packet_t *packet)
 {
-    packet_t copy = *packet;
-    copy.buf = new u_char[packet->size];
-    memmove(copy.buf, packet->buf, packet->size);   // in case overlap, use memmove instead
+    packet_t copy(*packet);
+    //copy.buf = new u_char[packet->size];
+    //memmove(copy.buf, packet->buf, packet->size);   // in case overlap, use memmove instead
 
     std::list<ARPQueueItem> & kList = _arpQueue[key.s_addr];
     ARPQueueItem item{
-        .packet = std::move(copy)               // save copy time by move
+        .packet = copy
     };
     kList.push_back(item);
 
@@ -95,8 +96,17 @@ void CARP::sendARP(const struct in_addr &addr, packet_t *packet)
     memset(&arp.tha, 0, ETH_ALEN);
     arp.tpa     = addr.s_addr;
 
-    packet_t pkt = *packet;
-    pkt.arphdr  = arp;
+    packet_t pkt(SIZE_ETHERNET + cARPHeaderLen);
+    pkt.sha     = packet->sha;
+    pkt.dha     = packet->dha;
+
+    pkt.reserve(SIZE_ETHERNET);
+
+    memcpy(pkt.data, &arp, cARPHeaderLen);
+    pkt.put( cARPHeaderLen );
+
+    //packet_t &pkt = *packet;
+    //pkt.arphdr  = arp;
     pkt.ept     = ETH_P_ARP;
 
     _link->transmit(&pkt);
@@ -169,9 +179,9 @@ void CARP::processPendingDatagrams(in_addr_t addr)
             debug(DBG_DEFAULT, "<ARP> process pending datagrams for %s...", inet_ntoa(*(struct in_addr*)&addr));
             log("<ARP> process pending datagrams for %s...\n", inet_ntoa(*(struct in_addr*)&addr));
             _link->transmit(&item.packet);
-            delete[] item.packet.buf;
-            item.packet.size = 0;
-            item.packet.buf = nullptr;
+            //delete[] item.packet.buf;
+            //item.packet.size = 0;
+            //item.packet.buf = nullptr;
         }
 
         _arpQueue.erase(it);

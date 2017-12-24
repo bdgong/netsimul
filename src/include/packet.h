@@ -4,6 +4,8 @@
 
 #include <arpa/inet.h>
 #include <netinet/ether.h>
+#include <cstring>
+#include <cstdio>           // use printf to see how many copy used
 
 #include "ip_arp.h"
 
@@ -34,18 +36,54 @@ struct inject_packet {
     unsigned char           *head,  // Buffer head
                             *data;  // Data pointer
 
-    inject_packet() : size(0), allocated(false)
+    inject_packet() : size(0), len(0), allocated(false)
     {
         buf = head = tail = data = tail = nullptr;
         rcvbuf = nullptr;
     }
 
-    inject_packet(unsigned int size) : size(size), allocated(true)
+    inject_packet(unsigned int size) : size(size), len(0), allocated(true)
     {
-        buf = new unsigned char[size];
+        buf = new unsigned char[size]{0};
 
         head = data = tail = buf;
         end = buf + size;
+    }
+
+    /*
+     * Copy constructor.
+     *
+     * So, remember to use reference& in any where you can.
+     * */
+    inject_packet (const inject_packet &cp)
+    {
+
+        buf = new unsigned char[cp.size]{0};
+
+        head = data = tail = buf;
+        end = buf + cp.size;
+
+        data = head + (cp.data - cp.head);
+        tail = head + (cp.tail - cp.head);
+
+        len     = cp.len;
+        size    = cp.size;
+        saddr   = cp.saddr;
+        daddr   = cp.daddr;
+        sha     = cp.sha;
+        dha     = cp.dha;
+        sport   = cp.sport;
+        dport   = cp.dport;
+        oper    = cp.oper;
+        ept     = cp.ept;
+        arphdr  = cp.arphdr;
+
+        allocated = cp.allocated;
+
+        memmove(buf, cp.buf, cp.size);
+
+        printf("**Copied packet**\n");
+
     }
 
     ~inject_packet()
@@ -100,6 +138,7 @@ struct inject_packet {
         data += length;
         len -= length;
     }
+
 
 };
 

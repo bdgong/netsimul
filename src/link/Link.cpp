@@ -17,50 +17,60 @@ void CLink::send(packet_t *packet)
 
 void CLink::transmit(packet_t *packet)
 {
+
+    if ( !(packet->ept == ETH_P_ARP || packet->ept == ETH_P_IP) ) {
+        error("Unsupported ethernet packet.\n");
+        return ;
+    }
+
     ether_header etherhdr;
     memcpy(&etherhdr.ether_shost, &packet->sha, ETH_ALEN);
     memcpy(&etherhdr.ether_dhost, &packet->dha, ETH_ALEN);
     etherhdr.ether_type     = htons(packet->ept); 
 
-    u_int16_t size = 0;
-    u_int8_t *buf = nullptr;
-    u_int16_t nFrameData = 0;
-    u_int8_t *pFrameData = nullptr;
-    switch (packet->ept) {
-        case ETH_P_ARP:
-            nFrameData = cARPHeaderLen;
-            pFrameData = (u_int8_t *)&packet->arphdr;
-            //size = ETH_HLEN + cARPHeaderLen + ETH_FCS_LEN;
-            //if (size < ETH_ZLEN) 
-                //size = ETH_ZLEN;
-            //buf = new u_int8_t[size]{0};
-            //memcpy(buf, &etherhdr, ETH_HLEN);
-            //memcpy(buf + ETH_HLEN, &(packet->arphdr), cARPHeaderLen);
-            break;
-        case ETH_P_IP:
-            nFrameData = packet->size;
-            pFrameData = packet->buf;
-            //size = ETH_HLEN + packet->size + ETH_FCS_LEN;
-            //if (size < ETH_ZLEN) 
-                //size = ETH_ZLEN;
-            //buf = new u_int8_t[size]{0};
-            //memcpy(buf, &etherhdr, ETH_HLEN);
-            //memcpy(buf + ETH_HLEN, packet->buf, packet->size);
-            break;
-        default:
-            error("Not supported ethernet packet type: %d.\n", packet->ept);
-            return ;
-    }
+    packet->push(ETH_HLEN);
+    memcpy(packet->data, &etherhdr, ETH_HLEN);
+    _hardware->transmit(packet->data, packet->len);
 
-    size = ETH_HLEN + nFrameData + ETH_FCS_LEN;
-    if (size < ETH_ZLEN) 
-        size = ETH_ZLEN;
-    buf = new u_int8_t[size]{0};
-    memcpy(buf, &etherhdr, ETH_HLEN);
-    memcpy(buf + ETH_HLEN, pFrameData, nFrameData);
+    //u_int16_t size = 0;
+    //u_int8_t *buf = nullptr;
+    //u_int16_t nFrameData = 0;
+    //u_int8_t *pFrameData = nullptr;
+    //switch (packet->ept) {
+        //case ETH_P_ARP:
+            //nFrameData = cARPHeaderLen;
+            //pFrameData = (u_int8_t *)&packet->arphdr;
+            ////size = ETH_HLEN + cARPHeaderLen + ETH_FCS_LEN;
+            ////if (size < ETH_ZLEN) 
+                ////size = ETH_ZLEN;
+            ////buf = new u_int8_t[size]{0};
+            ////memcpy(buf, &etherhdr, ETH_HLEN);
+            ////memcpy(buf + ETH_HLEN, &(packet->arphdr), cARPHeaderLen);
+            //break;
+        //case ETH_P_IP:
+            //nFrameData = packet->size;
+            //pFrameData = packet->buf;
+            ////size = ETH_HLEN + packet->size + ETH_FCS_LEN;
+            ////if (size < ETH_ZLEN) 
+                ////size = ETH_ZLEN;
+            ////buf = new u_int8_t[size]{0};
+            ////memcpy(buf, &etherhdr, ETH_HLEN);
+            ////memcpy(buf + ETH_HLEN, packet->buf, packet->size);
+            //break;
+        //default:
+            //error("Not supported ethernet packet type: %d.\n", packet->ept);
+            //return ;
+    //}
 
-    _hardware->transmit(buf, size);
-    delete[] buf;
+    //size = ETH_HLEN + nFrameData + ETH_FCS_LEN;
+    //if (size < ETH_ZLEN) 
+        //size = ETH_ZLEN;
+    //buf = new u_int8_t[size]{0};
+    //memcpy(buf, &etherhdr, ETH_HLEN);
+    //memcpy(buf + ETH_HLEN, pFrameData, nFrameData);
+
+    //_hardware->transmit(buf, size);
+    //delete[] buf;
 
 }
 

@@ -180,7 +180,47 @@ void encap_udp(pcap_t *handler, packet_t *packet)
 void encap_udp2(pcap_t *handler, packet_t *packet)
 {
 
-    // 
+    // make a copy of original data
+    int sizeUDPHdr = 8;         // size in bytes
+    int sizeIPHdr = 20;
+    int sizeEtherHdr = 14;
+    int sizeHdr = sizeUDPHdr + sizeIPHdr + sizeEtherHdr;
+
+    // allocate more space include header
+    packet_t pkt(sizeHdr + packet->size);
+    pkt.saddr = packet->saddr;
+    pkt.daddr = packet->daddr;
+    pkt.sport = packet->sport;
+    pkt.dport = packet->dport;
+    pkt.oper  = packet->oper;
+
+    // reserve space for header
+    pkt.reserve(sizeHdr);
+
+    // copy payload
+    memcpy(pkt.data, packet->buf, packet->size);
+    pkt.len     = packet->size;
+
+    // prepare UDP header
+    udphdr_t udp; 
+    size_t size_new = SIZE_UDP + packet->size;
+
+    udp.uh_sport    = htons(packet->sport);
+    udp.uh_dport    = htons(packet->dport);
+    udp.uh_len      = htons(size_new);
+    udp.uh_sum      = 0;
+
+    udp.uh_sum      = cksum_udp(&udp, packet);
+
+    // push UDP header space
+    pkt.push(SIZE_UDP);
+
+    // copy UDP header
+    memcpy(pkt.data, &udp, SIZE_UDP);
+
+    // call network to do next work
+    CNetwork *network = CNetwork::instance();
+    network->send(&pkt);
 
 }
 
@@ -233,8 +273,8 @@ void encap_ip(pcap_t *handler, packet_t *packet)
 
     //encap_ether(handler, packet);
 
-    CNetwork *network = CNetwork::instance();
-    network->send(packet);
+    //CNetwork *network = CNetwork::instance();
+    //network->send(packet);
     //CLink *link = CLink::instance();
     //link->send(packet);
 
@@ -295,8 +335,8 @@ void handle_inject(pcap_t *handler, packet_t *packet)
         encap_tcp(handler, packet);
     }
     else {
-        printf("\nInject with UDP...\n");
-        encap_udp(handler, packet);
+        printf("\nInject with UDP2...\n");
+        encap_udp2(handler, packet);
     }
 
 }
