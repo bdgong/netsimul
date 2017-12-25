@@ -26,7 +26,7 @@ struct inject_packet {
     ARPHdr                  arphdr; // arp header 
 #define INJECT_OP_TCP(p) (p->oper == 't' || p->oper == 'T')
 #define INJECT_OP_UDP(p) (p->oper == 'u' || p->oper == 'U')
-    const u_char            *rcvbuf;// packet data receive buffer
+    //const u_char            *rcvbuf;// packet data receive buffer
 
     bool                    allocated;// True if this struct allocated by heap memory
     unsigned int            len;    // Length of the actual data
@@ -39,7 +39,7 @@ struct inject_packet {
     inject_packet() : size(0), len(0), allocated(false)
     {
         buf = head = tail = data = tail = nullptr;
-        rcvbuf = nullptr;
+        //rcvbuf = nullptr;
     }
 
     inject_packet(unsigned int size) : size(size), len(0), allocated(true)
@@ -92,7 +92,9 @@ struct inject_packet {
             delete [] buf;
             buf = nullptr;
             head = data = tail = end = buf;
+            size = len = 0;
         }
+
     }
 
     /*

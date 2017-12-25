@@ -77,11 +77,11 @@ void CLink::transmit(packet_t *packet)
 void CLink::received(const u_char *bytes, size_t size)
 {
     //debug("<Link> received:\n");
-    packet_t packet;
-    packet.rcvbuf   = bytes + ETH_HLEN;
-    packet.size     = size - ETH_HLEN;
+    packet_t packet(size);
+    packet.put(size);
+    memcpy(packet.data, bytes, size);
 
-    struct ether_header *etherhdr = (struct ether_header *)bytes;
+    struct ether_header *etherhdr = (struct ether_header *)packet.data;
     memcpy(&packet.dha, &etherhdr->ether_dhost, ETH_ALEN);
     memcpy(&packet.sha, &etherhdr->ether_shost, ETH_ALEN);
     packet.ept  = ntohs(etherhdr->ether_type);
@@ -91,6 +91,7 @@ void CLink::received(const u_char *bytes, size_t size)
     debug("Destination MAC: %s\n", ether_ntoa(&packet.dha));
     debug("Sender      MAC: %s\n", ether_ntoa(&packet.sha));
 
+    packet.pull(ETH_HLEN);
     switch (packet.ept) {
         case ETH_P_ARP:
             _neigh->received(&packet);

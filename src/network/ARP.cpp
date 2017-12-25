@@ -27,10 +27,11 @@ CARP::~CARP()
     for (auto &pair : _arpQueue) {
         auto & list = pair.second;
         for (auto &item : list) {
-            delete item.packet.buf;
-            item.packet.buf = nullptr;
+            delete item.packet;         // delete [1]
+            item.packet = nullptr;
         }
     }
+
 }
 
 void CARP::sendDatagram(packet_t *packet)
@@ -69,14 +70,13 @@ void CARP::sendDatagram(packet_t *packet)
 
 int CARP::cache(const struct in_addr &key, packet_t *packet)
 {
-    packet_t copy(*packet);
+    //packet_t copy(*packet);
     //copy.buf = new u_char[packet->size];
     //memmove(copy.buf, packet->buf, packet->size);   // in case overlap, use memmove instead
 
     std::list<ARPQueueItem> & kList = _arpQueue[key.s_addr];
-    ARPQueueItem item{
-        .packet = copy
-    };
+    ARPQueueItem item;
+    item.packet = new packet_t(*packet);            // new [1]
     kList.push_back(item);
 
     return kList.size() - 1;
@@ -101,9 +101,8 @@ void CARP::sendARP(const struct in_addr &addr, packet_t *packet)
     pkt.dha     = packet->dha;
 
     pkt.reserve(SIZE_ETHERNET);
-
-    memcpy(pkt.data, &arp, cARPHeaderLen);
     pkt.put( cARPHeaderLen );
+    memcpy(pkt.data, &arp, cARPHeaderLen);
 
     //packet_t &pkt = *packet;
     //pkt.arphdr  = arp;
@@ -127,8 +126,7 @@ void CARP::cache(const ARPHdr *arphdr)
 void CARP::recvARP(packet_t *packet)
 {
     debug("<ARP> received.\n");
-
-    ARPHdr *arphdr = (ARPHdr *)packet->rcvbuf;
+    ARPHdr *arphdr = (ARPHdr *)packet->data;
 
     if (ntohs(arphdr->htype) == ARPHRD_ETHER && ntohs(arphdr->ptype) == ETH_P_IP) {
         u_int16_t oper = ntohs(arphdr->oper);
@@ -178,10 +176,8 @@ void CARP::processPendingDatagrams(in_addr_t addr)
         for (auto &item : itemList) {
             debug(DBG_DEFAULT, "<ARP> process pending datagrams for %s...", inet_ntoa(*(struct in_addr*)&addr));
             log("<ARP> process pending datagrams for %s...\n", inet_ntoa(*(struct in_addr*)&addr));
-            _link->transmit(&item.packet);
-            //delete[] item.packet.buf;
-            //item.packet.size = 0;
-            //item.packet.buf = nullptr;
+            _link->transmit(item.packet);
+            delete item.packet;         // delete [1]
         }
 
         _arpQueue.erase(it);
@@ -191,8 +187,8 @@ void CARP::processPendingDatagrams(in_addr_t addr)
 
 void CARP::replyARP(const ARPHdr *arphdr)
 {
-    packet_t packet; 
-    ARPHdr &arp = packet.arphdr; 
+    packet_t packet(ETH_HLEN + cARPHeaderLen); 
+    ARPHdr arp; 
 
     arp = *arphdr;
     arp.oper    = htons(ARPOP_REPLY);
@@ -206,6 +202,10 @@ void CARP::replyARP(const ARPHdr *arphdr)
     memcpy(&packet.dha, &arphdr->sha, ETH_ALEN);
     memcpy(&packet.sha, &arp.sha, ETH_ALEN);
     packet.ept  = ETH_P_ARP;
+
+    packet.reserve(ETH_HLEN);
+    packet.put(cARPHeaderLen);
+    memcpy(packet.data, &arp, cARPHeaderLen);
 
     struct in_addr tpa {.s_addr = arp.tpa };
     debug(DBG_DEFAULT, "<ARP> reply to %s.", inet_ntoa(tpa));

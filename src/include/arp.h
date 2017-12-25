@@ -38,7 +38,7 @@ typedef std::map<in_addr_t, ARPTableItem> ARPTable;
  * struct ARPQueueItem - Cache pending datagrams
  * */
 typedef struct arp_queue_item { 
-    packet_t packet;
+    packet_t *packet;
 } ARPQueueItem;
 
 typedef std::map<in_addr_t, std::list<ARPQueueItem> > ARPQueue;
