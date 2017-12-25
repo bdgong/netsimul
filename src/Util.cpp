@@ -19,6 +19,7 @@ void debug(const char *fmt, ...)
     va_start(va, fmt);
     vfprintf(debugOut, fmt, va); 
     va_end(va);
+    fflush(debugOut);
 #endif 
 }
 
@@ -33,6 +34,7 @@ void debug(int flag, const char *fmt, ...)
     va_end(va);
     if (flag & DBG_NEWLINE) 
         fprintf(debugOut, "\n");
+    fflush(debugOut);
 #endif 
 }
 

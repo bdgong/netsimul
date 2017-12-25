@@ -35,6 +35,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/bdg/share/public/project/netsimul/src/build/test/cmake_install.cmake")
+  include("/home/bdg/share/public/project/netsimul/src/build/transport/cmake_install.cmake")
   include("/home/bdg/share/public/project/netsimul/src/build/network/cmake_install.cmake")
   include("/home/bdg/share/public/project/netsimul/src/build/link/cmake_install.cmake")
 

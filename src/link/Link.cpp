@@ -97,7 +97,7 @@ void CLink::received(const u_char *bytes, size_t size)
             _neigh->received(&packet);
             break;
         case ETH_P_IP:
-            debug("not handled\n");
+            _network->received(&packet);
             break;
         default:
             return ;
@@ -121,6 +121,7 @@ void CLink::init()
     // Since this init() is called by CNeighbor's init(), it must be initialized
     //   there is no need to call
     //_neigh->init();
+    _network = CNetwork::instance();
 
     _isInited   = true;
     debug("Link inited.\n");

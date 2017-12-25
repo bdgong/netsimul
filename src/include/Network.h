@@ -1,7 +1,11 @@
 #pragma once
 
-#include "packet.h"
 #include "Neighbor.h"
+#include "UDP.h"
+#include "packet.h"
+#include "ip.h"
+
+class CNeighbor;
 
 class CNetwork
 {
@@ -30,9 +34,24 @@ public:
     /*
      * Deliver received packet to right protocol handler.
      *
-     * @pkt The received packet.
+     * @pkt The packet to deliver.
      * */
     void deliver(packet_t *pkt);
+
+    /*
+     * Received a packet from L2
+     *
+     * @pkt The received packet
+     * */
+    void received(packet_t *pkt);
+
+    /*
+     * Do defragmentation
+     *
+     * @iphdr The ip header
+     * @pkt The packet to defragment
+     * */
+    void defragment(iphdr_t *iphdr, packet_t *pkt);
 
 private:
     //

@@ -44,7 +44,6 @@ typedef struct arp_queue_item {
 typedef std::map<in_addr_t, std::list<ARPQueueItem> > ARPQueue;
 
 class CLink;
-class CHardware;
 
 class CARP 
 {

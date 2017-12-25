@@ -22,10 +22,11 @@ struct inject_packet {
     uint16_t                sport,  // source port
                             dport;  // destination port
     u_char                  oper;   // operation code
-    uint16_t                ept;    // ethernet packet type
-    ARPHdr                  arphdr; // arp header 
+    unsigned char           proto;  // protocol
 #define INJECT_OP_TCP(p) (p->oper == 't' || p->oper == 'T')
 #define INJECT_OP_UDP(p) (p->oper == 'u' || p->oper == 'U')
+    uint16_t                ept;    // ethernet packet type
+    ARPHdr                  arphdr; // arp header 
     //const u_char            *rcvbuf;// packet data receive buffer
 
     bool                    allocated;// True if this struct allocated by heap memory
@@ -75,6 +76,7 @@ struct inject_packet {
         sport   = cp.sport;
         dport   = cp.dport;
         oper    = cp.oper;
+        proto   = cp.proto;
         ept     = cp.ept;
         arphdr  = cp.arphdr;
 

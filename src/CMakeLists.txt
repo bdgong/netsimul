@@ -11,6 +11,7 @@ add_library(util SHARED Util.cpp)
 
 add_subdirectory(test)
 
+add_subdirectory(transport)
 add_subdirectory(network)
 add_subdirectory(link)
 

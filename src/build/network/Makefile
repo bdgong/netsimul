@@ -236,6 +236,30 @@ __/link/Link.cpp.s:
 	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f network/CMakeFiles/network.dir/build.make network/CMakeFiles/network.dir/__/link/Link.cpp.s
 .PHONY : __/link/Link.cpp.s
 
+__/transport/UDP.o: __/transport/UDP.cpp.o
+.PHONY : __/transport/UDP.o
+
+# target to build an object file
+__/transport/UDP.cpp.o:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f network/CMakeFiles/network.dir/build.make network/CMakeFiles/network.dir/__/transport/UDP.cpp.o
+.PHONY : __/transport/UDP.cpp.o
+
+__/transport/UDP.i: __/transport/UDP.cpp.i
+.PHONY : __/transport/UDP.i
+
+# target to preprocess a source file
+__/transport/UDP.cpp.i:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f network/CMakeFiles/network.dir/build.make network/CMakeFiles/network.dir/__/transport/UDP.cpp.i
+.PHONY : __/transport/UDP.cpp.i
+
+__/transport/UDP.s: __/transport/UDP.cpp.s
+.PHONY : __/transport/UDP.s
+
+# target to generate assembly for a file
+__/transport/UDP.cpp.s:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f network/CMakeFiles/network.dir/build.make network/CMakeFiles/network.dir/__/transport/UDP.cpp.s
+.PHONY : __/transport/UDP.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -260,6 +284,9 @@ help:
 	@echo "... __/link/Link.o"
 	@echo "... __/link/Link.i"
 	@echo "... __/link/Link.s"
+	@echo "... __/transport/UDP.o"
+	@echo "... __/transport/UDP.i"
+	@echo "... __/transport/UDP.s"
 .PHONY : help
 
 

@@ -17,29 +17,177 @@ ARP initied.
 Neighbor initied.
 DEBUG: <Network> inited
 
-<Hardware> received packet (86 bytes).
+<Hardware> received packet (54 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 14:14:4b:75:fc:7f
 Sender      MAC: f0:76:1c:3f:47:49
-not handled
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 180.97.33.108
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
 
-<Hardware> received packet (250 bytes).
+<Hardware> received packet (60 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: f0:76:1c:3f:47:49
 Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+DEBUG: <Network> received.
+       From: 180.97.33.108
+         To: 211.67.24.159
+   Protocol: TCP (006)
 
-<Hardware> received packet (86 bytes).
+<Hardware> received packet (54 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 14:14:4b:75:fc:7f
 Sender      MAC: f0:76:1c:3f:47:49
-not handled
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.227
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
 
-<Hardware> received packet (143 bytes).
+<Hardware> received packet (60 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: f0:76:1c:3f:47:49
 Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+DEBUG: <Network> received.
+       From: 58.205.221.227
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.227
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.227
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.227
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.227
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 10:c3:7b:4a:da:16
+DEBUG: <Network> received.
+       From: 211.67.24.173
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: f8:32:e4:8c:b:61
+DEBUG: <Network> received.
+       From: 211.67.24.165
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
 
 <Hardware> received packet (60 bytes).
 Network Layer Protocol: Unknown (0027)
@@ -47,255 +195,458 @@ Destination MAC: 1:80:c2:0:0:0
 Sender      MAC: 14:14:4b:59:1b:c2
 
 <Hardware> received packet (86 bytes).
-Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
-
-<Hardware> received packet (66 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (86 bytes).
-Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
-
-<Hardware> received packet (66 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (132 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 14:14:4b:75:fc:7f
 Sender      MAC: f0:76:1c:3f:47:49
-not handled
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 202.114.0.131
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
-<Hardware> received packet (196 bytes).
+<Hardware> received packet (156 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: f0:76:1c:3f:47:49
 Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+DEBUG: <Network> received.
+       From: 202.114.0.131
+         To: 211.67.24.159
+   Protocol: UDP (017)
+DEBUG: <UDP> received.
+DEBUG: Received data length=64836 : 
+=É:Êr
 
-<Hardware> received packet (132 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
 
-<Hardware> received packet (181 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 14:14:4b:75:fc:7f
-not handled
-
-<Hardware> received packet (84 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
-
-<Hardware> received packet (141 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 14:14:4b:75:fc:7f
-not handled
-
-<Hardware> received packet (85 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
-
-<Hardware> received packet (142 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 14:14:4b:75:fc:7f
-not handled
-
-<Hardware> received packet (86 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
-
-<Hardware> received packet (143 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 14:14:4b:75:fc:7f
-not handled
-
-<Hardware> received packet (60 bytes).
-Network Layer Protocol: Unknown (888E)
-Destination MAC: 0:1a:a9:17:ff:ff
-Sender      MAC: cc:81:da:19:9a:5b
-
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (60 bytes).
-Network Layer Protocol: ARP (0806)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: ac:1f:6b:2e:49:8f
-<ARP> received.
-Sender      IP: 211.67.26.21, MAC: ac:1f:6b:2e:49:8f
-Destination IP: 211.67.27.254, MAC: 0:0:0:0:0:0
-DEBUG: ARP not to this device, ignore.
-
-<Hardware> received packet (312 bytes).
+<Hardware> received packet (215 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
+Sender      MAC: 10:c3:7b:4a:da:16
+DEBUG: <Network> received.
+       From: 211.67.24.173
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
-<Hardware> received packet (324 bytes).
+<Hardware> received packet (215 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
+Sender      MAC: f8:32:e4:8c:b:61
+DEBUG: <Network> received.
+       From: 211.67.24.165
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
-<Hardware> received packet (92 bytes).
+<Hardware> received packet (54 bytes).
 Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 42.81.4.78
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 42.81.4.78
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.31
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.31
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 112.65.69.51
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 112.65.69.51
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (175 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 40:16:7e:ab:69:4e
+DEBUG: <Network> received.
+       From: 211.67.25.202
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.227
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.227
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 10:c3:7b:4a:da:16
+DEBUG: <Network> received.
+       From: 211.67.24.173
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: f8:32:e4:8c:b:61
+DEBUG: <Network> received.
+       From: 211.67.24.165
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.24
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.24
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.29
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.24
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.29
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.24
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.199.191.49
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.199.191.49
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.199.191.49
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.199.191.49
+         To: 211.67.24.159
+   Protocol: TCP (006)
 
 <Hardware> received packet (60 bytes).
 Network Layer Protocol: Unknown (0027)
 Destination MAC: 1:80:c2:0:0:0
 Sender      MAC: 14:14:4b:59:1b:c2
 
-<Hardware> received packet (86 bytes).
+<Hardware> received packet (215 bytes).
 Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
-
-<Hardware> received packet (143 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 14:14:4b:75:fc:7f
-not handled
-
-<Hardware> received packet (85 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
-
-<Hardware> received packet (142 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 14:14:4b:75:fc:7f
-not handled
-
-<Hardware> received packet (88 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: f8:32:e4:8c:b:61
+DEBUG: <Network> received.
+       From: 211.67.24.165
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
 <Hardware> received packet (145 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: d4:3a:65:6:eb:1
 
-<Hardware> received packet (84 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
 
-<Hardware> received packet (139 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+<Hardware> received packet (148 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: 14:dd:a9:78:ef:40
 
-<Hardware> received packet (384 bytes).
+<Hardware> received packet (145 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: d4:3a:65:6:eb:1
+
+<Hardware> received packet (148 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: 20:89:84:6d:9e:55
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (175 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
-
-<Hardware> received packet (376 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
-
-<Hardware> received packet (300 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
-
-<Hardware> received packet (348 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
-
-<Hardware> received packet (380 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
-
-<Hardware> received packet (320 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
-
-<Hardware> received packet (378 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
+Sender      MAC: 40:16:7e:ab:69:4e
+DEBUG: <Network> received.
+       From: 211.67.25.202
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 No cache for: 211.67.27.254, send ARP.
 DEBUG: Transmited packet to network (42 bytes).
 
-<Hardware> received packet (372 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 88:25:93:64:e:9a
-not handled
-
 <Hardware> received packet (86 bytes).
 Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: ac:1f:6b:21:a4:52
 
-<Hardware> received packet (66 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (86 bytes).
+<Hardware> received packet (145 bytes).
 Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: d4:3a:65:6:eb:1
 
-<Hardware> received packet (66 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
 
 <Hardware> received packet (60 bytes).
 Network Layer Protocol: ARP (0806)
@@ -306,307 +657,1052 @@ Sender      IP: 211.67.27.254, MAC: 14:14:4b:75:fc:7f
 Destination IP: 211.67.24.159, MAC: f0:76:1c:3f:47:49
 DEBUG: arp reply.  cache and process.
 DEBUG: <ARP> process pending datagrams for 211.67.27.254...
-DEBUG: Transmited packet to network (51 bytes).
+DEBUG: Transmited packet to network (46 bytes).
 
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 10:c3:7b:4a:d8:6f
 
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: ac:1f:6b:21:a4:52
 
-<Hardware> received packet (60 bytes).
-Network Layer Protocol: Unknown (0027)
-Destination MAC: 1:80:c2:0:0:0
-Sender      MAC: 14:14:4b:59:1b:c2
-
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (79 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 20:89:84:6d:9e:55
-not handled
-
-<Hardware> received packet (216 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 38:d5:47:12:75:5c
-not handled
-
-<Hardware> received packet (90 bytes).
-Network Layer Protocol: Unknown (004C)
-Destination MAC: 1:d0:f8:0:0:8
-Sender      MAC: 14:14:4b:75:fc:7e
-
-<Hardware> received packet (85 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
-
-<Hardware> received packet (142 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: f0:76:1c:3f:47:49
-Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+<Hardware> received packet (98 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: c:c4:7a:1b:e4:e1
 
 <Hardware> received packet (86 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 14:14:4b:75:fc:7f
 Sender      MAC: f0:76:1c:3f:47:49
-not handled
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 202.114.0.131
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
 <Hardware> received packet (143 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: f0:76:1c:3f:47:49
 Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+DEBUG: <Network> received.
+       From: 202.114.0.131
+         To: 211.67.24.159
+   Protocol: UDP (017)
+DEBUG: <UDP> received.
+DEBUG: Received data length=64837 : 
+=ÉFÊr
 
-<Hardware> received packet (179 bytes).
+
+<Hardware> received packet (175 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 14:dd:a9:78:ef:40
-not handled
+Sender      MAC: 40:16:7e:ab:69:4e
+DEBUG: <Network> received.
+       From: 211.67.25.202
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (74 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 20:89:84:6d:9e:55
+DEBUG: <Network> received.
+       From: 211.67.24.90
+         To: 211.67.24.159
+   Protocol: ICMP (001)
+
+<Hardware> received packet (74 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 10:c3:7b:4a:d7:c3
+DEBUG: <Network> received.
+       From: 211.67.26.30
+         To: 211.67.24.159
+   Protocol: ICMP (001)
+
+<Hardware> received packet (74 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 10:c3:7b:4a:d7:c3
+DEBUG: <Network> received.
+       From: 211.67.26.30
+         To: 211.67.24.159
+   Protocol: ICMP (001)
+
+<Hardware> received packet (74 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 10:c3:7b:4a:d7:c3
+DEBUG: <Network> received.
+       From: 211.67.26.30
+         To: 211.67.24.159
+   Protocol: ICMP (001)
+
+<Hardware> received packet (74 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: d4:3a:65:6:eb:1
+DEBUG: <Network> received.
+       From: 211.67.26.160
+         To: 211.67.24.159
+   Protocol: ICMP (001)
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 10:c3:7b:4a:d8:6f
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: ac:1f:6b:21:a4:52
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 9c:5c:8e:7b:86:1b
+DEBUG: <Network> received.
+       From: 211.67.24.160
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: Unknown (0027)
+Destination MAC: 1:80:c2:0:0:0
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (393 bytes).
+Network Layer Protocol: Unknown (88CC)
+Destination MAC: 1:80:c2:0:0:e
+Sender      MAC: 14:14:4b:59:1b:c2
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 10:c3:7b:4a:d8:6f
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: ac:1f:6b:21:a4:52
 
 <Hardware> received packet (90 bytes).
 Network Layer Protocol: Unknown (004C)
 Destination MAC: 1:d0:f8:0:0:8
 Sender      MAC: 14:14:4b:75:fc:7e
 
-<Hardware> received packet (86 bytes).
-Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
-
-<Hardware> received packet (66 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (86 bytes).
-Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
-
-<Hardware> received packet (66 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (60 bytes).
-Network Layer Protocol: Unknown (888E)
-Destination MAC: 0:1a:a9:17:ff:ff
-Sender      MAC: 0:11:22:33:44:5b
-
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (216 bytes).
+<Hardware> received packet (215 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 38:d5:47:12:75:5c
-not handled
+Sender      MAC: 9c:5c:8e:7b:86:1b
+DEBUG: <Network> received.
+       From: 211.67.24.160
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 20:89:84:6d:9e:55
+DEBUG: <Network> received.
+       From: 211.67.24.90
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 180.97.33.108
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
 
 <Hardware> received packet (60 bytes).
-Network Layer Protocol: Unknown (0027)
-Destination MAC: 1:80:c2:0:0:0
-Sender      MAC: 14:14:4b:59:1b:c2
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 180.97.33.108
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (98 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: ac:1f:6b:2e:49:e6
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 180.97.33.108
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 180.97.33.108
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 10:c3:7b:4a:d8:6f
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.227
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.227
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.227
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.227
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.227
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.227
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: ac:1f:6b:21:a4:52
+
+<Hardware> received packet (112 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 101.69.206.7
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 101.69.206.7
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (112 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 101.69.206.7
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 38:d5:47:af:70:cc
+DEBUG: <Network> received.
+       From: 211.67.25.240
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (66 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 101.69.206.7
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (145 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:0:1:0:2
+Sender      MAC: d4:3a:65:6:eb:1
+
+<Hardware> received packet (90 bytes).
+Network Layer Protocol: Unknown (004C)
+Destination MAC: 1:d0:f8:0:0:8
+Sender      MAC: 14:14:4b:75:fc:7e
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 9c:5c:8e:7b:86:1b
+DEBUG: <Network> received.
+       From: 211.67.24.160
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 20:89:84:6d:9e:55
+DEBUG: <Network> received.
+       From: 211.67.24.90
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
 <Hardware> received packet (85 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 14:14:4b:75:fc:7f
 Sender      MAC: f0:76:1c:3f:47:49
-not handled
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 202.114.0.131
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
-<Hardware> received packet (142 bytes).
+<Hardware> received packet (144 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: f0:76:1c:3f:47:49
 Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+DEBUG: <Network> received.
+       From: 202.114.0.131
+         To: 211.67.24.159
+   Protocol: UDP (017)
+DEBUG: <UDP> received.
+DEBUG: Received data length=64838 : 
+=ÉDÊr
 
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (216 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 38:d5:47:12:75:5c
-not handled
-
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (86 bytes).
-Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
-
-<Hardware> received packet (66 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (216 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 38:d5:47:12:75:5c
-not handled
-
-<Hardware> received packet (86 bytes).
-Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
-
-<Hardware> received packet (66 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (86 bytes).
-Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:ff:75:fc:7f
-Sender      MAC: 10:c3:7b:4a:d8:88
 
 <Hardware> received packet (60 bytes).
 Network Layer Protocol: Unknown (0027)
 Destination MAC: 1:80:c2:0:0:0
 Sender      MAC: 14:14:4b:59:1b:c2
 
-<Hardware> received packet (179 bytes).
+<Hardware> received packet (175 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 14:dd:a9:78:ef:40
-not handled
-
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (216 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 14:dd:a9:78:ef:40
-not handled
+Sender      MAC: 40:16:7e:ab:69:4e
+DEBUG: <Network> received.
+       From: 211.67.25.202
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
 <Hardware> received packet (86 bytes).
 Network Layer Protocol: IPv6 (86DD)
 Destination MAC: 33:33:ff:75:fc:7f
-Sender      MAC: 10:c3:7b:4a:d8:88
+Sender      MAC: 10:c3:7b:4a:d8:6f
+
+<Hardware> received packet (86 bytes).
+Network Layer Protocol: IPv6 (86DD)
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: ac:1f:6b:21:a4:52
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 38:d5:47:af:70:cc
+DEBUG: <Network> received.
+       From: 211.67.25.240
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 112.65.69.51
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 112.65.69.51
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 112.65.69.51
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 42.81.4.78
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 42.81.4.78
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.31
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 9c:5c:8e:7b:86:1b
+DEBUG: <Network> received.
+       From: 211.67.24.160
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.31
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 20:89:84:6d:9e:55
+DEBUG: <Network> received.
+       From: 211.67.24.90
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.225
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.225
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (176 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 10:c3:7b:4a:d8:6f
+DEBUG: <Network> received.
+       From: 211.67.25.149
+         To: 255.255.255.255
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (176 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: ff:ff:ff:ff:ff:ff
+Sender      MAC: 10:c3:7b:4a:d8:6f
+DEBUG: <Network> received.
+       From: 211.67.25.149
+         To: 211.67.27.255
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.37
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.37
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 58.205.221.227
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 58.205.221.227
+         To: 211.67.24.159
+   Protocol: TCP (006)
 Hit cache for: 211.67.27.254
-DEBUG: Transmited packet to network (58 bytes).
-
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (216 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 14:dd:a9:78:ef:40
-not handled
-
-<Hardware> received packet (149 bytes).
-Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:2
-Sender      MAC: 10:c3:7b:4a:d5:ce
+DEBUG: Transmited packet to network (49 bytes).
 
 <Hardware> received packet (86 bytes).
 Network Layer Protocol: IPv6 (86DD)
 Destination MAC: 33:33:ff:75:fc:7f
-Sender      MAC: 10:c3:7b:4a:d8:88
+Sender      MAC: 10:c3:7b:4a:d8:6f
 
-<Hardware> received packet (92 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: ff:ff:ff:ff:ff:ff
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
-
-<Hardware> received packet (132 bytes).
-Network Layer Protocol: IPv4 (0800)
-Destination MAC: 14:14:4b:75:fc:7f
-Sender      MAC: f0:76:1c:3f:47:49
-not handled
-
-<Hardware> received packet (196 bytes).
+<Hardware> received packet (85 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: f0:76:1c:3f:47:49
 Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+DEBUG: <Network> received.
+       From: 222.199.191.49
+         To: 211.67.24.159
+   Protocol: TCP (006)
 
-<Hardware> received packet (132 bytes).
+<Hardware> received packet (54 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 14:14:4b:75:fc:7f
 Sender      MAC: f0:76:1c:3f:47:49
-not handled
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.199.191.49
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
 
-<Hardware> received packet (181 bytes).
+<Hardware> received packet (60 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: f0:76:1c:3f:47:49
 Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+DEBUG: <Network> received.
+       From: 222.199.191.49
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (85 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.199.191.49
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.199.191.49
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.199.191.49
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.199.191.49
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.199.191.49
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.199.191.49
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.199.191.49
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 38:d5:47:af:70:cc
+DEBUG: <Network> received.
+       From: 211.67.25.240
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.24
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.24
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 222.192.186.29
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.24
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.29
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 222.192.186.24
+         To: 211.67.24.159
+   Protocol: TCP (006)
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 10:c3:7b:4a:d7:c3
+<ARP> received.
+Sender      IP: 211.67.26.30, MAC: 10:c3:7b:4a:d7:c3
+Destination IP: 211.67.24.159, MAC: f0:76:1c:3f:47:49
+DEBUG: arp request, cache and reply.
+DEBUG: <ARP> reply to 211.67.26.30.
+DEBUG: Transmited packet to network (42 bytes).
+
+<Hardware> received packet (42 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: 10:c3:7b:4a:d7:c3
+Sender      MAC: f0:76:1c:3f:47:49
+<ARP> received.
+Sender      IP: 211.67.24.159, MAC: f0:76:1c:3f:47:49
+Destination IP: 211.67.26.30, MAC: 10:c3:7b:4a:d7:c3
+DEBUG: ARP not to this device, ignore.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: d4:3a:65:6:eb:1
+<ARP> received.
+Sender      IP: 211.67.26.160, MAC: d4:3a:65:6:eb:1
+Destination IP: 211.67.24.159, MAC: f0:76:1c:3f:47:49
+DEBUG: arp request, cache and reply.
+DEBUG: <ARP> reply to 211.67.26.160.
+DEBUG: Transmited packet to network (42 bytes).
+
+<Hardware> received packet (42 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: d4:3a:65:6:eb:1
+Sender      MAC: f0:76:1c:3f:47:49
+<ARP> received.
+Sender      IP: 211.67.24.159, MAC: f0:76:1c:3f:47:49
+Destination IP: 211.67.26.160, MAC: d4:3a:65:6:eb:1
+DEBUG: ARP not to this device, ignore.
+
+<Hardware> received packet (60 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 20:89:84:6d:9e:55
+<ARP> received.
+Sender      IP: 211.67.24.90, MAC: 20:89:84:6d:9e:55
+Destination IP: 211.67.24.159, MAC: f0:76:1c:3f:47:49
+DEBUG: arp request, cache and reply.
+DEBUG: <ARP> reply to 211.67.24.90.
+DEBUG: Transmited packet to network (42 bytes).
+
+<Hardware> received packet (42 bytes).
+Network Layer Protocol: ARP (0806)
+Destination MAC: 20:89:84:6d:9e:55
+Sender      MAC: f0:76:1c:3f:47:49
+<ARP> received.
+Sender      IP: 211.67.24.159, MAC: f0:76:1c:3f:47:49
+Destination IP: 211.67.24.90, MAC: 20:89:84:6d:9e:55
+DEBUG: ARP not to this device, ignore.
+
+<Hardware> received packet (215 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 20:89:84:6d:9e:55
+DEBUG: <Network> received.
+       From: 211.67.24.90
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
 <Hardware> received packet (60 bytes).
 Network Layer Protocol: Unknown (0027)
 Destination MAC: 1:80:c2:0:0:0
 Sender      MAC: 14:14:4b:59:1b:c2
 
-<Hardware> received packet (216 bytes).
+<Hardware> received packet (54 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 163.177.151.81
+   Protocol: TCP (006)
+DEBUG: <Network> forward to be implemented.
+
+<Hardware> received packet (215 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: 1:0:5e:7f:ff:fa
-Sender      MAC: 14:dd:a9:78:ef:40
-not handled
+Sender      MAC: 38:d5:47:af:70:cc
+DEBUG: <Network> received.
+       From: 211.67.25.240
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
-<Hardware> received packet (86 bytes).
-Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
-
-<Hardware> received packet (66 bytes).
+<Hardware> received packet (87 bytes).
 Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
+Destination MAC: 14:14:4b:75:fc:7f
+Sender      MAC: f0:76:1c:3f:47:49
+DEBUG: <Network> received.
+       From: 211.67.24.159
+         To: 202.114.0.131
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
-<Hardware> received packet (86 bytes).
+<Hardware> received packet (162 bytes).
 Network Layer Protocol: IPv4 (0800)
 Destination MAC: f0:76:1c:3f:47:49
 Sender      MAC: 14:14:4b:75:fc:7f
-not handled
+DEBUG: <Network> received.
+       From: 202.114.0.131
+         To: 211.67.24.159
+   Protocol: UDP (017)
+DEBUG: <UDP> received.
+DEBUG: Received data length=64839 : 
+=É1Êr
+
+
+<Hardware> received packet (175 bytes).
+Network Layer Protocol: IPv4 (0800)
+Destination MAC: 1:0:5e:7f:ff:fa
+Sender      MAC: 40:16:7e:ab:69:4e
+DEBUG: <Network> received.
+       From: 211.67.25.202
+         To: 239.255.255.250
+   Protocol: UDP (017)
+DEBUG: <Network> forward to be implemented.
 
 <Hardware> received packet (86 bytes).
 Network Layer Protocol: IPv6 (86DD)
-Destination MAC: 33:33:0:1:0:3
-Sender      MAC: e0:3f:49:44:46:7f
+Destination MAC: 33:33:ff:75:fc:7f
+Sender      MAC: 10:c3:7b:4a:d8:7c
 
-<Hardware> received packet (66 bytes).
+<Hardware> received packet (77 bytes).
 Network Layer Protocol: IPv4 (0800)
-Destination MAC: 1:0:5e:0:0:fc
-Sender      MAC: e0:3f:49:44:46:7f
-not handled
+Destination MAC: f0:76:1c:3f:47:49
+Sender      MAC: 14:14:4b:75:fc:7f
+DEBUG: <Network> received.
+       From: 211.67.27.254
+         To: 211.67.24.159
+   Protocol: ICMP (001)

@@ -23,12 +23,55 @@
 #include "netsimul.h"
 
 #include "Network.h"
-//#include "Link.h"
+#include "Link.h"
 //#include "Hardware.h"
 
 #define SIZE_SEND_BUFFER 4096
 #define SIZE_IP_ADDR_STR 16
 #define SIZE_PORT_STR 5
+
+#define FRAGMENT_TEST 0
+
+const char poem[] = {
+        "The farthest distance in the world\n"\
+        "Is not the distance between life and death\n"\
+        "But you don't know I love you when I stand in front of you\n"\
+        "The farthest distance in the world\n"\
+        "Is not you don't know I love when I stand in front of you\n"\
+        "But I cannot say I love you when I love you so madly\n"\
+        "The farthest distance in the world\n"\
+        "Is not I cannot say I love you when I love you so madly\n"\
+        "But I can only bury it in my heart dispite the unbearable yearing\n"\
+        "The farthest distance in the world\n"\
+        "Is not I can only bury it in my heart dispite the unbearable yearning\n"\
+        "But we cannot be together when we love each other\n"\
+        "The farthest distance in the world\n"\
+        "Is not we cannot be together when we love each other\n"\
+        "But we pretend caring nothing even we know love is unconquerable\n"\
+        "The farthest distance in the world\n"\
+        "Is not the distance between two trees\n"\
+        "But the branches cannot depend on each other in wind even they grow from the same root\n"\
+        "The farthest distance in the world\n"\
+        "Is not the branches cannot depend on each other\n"\
+        "But two stars cannot meet even they watch each other\n"\
+        "The farthest distance in the world\n"\
+        "Is not the track between two stars\n"\
+        "But nowhere to search in a tick after two tracks join\n"\
+        "The farthest distance in the world\n"\
+        "Is not nowhere to search in a tick\n"\
+        "But doomed not to be together before they meet\n"\
+        "The farthest distance in the world\n"\
+        "Is the distance between fish and bird\n"\
+        "One is in the sky, another is in the sea\n"\
+        "\n"\
+        "The farthest distance in the world\n"\
+        "Is the distance between fish and bird\n"\
+        "One is in the sky, another is in the sea\n"\
+        "\n"\
+        "The farthest distance in the world\n"\
+        "Is the distance between fish and bird\n"\
+        "One is in the sky, another is in the sea\n"\
+};
 
 void handle_user_input(pcap_t * handler);
 
@@ -358,6 +401,15 @@ void handle_user_input(pcap_t * handler)
     uint16_t default_sport = 1314;
     uint16_t default_dport = 1618;
 
+#if FRAGMENT_TEST==1
+
+    printf("\nUsed test string, length=%ld\n\n", sizeof(poem));
+
+    packet.buf = (unsigned char*)poem;
+    packet.size = sizeof(poem);
+
+#else
+
     /*Enter inject message */
     printf("\nEnter message to inject (ends with an empty line):\n"); 
     count = 0;
@@ -379,6 +431,8 @@ void handle_user_input(pcap_t * handler)
     buf[count] = '\0';
     packet.buf = (u_char *)buf;
     packet.size = count;
+
+#endif
 
     printf("**MESSAGE TO SEND**\n\n%s\n\n", packet.buf);
 

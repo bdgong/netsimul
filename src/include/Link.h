@@ -4,12 +4,14 @@
 
 #include "Hardware.h"
 #include "Neighbor.h"
+#include "Network.h"
 #include "packet.h"
 
 #include <memory>
 
 class CNeighbor;
 class CHardware;
+class CNetwork;
 
 /*
  * CLink - link layer interface 
@@ -53,6 +55,7 @@ public:
 
 private:
     bool _isInited;
+    CNetwork *_network;
     CNeighbor *_neigh;
     CHardware *_hardware;
 

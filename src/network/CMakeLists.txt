@@ -7,6 +7,7 @@ set(NETWORK_SRCS
 
 add_library(network SHARED
     ${LINK_SRCS}
-    ${NETWORK_SRCS})
+    ${NETWORK_SRCS}
+    ${TRANSPORT_SRCS})
 
 target_link_libraries(network pcap util pthread)

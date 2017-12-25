@@ -7,6 +7,7 @@
 #include "packet.h"
 
 class CARP;
+class CLink;
 
 /*
  * CNeighbor - neighbor subsystem 
