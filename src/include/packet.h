@@ -26,7 +26,7 @@ struct inject_packet {
 #define INJECT_OP_TCP(p) (p->oper == 't' || p->oper == 'T')
 #define INJECT_OP_UDP(p) (p->oper == 'u' || p->oper == 'U')
     uint16_t                ept;    // ethernet packet type
-    ARPHdr                  arphdr; // arp header 
+    //ARPHdr                  arphdr; // arp header 
     //const u_char            *rcvbuf;// packet data receive buffer
 
     bool                    allocated;// True if this struct allocated by heap memory
@@ -78,13 +78,27 @@ struct inject_packet {
         oper    = cp.oper;
         proto   = cp.proto;
         ept     = cp.ept;
-        arphdr  = cp.arphdr;
+        //arphdr  = cp.arphdr;
 
-        allocated = cp.allocated;
+        allocated = true;
 
         memmove(buf, cp.buf, cp.size);
 
         printf("**Copied packet**\n");
+
+    }
+
+    void copyMetadata(const inject_packet &cp)
+    {
+        saddr   = cp.saddr;
+        daddr   = cp.daddr;
+        sha     = cp.sha;
+        dha     = cp.dha;
+        sport   = cp.sport;
+        dport   = cp.dport;
+        oper    = cp.oper;
+        proto   = cp.proto;
+        ept     = cp.ept;
 
     }
 

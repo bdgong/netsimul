@@ -22,6 +22,10 @@ typedef struct sniff_ip {
         u_char  ip_p;                   /* protocol */
         u_short ip_sum;                 /* checksum */
         struct  in_addr ip_src,ip_dst;  /* source and dest address */
+
+        bool isFragment() const {
+            return (ip_off & htons(IP_MF | IP_OFFMASK)) != 0;
+        }
 } iphdr_t ;
 
 #define IP_HL(ip)               (((ip)->ip_vhl) & 0x0f)

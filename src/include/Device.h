@@ -12,6 +12,7 @@
 typedef struct device {
     u_int16_t           id;
     u_int16_t           type;
+    u_int16_t           mtu;        // maximum transmission unit
     char                *name;
     struct in_addr      ipAddr;     // ip
     struct ether_addr   hAddr;      // mac
@@ -36,6 +37,7 @@ typedef struct device {
         oss << "Device ["
             << "id=" << id
             << ", type=" << type
+            << ", mtu=" << mtu
             << ", name=" << name
             << ", ip=" << inet_ntoa(ipAddr)
             << ", mac=" << ether_ntoa(&hAddr)

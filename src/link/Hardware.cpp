@@ -12,6 +12,15 @@
 
 #include "Util.h"
 
+/*
+ * MTU - Maximum ethernet data size
+ *
+ * Maximum ethernet frame size is MTU+ETH_HLEN+ETH_FCS = 1500+14+4 = 1518
+ *
+ * For some device, MTU is 576.
+ * */
+const u_int16_t cDefaultMTU = 1500;
+
 
 void CHardware::transmit(const u_char *bytes, size_t size)
 {
@@ -100,6 +109,7 @@ int CHardware::detectDevices(char *errbuf)
                 paddr = paddr->next;
             }
 
+            dev.mtu     = cDefaultMTU;
             _devs.push_back(dev);                   // save to cache
         }
         else {}

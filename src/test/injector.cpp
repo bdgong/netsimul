@@ -30,7 +30,7 @@
 #define SIZE_IP_ADDR_STR 16
 #define SIZE_PORT_STR 5
 
-#define FRAGMENT_TEST 0
+#define FRAGMENT_TEST 1
 
 const char poem[] = {
         "The farthest distance in the world\n"\
@@ -231,18 +231,16 @@ void encap_udp2(pcap_t *handler, packet_t *packet)
 
     // allocate more space include header
     packet_t pkt(sizeHdr + packet->size);
-    pkt.saddr = packet->saddr;
-    pkt.daddr = packet->daddr;
-    pkt.sport = packet->sport;
-    pkt.dport = packet->dport;
-    pkt.oper  = packet->oper;
+    pkt.copyMetadata(*packet);
+
+    pkt.proto = IPPROTO_UDP;
 
     // reserve space for header
     pkt.reserve(sizeHdr);
 
     // copy payload
+    pkt.put(packet->size);
     memcpy(pkt.data, packet->buf, packet->size);
-    pkt.len     = packet->size;
 
     // prepare UDP header
     udphdr_t udp; 
