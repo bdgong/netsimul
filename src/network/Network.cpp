@@ -358,7 +358,7 @@ void CNetwork::init()
     _neigh->init();
 
     _isInited = true;
-    debug(DBG_DEFAULT, "<Network> inited");
+    debug(DBG_DEFAULT, "<Network> inited.");
 
 }
 

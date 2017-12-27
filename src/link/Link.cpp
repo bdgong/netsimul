@@ -2,6 +2,8 @@
 #include "Util.h"
 #include <cstring>
 
+#define TAG "<Link> "
+
 const tok_t ethertype_values[] = {
     {ETH_P_IP,          "IPv4"},
     {ETH_P_ARP,         "ARP"},
@@ -124,6 +126,6 @@ void CLink::init()
     _network = CNetwork::instance();
 
     _isInited   = true;
-    debug("Link inited.\n");
+    debug(DBG_DEFAULT, TAG "initied.");
 
 }

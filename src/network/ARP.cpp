@@ -7,6 +7,8 @@
 #include <utility>
 #include <algorithm>
 
+#define TAG "<ARP> "
+
 void CARP::init()
 {
     if (_isInited)
@@ -17,7 +19,7 @@ void CARP::init()
     //_link->init();
 
     _isInited   = true;
-    debug("ARP initied.\n");
+    debug(DBG_DEFAULT, TAG "initied.");
 
 }
 

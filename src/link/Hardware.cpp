@@ -12,6 +12,7 @@
 
 #include "Util.h"
 
+#define TAG "<Hardware> "
 /*
  * MTU - Maximum ethernet data size
  *
@@ -154,12 +155,12 @@ void CHardware::init()
     listenThread.detach();                          // start listen 
     //pcap_dispatch(_defaultDev->handler, -1, &CHardware::getPacket, nullptr);  // only dispatch once
                                                     
-    debug(DBG_DEFAULT, "Hardware inited, suitable device list:");
-    log("Hardware inited, suitable device list:\n");
+    debug(DBG_DEFAULT, TAG "inited, suitable device list:");
+    log(TAG "inited, suitable device list:\n");
     for (const Device& dev : _devs) {
         if(dev.name == _defaultDev->name) {         // use == because we use pointer for default device
-            debug(DBG_DEFAULT, "%s *(default).", dev.toString().c_str());
-            log("%s *(default).\n", dev.toString().c_str());
+            debug(DBG_DEFAULT, "%s *(default)", dev.toString().c_str());
+            log("%s *(default)\n", dev.toString().c_str());
         }
         else {
             debug(DBG_DEFAULT, dev.toString().c_str());

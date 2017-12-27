@@ -2,6 +2,8 @@
 
 #include "Util.h"
 
+#define TAG "<Neighbor> "
+
 void CNeighbor::init()
 {
     if (_isInited)
@@ -14,7 +16,7 @@ void CNeighbor::init()
     _arp->init();
 
     _isInited   = true;
-    debug("Neighbor initied.\n");
+    debug(DBG_DEFAULT, TAG "initied.");
 }
 
 void CNeighbor::send(packet_t *packet)
