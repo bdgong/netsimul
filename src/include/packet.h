@@ -9,6 +9,14 @@
 
 #include "ip_arp.h"
 
+struct packet_cb {
+    // ... 
+    uint16_t offset;
+};
+
+typedef packet_cb packet_cb_t;
+typedef packet_cb PacketCB;
+
 /*
  * Core structure used for networking, referece to Linux struct sk_buff design.
  * */
@@ -29,6 +37,7 @@ struct inject_packet {
     //ARPHdr                  arphdr; // arp header 
     //const u_char            *rcvbuf;// packet data receive buffer
 
+    char                    cb[48]; // control buffer for every process handler
     bool                    allocated;// True if this struct allocated by heap memory
     unsigned int            len;    // Length of the actual data
 
@@ -157,6 +166,22 @@ struct inject_packet {
         len -= length;
     }
 
+    /*
+     * Reset data pointer to head, and recalculate length.
+     * */
+    void resetData()
+    {
+        data = head;
+        len  = tail - data;
+    }
+
+    /*
+     * @return The packet control buffer pointer
+     * */
+    packet_cb_t * getPacketCB() const 
+    {
+        return (packet_cb_t *)cb;
+    }
 
 };
 

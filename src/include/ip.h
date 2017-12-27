@@ -1,4 +1,3 @@
-
 #ifndef IP_H_
 #define IP_H_
 
@@ -8,7 +7,7 @@
 #define SIZE_IP 20
 
 /* IP header */
-typedef struct sniff_ip {
+struct sniff_ip {
         u_char  ip_vhl;                 /* version << 4 | header length >> 2 */
         u_char  ip_tos;                 /* type of service */
         u_short ip_len;                 /* total length */
@@ -21,12 +20,16 @@ typedef struct sniff_ip {
         u_char  ip_ttl;                 /* time to live */
         u_char  ip_p;                   /* protocol */
         u_short ip_sum;                 /* checksum */
-        struct  in_addr ip_src,ip_dst;  /* source and dest address */
+        struct  in_addr ip_src,
+                        ip_dst;         /* source and dest address */
 
-        bool isFragment() const {
+        bool isFragment() {
             return (ip_off & htons(IP_MF | IP_OFFMASK)) != 0;
         }
-} iphdr_t ;
+
+};
+
+typedef struct sniff_ip iphdr_t;
 
 #define IP_HL(ip)               (((ip)->ip_vhl) & 0x0f)
 #define IP_V(ip)                (((ip)->ip_vhl) >> 4)

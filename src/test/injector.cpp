@@ -70,7 +70,7 @@ const char poem[] = {
         "\n"\
         "The farthest distance in the world\n"\
         "Is the distance between fish and bird\n"\
-        "One is in the sky, another is in the sea\n"\
+        "One is in the sky, another is in the sea\n"
 };
 
 void handle_user_input(pcap_t * handler);

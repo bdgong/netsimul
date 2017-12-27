@@ -505,7 +505,8 @@ void print_tcp(const struct sniff_tcp * tcp,
     printf("   Dst port: %d\n", ntohs(tcp->th_dport));
     
     /* define/compute tcp payload (segment) offset */
-    payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
+    //payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
+    payload = (const char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
     
     /* compute tcp payload (segment) size */
     size_payload = ntohs(ip->ip_len) - (size_ip + size_tcp);
@@ -517,7 +518,8 @@ void print_tcp(const struct sniff_tcp * tcp,
     printf("   Payload (%d bytes):\n", size_payload);
     if (size_payload > 0) {
             /*printf("   Payload (%d bytes):\n", size_payload);*/
-    	print_payload(payload, size_payload);
+            //print_payload(payload, size_payload);
+    	print_payload((const unsigned char*)payload, size_payload);
     }
 
 }
@@ -536,13 +538,15 @@ void print_udp(const struct sniff_udp * udp,
     printf("    Src port: %d\n", ntohs(udp->uh_sport));
     printf("    Dst port: %d\n", ntohs(udp->uh_dport));
 
-    payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_udp);
+    //payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_udp);
+    payload = (const char *)(packet + SIZE_ETHERNET + size_ip + size_udp);
 
     size_payload = ntohs(udp->uh_len) - size_udp;
 
     printf("    Payload (%d bytes):\n", size_payload);
     if(size_payload > 0) {
-        print_payload(payload, size_payload);
+        //print_payload(payload, size_payload);
+        print_payload((const u_char*)payload, size_payload);
     }
 
 }

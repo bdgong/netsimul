@@ -154,29 +154,29 @@ injector.cpp.s:
 	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/injector2.dir/build.make test/CMakeFiles/injector2.dir/injector.cpp.s
 .PHONY : injector.cpp.s
 
-sniffex.o: sniffex.c.o
+sniffex.o: sniffex.cpp.o
 .PHONY : sniffex.o
 
 # target to build an object file
-sniffex.c.o:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/sniffex.c.o
-.PHONY : sniffex.c.o
+sniffex.cpp.o:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/sniffex.cpp.o
+.PHONY : sniffex.cpp.o
 
-sniffex.i: sniffex.c.i
+sniffex.i: sniffex.cpp.i
 .PHONY : sniffex.i
 
 # target to preprocess a source file
-sniffex.c.i:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/sniffex.c.i
-.PHONY : sniffex.c.i
+sniffex.cpp.i:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/sniffex.cpp.i
+.PHONY : sniffex.cpp.i
 
-sniffex.s: sniffex.c.s
+sniffex.s: sniffex.cpp.s
 .PHONY : sniffex.s
 
 # target to generate assembly for a file
-sniffex.c.s:
-	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/sniffex.c.s
-.PHONY : sniffex.c.s
+sniffex.cpp.s:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/sniffex.cpp.s
+.PHONY : sniffex.cpp.s
 
 # Help Target
 help:

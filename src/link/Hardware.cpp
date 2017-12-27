@@ -158,8 +158,8 @@ void CHardware::init()
     log("Hardware inited, suitable device list:\n");
     for (const Device& dev : _devs) {
         if(dev.name == _defaultDev->name) {         // use == because we use pointer for default device
-            debug(DBG_DEFAULT, "* (default) %s.", dev.toString().c_str());
-            log("* (default) %s.\n", dev.toString().c_str());
+            debug(DBG_DEFAULT, "%s *(default).", dev.toString().c_str());
+            log("%s *(default).\n", dev.toString().c_str());
         }
         else {
             debug(DBG_DEFAULT, dev.toString().c_str());

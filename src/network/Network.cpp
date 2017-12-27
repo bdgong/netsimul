@@ -5,6 +5,9 @@
 #include "Util.h"
 
 #include <cstring>
+#include <algorithm>
+
+#define TAG "<Network> "
 
 const tok_t ipproto_values[] = {
     {IPPROTO_TCP, "TCP"},
@@ -81,7 +84,7 @@ void CNetwork::send(packet_t *pkt)
 
 void CNetwork::fragment(packet_t *pkt, uint16_t mtu)
 {
-    debug(DBG_DEFAULT, "<Network> Do fragment.");
+    debug(DBG_DEFAULT, TAG "Do fragment.");
     iphdr_t ip;
 
     ip.ip_vhl   = 0x45;
@@ -100,6 +103,7 @@ void CNetwork::fragment(packet_t *pkt, uint16_t mtu)
     unsigned char *ptr  = pkt->data;// fragment start position
     uint16_t offset     = 0;
 
+
     while (left > 0) {
         len = left;
 
@@ -110,6 +114,8 @@ void CNetwork::fragment(packet_t *pkt, uint16_t mtu)
         if (len < left) {
             len &= ~7;          // align eight byte 
         }
+
+        debug(DBG_DEFAULT, TAG "data left length=%d, now length=%d.", left, len);
 
         left -= len;
 
@@ -136,6 +142,7 @@ void CNetwork::fragment(packet_t *pkt, uint16_t mtu)
         memcpy(pkt2.data, &iphdr, SIZE_IP);
 
         offset += len;
+        ptr += len;
 
         debug(DBG_DEFAULT, "<Network> send out fragment: %d bytes.", len);
         _neigh->send(&pkt2);
@@ -146,12 +153,12 @@ void CNetwork::fragment(packet_t *pkt, uint16_t mtu)
 
 void CNetwork::forward(packet_t *pkt)
 {
-    debug(DBG_DEFAULT, "<Network> forward to be implemented.");
+    debug(DBG_DEFAULT, TAG "forward to be implemented.");
 }
 
 void CNetwork::deliver(packet_t *pkt)
 {
-    pkt->pull(SIZE_IP);
+    //pkt->pull(SIZE_IP);
 
     switch (pkt->proto) {
         case IPPROTO_TCP:
@@ -177,11 +184,120 @@ void CNetwork::deliver(packet_t *pkt)
 
 }
 
+uint32_t CNetwork::fragmentHashCode(iphdr_t *iphdr)
+{
+    uint32_t sAddrVal   = iphdr->ip_src.s_addr;
+    uint32_t dAddrVal   = iphdr->ip_dst.s_addr;
+    uint32_t protocol   = iphdr->ip_p;
+    uint32_t id         = iphdr->ip_id;
+
+    //return sAddrVal * 3 + dAddrVal * 5 + protocol * 17 + id * 31;
+    return ((sAddrVal << 1) + sAddrVal)
+        + ((dAddrVal << 2) + dAddrVal)
+        + ((protocol << 4) + protocol)
+        + ((id << 5) - id);
+
+}
+
 void CNetwork::defragment(iphdr_t *iphdr, packet_t *pkt)
 {
-    // assume no fragmentation need
-    debug(DBG_DEFAULT, "<Network> defragment.");
+    // assume no overlap 
+    debug(DBG_DEFAULT,  "defragment.");
+
+    // find fragment list it belongs to in fragment map
+    uint32_t keyFrag = fragmentHashCode(iphdr);
+
+    IPFragList *pThisFrags = nullptr;
+    if (_fragsMap.count(keyFrag) == 1) {
+        pThisFrags = &_fragsMap.at(keyFrag);    // found and return the address
+    }
+    else {
+        pThisFrags = &_fragsMap[keyFrag];       // not found, create one and return the address
+
+        pThisFrags->saddr   = iphdr->ip_src;
+        pThisFrags->daddr   = iphdr->ip_dst;
+        pThisFrags->proto   = iphdr->ip_p;
+        pThisFrags->id      = iphdr->ip_id;
+        pThisFrags->len     = 0;
+        pThisFrags->meat    = 0;
+    }
+
+    // calculate offset 
+    uint16_t offset = ntohs(iphdr->ip_off);
+    uint16_t flags = offset & ~IP_OFFMASK;
+    offset &= IP_OFFMASK;
+    offset <<= 3;
+
+    uint16_t end = offset + pkt->len - SIZE_IP;
+
+    if (offset == 0) {
+        // first fragment
+    }
+
+    if ((flags & IP_MF) == 0) {
+        // last fragment
+        pThisFrags->len = end;
+    }
+
+    // copy and insert this fragment to framgent list
+    pkt->pull(SIZE_IP);
+
+    packet_t *pkt2 = new packet_t(*pkt);
+    pkt2->copyMetadata(*pkt);
+    pkt2->getPacketCB()->offset = offset;
+
+    std::list<packet_t *> &frags = pThisFrags->fragments;
+    const auto it = std::find_if(frags.cbegin(), frags.cend(), [=](const packet_t *pkt) {
+                return pkt->getPacketCB()->offset >= offset;
+            });
+    frags.insert(it, pkt2);
+
+    debug(DBG_DEFAULT, TAG "fragment length=%d.", pkt2->len);
+    pThisFrags->meat += pkt2->len;
+    if (pThisFrags->meat == pThisFrags->len) {
+        // completed, do reassemble work
+        reasm(pThisFrags);
+
+        // clear cache
+        clear(pThisFrags);
+        // remove item from map
+        _fragsMap.erase(keyFrag);
+    }
     
+}
+
+void CNetwork::reasm(IPFragList *pFrags)
+{
+    debug(DBG_DEFAULT, TAG "reassemble fragments of datagram id=%d.", pFrags->id);
+    packet_t pkt(pFrags->len);
+    pkt.saddr = pFrags->saddr;
+    pkt.daddr = pFrags->daddr;
+    pkt.proto = pFrags->proto;
+    
+    std::list<packet_t *> &frags = pFrags->fragments;
+    for (packet_t *fragment : frags) {
+        pkt.put(fragment->len);
+
+        memcpy(pkt.data, fragment->data, fragment->len);
+
+        pkt.pull(fragment->len);
+    }
+
+    pkt.resetData();
+    deliver(&pkt);
+}
+
+void CNetwork::clear(IPFragList *pFrags)
+{
+    debug(DBG_DEFAULT, TAG "clear fragments of datagram id=%d.", pFrags->id);
+    std::list<packet_t *> &frags = pFrags->fragments;
+    auto it = frags.begin();
+    while ( it != frags.end() ) {
+        packet_t *pkt = *it;
+        delete pkt;
+        it = frags.erase(it);
+    }
+
 }
 
 void CNetwork::received(packet_t *pkt)
@@ -214,10 +330,23 @@ void CNetwork::received(packet_t *pkt)
             defragment(iphdr, pkt);
         }
         else {
+            pkt->pull(SIZE_IP);
             deliver(pkt);
         }
     }
     
+}
+
+CNetwork::~CNetwork() 
+{
+    // delete still hold cache if needed
+    for (auto pair : _fragsMap) {
+        IPFragList *pFrags = &pair.second;
+
+        clear(pFrags);
+    }
+    _fragsMap.clear();
+
 }
 
 void CNetwork::init()

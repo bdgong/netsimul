@@ -8,7 +8,12 @@
 #include <list>
 
 typedef struct frag_list {
-    uint32_t len;                       // the total length of fragments
+    struct in_addr          saddr,      // fragment source ip address
+                            daddr;      // fragment destinatin ip address
+    uint8_t                 proto;      // upper protocol used
+    uint16_t                id;         // ip header identifier
+    uint32_t                len;        // total length of original datagram
+    uint32_t                meat;       // received length
     std::list<packet_t*> fragments;     // fragment lists(Notice: the pointed block must be deleted correctly)
 } IPFragList;
 
@@ -23,6 +28,8 @@ public:
         static CNetwork inst;
         return &inst;
     }
+
+    ~CNetwork();
 
     void init();
 
@@ -63,6 +70,13 @@ public:
     void defragment(iphdr_t *iphdr, packet_t *pkt);
 
     /*
+     * Calculate fragment hash code by fragment ip header
+     *
+     * @iphdr The ip header
+     * */
+    uint32_t fragmentHashCode(iphdr_t *iphdr);
+
+    /*
      * Do fragmentation
      *
      * @pkt The packet to fragment
@@ -79,7 +93,7 @@ private:
     /*key: destination ip address, value: id for ip header*/
     std::map<in_addr_t, unsigned short> _idMap;
 
-    /*key: fragment hash code, value: list for fragments*/
+    /*key: fragment hash code, value: list for datagram fragments*/
     std::map<uint32_t, IPFragList> _fragsMap;
 
     /*
@@ -88,6 +102,20 @@ private:
      * @return An Identifier used by ip header
      * */
     unsigned short getAndIncID(packet_t *pkt);
+
+    /*
+     * Reassemble a datagram when all fragments available.
+     *
+     * @pFrags Fragment list pointer
+     * */
+    void reasm(IPFragList *pFrags);
+
+    /*
+     * Clear fragment cache.
+     *
+     * @pFrags Target fragment list pointer
+     * */
+    void clear(IPFragList *pFrags);
 
     CNetwork() : 
         _isInited(false),
