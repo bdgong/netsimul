@@ -125,6 +125,32 @@ For more, see `echoclient.c`, `echoserver.c`.
 
 ## Implementations
 
+Network protocols run as a process (M), each Socket application run as another process, communication with shared memory, synchronize by signal.
+
+### Socket
+
+对于UDP:
+应用程序Socket端，创建，关闭socket，能够发送和接收数据
+协议层Socket端，接受创建，关闭请求，处理发送和接收数据
+
+对于协议层Socket的接收，需要确定应用程序端口号向应用程序Socket进行分发（可以将应用进程ID和端口号绑定，指定进程ID发送信号，数据里也放一个进程ID，进程取数据时再次检查该ID是否和本进程ID一致）
+对于协议层Socket的发送，也许需要向应用程序Socket反馈发送状态
+
+
+--------------------
+
+
+对于TCP:
+应用程序Socket端，创建，监听，接收连接，发起连接，关闭，发送数据，接收数据
+协议层Socket端，接受创建，监听，接收连接，发起连接，关闭请求，处理发送和接收数据
+
+在协议层完成三次握手四次挥手，完成后通知应用程序Socket
+
+
+### Transport: TCP
+
+### Transport: UDP
+
 ### IP
 
 Only implement slow fragment(there is no fragment queue).

@@ -103,6 +103,45 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named Protocol
+
+# Build rule for target.
+Protocol: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Protocol
+.PHONY : Protocol
+
+# fast build rule for target.
+Protocol/fast:
+	$(MAKE) -f CMakeFiles/Protocol.dir/build.make CMakeFiles/Protocol.dir/build
+.PHONY : Protocol/fast
+
+#=============================================================================
+# Target rules for targets named protosocket
+
+# Build rule for target.
+protosocket: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 protosocket
+.PHONY : protosocket
+
+# fast build rule for target.
+protosocket/fast:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/build
+.PHONY : protosocket/fast
+
+#=============================================================================
+# Target rules for targets named socket
+
+# Build rule for target.
+socket: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 socket
+.PHONY : socket
+
+# fast build rule for target.
+socket/fast:
+	$(MAKE) -f CMakeFiles/socket.dir/build.make CMakeFiles/socket.dir/build
+.PHONY : socket/fast
+
+#=============================================================================
 # Target rules for targets named util
 
 # Build rule for target.
@@ -114,6 +153,19 @@ util: cmake_check_build_system
 util/fast:
 	$(MAKE) -f CMakeFiles/util.dir/build.make CMakeFiles/util.dir/build
 .PHONY : util/fast
+
+#=============================================================================
+# Target rules for targets named DemoTimeClient
+
+# Build rule for target.
+DemoTimeClient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 DemoTimeClient
+.PHONY : DemoTimeClient
+
+# fast build rule for target.
+DemoTimeClient/fast:
+	$(MAKE) -f test/CMakeFiles/DemoTimeClient.dir/build.make test/CMakeFiles/DemoTimeClient.dir/build
+.PHONY : DemoTimeClient/fast
 
 #=============================================================================
 # Target rules for targets named injector2
@@ -141,18 +193,101 @@ sniffex/fast:
 	$(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/build
 .PHONY : sniffex/fast
 
-#=============================================================================
-# Target rules for targets named network
+CheckSum.o: CheckSum.cpp.o
+.PHONY : CheckSum.o
 
-# Build rule for target.
-network: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 network
-.PHONY : network
+# target to build an object file
+CheckSum.cpp.o:
+	$(MAKE) -f CMakeFiles/util.dir/build.make CMakeFiles/util.dir/CheckSum.cpp.o
+.PHONY : CheckSum.cpp.o
 
-# fast build rule for target.
-network/fast:
-	$(MAKE) -f network/CMakeFiles/network.dir/build.make network/CMakeFiles/network.dir/build
-.PHONY : network/fast
+CheckSum.i: CheckSum.cpp.i
+.PHONY : CheckSum.i
+
+# target to preprocess a source file
+CheckSum.cpp.i:
+	$(MAKE) -f CMakeFiles/util.dir/build.make CMakeFiles/util.dir/CheckSum.cpp.i
+.PHONY : CheckSum.cpp.i
+
+CheckSum.s: CheckSum.cpp.s
+.PHONY : CheckSum.s
+
+# target to generate assembly for a file
+CheckSum.cpp.s:
+	$(MAKE) -f CMakeFiles/util.dir/build.make CMakeFiles/util.dir/CheckSum.cpp.s
+.PHONY : CheckSum.cpp.s
+
+ProtoSocket.o: ProtoSocket.cpp.o
+.PHONY : ProtoSocket.o
+
+# target to build an object file
+ProtoSocket.cpp.o:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/ProtoSocket.cpp.o
+.PHONY : ProtoSocket.cpp.o
+
+ProtoSocket.i: ProtoSocket.cpp.i
+.PHONY : ProtoSocket.i
+
+# target to preprocess a source file
+ProtoSocket.cpp.i:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/ProtoSocket.cpp.i
+.PHONY : ProtoSocket.cpp.i
+
+ProtoSocket.s: ProtoSocket.cpp.s
+.PHONY : ProtoSocket.s
+
+# target to generate assembly for a file
+ProtoSocket.cpp.s:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/ProtoSocket.cpp.s
+.PHONY : ProtoSocket.cpp.s
+
+Protocol.o: Protocol.cpp.o
+.PHONY : Protocol.o
+
+# target to build an object file
+Protocol.cpp.o:
+	$(MAKE) -f CMakeFiles/Protocol.dir/build.make CMakeFiles/Protocol.dir/Protocol.cpp.o
+.PHONY : Protocol.cpp.o
+
+Protocol.i: Protocol.cpp.i
+.PHONY : Protocol.i
+
+# target to preprocess a source file
+Protocol.cpp.i:
+	$(MAKE) -f CMakeFiles/Protocol.dir/build.make CMakeFiles/Protocol.dir/Protocol.cpp.i
+.PHONY : Protocol.cpp.i
+
+Protocol.s: Protocol.cpp.s
+.PHONY : Protocol.s
+
+# target to generate assembly for a file
+Protocol.cpp.s:
+	$(MAKE) -f CMakeFiles/Protocol.dir/build.make CMakeFiles/Protocol.dir/Protocol.cpp.s
+.PHONY : Protocol.cpp.s
+
+Socket.o: Socket.cpp.o
+.PHONY : Socket.o
+
+# target to build an object file
+Socket.cpp.o:
+	$(MAKE) -f CMakeFiles/socket.dir/build.make CMakeFiles/socket.dir/Socket.cpp.o
+.PHONY : Socket.cpp.o
+
+Socket.i: Socket.cpp.i
+.PHONY : Socket.i
+
+# target to preprocess a source file
+Socket.cpp.i:
+	$(MAKE) -f CMakeFiles/socket.dir/build.make CMakeFiles/socket.dir/Socket.cpp.i
+.PHONY : Socket.cpp.i
+
+Socket.s: Socket.cpp.s
+.PHONY : Socket.s
+
+# target to generate assembly for a file
+Socket.cpp.s:
+	$(MAKE) -f CMakeFiles/socket.dir/build.make CMakeFiles/socket.dir/Socket.cpp.s
+.PHONY : Socket.cpp.s
 
 Util.o: Util.cpp.o
 .PHONY : Util.o
@@ -178,21 +313,198 @@ Util.cpp.s:
 	$(MAKE) -f CMakeFiles/util.dir/build.make CMakeFiles/util.dir/Util.cpp.s
 .PHONY : Util.cpp.s
 
+link/Hardware.o: link/Hardware.cpp.o
+.PHONY : link/Hardware.o
+
+# target to build an object file
+link/Hardware.cpp.o:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/link/Hardware.cpp.o
+.PHONY : link/Hardware.cpp.o
+
+link/Hardware.i: link/Hardware.cpp.i
+.PHONY : link/Hardware.i
+
+# target to preprocess a source file
+link/Hardware.cpp.i:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/link/Hardware.cpp.i
+.PHONY : link/Hardware.cpp.i
+
+link/Hardware.s: link/Hardware.cpp.s
+.PHONY : link/Hardware.s
+
+# target to generate assembly for a file
+link/Hardware.cpp.s:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/link/Hardware.cpp.s
+.PHONY : link/Hardware.cpp.s
+
+link/Link.o: link/Link.cpp.o
+.PHONY : link/Link.o
+
+# target to build an object file
+link/Link.cpp.o:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/link/Link.cpp.o
+.PHONY : link/Link.cpp.o
+
+link/Link.i: link/Link.cpp.i
+.PHONY : link/Link.i
+
+# target to preprocess a source file
+link/Link.cpp.i:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/link/Link.cpp.i
+.PHONY : link/Link.cpp.i
+
+link/Link.s: link/Link.cpp.s
+.PHONY : link/Link.s
+
+# target to generate assembly for a file
+link/Link.cpp.s:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/link/Link.cpp.s
+.PHONY : link/Link.cpp.s
+
+network/ARP.o: network/ARP.cpp.o
+.PHONY : network/ARP.o
+
+# target to build an object file
+network/ARP.cpp.o:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/network/ARP.cpp.o
+.PHONY : network/ARP.cpp.o
+
+network/ARP.i: network/ARP.cpp.i
+.PHONY : network/ARP.i
+
+# target to preprocess a source file
+network/ARP.cpp.i:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/network/ARP.cpp.i
+.PHONY : network/ARP.cpp.i
+
+network/ARP.s: network/ARP.cpp.s
+.PHONY : network/ARP.s
+
+# target to generate assembly for a file
+network/ARP.cpp.s:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/network/ARP.cpp.s
+.PHONY : network/ARP.cpp.s
+
+network/Neighbor.o: network/Neighbor.cpp.o
+.PHONY : network/Neighbor.o
+
+# target to build an object file
+network/Neighbor.cpp.o:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/network/Neighbor.cpp.o
+.PHONY : network/Neighbor.cpp.o
+
+network/Neighbor.i: network/Neighbor.cpp.i
+.PHONY : network/Neighbor.i
+
+# target to preprocess a source file
+network/Neighbor.cpp.i:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/network/Neighbor.cpp.i
+.PHONY : network/Neighbor.cpp.i
+
+network/Neighbor.s: network/Neighbor.cpp.s
+.PHONY : network/Neighbor.s
+
+# target to generate assembly for a file
+network/Neighbor.cpp.s:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/network/Neighbor.cpp.s
+.PHONY : network/Neighbor.cpp.s
+
+network/Network.o: network/Network.cpp.o
+.PHONY : network/Network.o
+
+# target to build an object file
+network/Network.cpp.o:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/network/Network.cpp.o
+.PHONY : network/Network.cpp.o
+
+network/Network.i: network/Network.cpp.i
+.PHONY : network/Network.i
+
+# target to preprocess a source file
+network/Network.cpp.i:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/network/Network.cpp.i
+.PHONY : network/Network.cpp.i
+
+network/Network.s: network/Network.cpp.s
+.PHONY : network/Network.s
+
+# target to generate assembly for a file
+network/Network.cpp.s:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/network/Network.cpp.s
+.PHONY : network/Network.cpp.s
+
+transport/UDP.o: transport/UDP.cpp.o
+.PHONY : transport/UDP.o
+
+# target to build an object file
+transport/UDP.cpp.o:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/transport/UDP.cpp.o
+.PHONY : transport/UDP.cpp.o
+
+transport/UDP.i: transport/UDP.cpp.i
+.PHONY : transport/UDP.i
+
+# target to preprocess a source file
+transport/UDP.cpp.i:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/transport/UDP.cpp.i
+.PHONY : transport/UDP.cpp.i
+
+transport/UDP.s: transport/UDP.cpp.s
+.PHONY : transport/UDP.s
+
+# target to generate assembly for a file
+transport/UDP.cpp.s:
+	$(MAKE) -f CMakeFiles/protosocket.dir/build.make CMakeFiles/protosocket.dir/transport/UDP.cpp.s
+.PHONY : transport/UDP.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... Protocol"
 	@echo "... edit_cache"
+	@echo "... protosocket"
 	@echo "... rebuild_cache"
+	@echo "... socket"
 	@echo "... util"
+	@echo "... DemoTimeClient"
 	@echo "... injector2"
 	@echo "... sniffex"
-	@echo "... network"
+	@echo "... CheckSum.o"
+	@echo "... CheckSum.i"
+	@echo "... CheckSum.s"
+	@echo "... ProtoSocket.o"
+	@echo "... ProtoSocket.i"
+	@echo "... ProtoSocket.s"
+	@echo "... Protocol.o"
+	@echo "... Protocol.i"
+	@echo "... Protocol.s"
+	@echo "... Socket.o"
+	@echo "... Socket.i"
+	@echo "... Socket.s"
 	@echo "... Util.o"
 	@echo "... Util.i"
 	@echo "... Util.s"
+	@echo "... link/Hardware.o"
+	@echo "... link/Hardware.i"
+	@echo "... link/Hardware.s"
+	@echo "... link/Link.o"
+	@echo "... link/Link.i"
+	@echo "... link/Link.s"
+	@echo "... network/ARP.o"
+	@echo "... network/ARP.i"
+	@echo "... network/ARP.s"
+	@echo "... network/Neighbor.o"
+	@echo "... network/Neighbor.i"
+	@echo "... network/Neighbor.s"
+	@echo "... network/Network.o"
+	@echo "... network/Network.i"
+	@echo "... network/Network.s"
+	@echo "... transport/UDP.o"
+	@echo "... transport/UDP.i"
+	@echo "... transport/UDP.s"
 .PHONY : help
 
 

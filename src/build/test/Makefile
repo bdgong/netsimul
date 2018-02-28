@@ -103,6 +103,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+test/CMakeFiles/DemoTimeClient.dir/rule:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/DemoTimeClient.dir/rule
+.PHONY : test/CMakeFiles/DemoTimeClient.dir/rule
+
+# Convenience name for target.
+DemoTimeClient: test/CMakeFiles/DemoTimeClient.dir/rule
+.PHONY : DemoTimeClient
+
+# fast build rule for target.
+DemoTimeClient/fast:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/DemoTimeClient.dir/build.make test/CMakeFiles/DemoTimeClient.dir/build
+.PHONY : DemoTimeClient/fast
+
+# Convenience name for target.
 test/CMakeFiles/injector2.dir/rule:
 	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/injector2.dir/rule
 .PHONY : test/CMakeFiles/injector2.dir/rule
@@ -129,6 +143,30 @@ sniffex: test/CMakeFiles/sniffex.dir/rule
 sniffex/fast:
 	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/sniffex.dir/build.make test/CMakeFiles/sniffex.dir/build
 .PHONY : sniffex/fast
+
+DemoTimeClient.o: DemoTimeClient.cpp.o
+.PHONY : DemoTimeClient.o
+
+# target to build an object file
+DemoTimeClient.cpp.o:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/DemoTimeClient.dir/build.make test/CMakeFiles/DemoTimeClient.dir/DemoTimeClient.cpp.o
+.PHONY : DemoTimeClient.cpp.o
+
+DemoTimeClient.i: DemoTimeClient.cpp.i
+.PHONY : DemoTimeClient.i
+
+# target to preprocess a source file
+DemoTimeClient.cpp.i:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/DemoTimeClient.dir/build.make test/CMakeFiles/DemoTimeClient.dir/DemoTimeClient.cpp.i
+.PHONY : DemoTimeClient.cpp.i
+
+DemoTimeClient.s: DemoTimeClient.cpp.s
+.PHONY : DemoTimeClient.s
+
+# target to generate assembly for a file
+DemoTimeClient.cpp.s:
+	cd /home/bdg/share/public/project/netsimul/src/build && $(MAKE) -f test/CMakeFiles/DemoTimeClient.dir/build.make test/CMakeFiles/DemoTimeClient.dir/DemoTimeClient.cpp.s
+.PHONY : DemoTimeClient.cpp.s
 
 injector.o: injector.cpp.o
 .PHONY : injector.o
@@ -184,10 +222,14 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... DemoTimeClient"
 	@echo "... edit_cache"
 	@echo "... injector2"
 	@echo "... rebuild_cache"
 	@echo "... sniffex"
+	@echo "... DemoTimeClient.o"
+	@echo "... DemoTimeClient.i"
+	@echo "... DemoTimeClient.s"
 	@echo "... injector.o"
 	@echo "... injector.i"
 	@echo "... injector.s"
