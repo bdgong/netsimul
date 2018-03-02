@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <signal.h>
+#include "UDP.h"
 
 int sig;            // signal received
 
@@ -51,7 +52,9 @@ void CProtoSocket::createSharedMem()
         fprintf(stderr, "Failed ftok().\n");
     }
 
-    if ((_shmid = shmget(key, cSHMSize, IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR)) == -1) {
+    if ((_shmid = shmget(key, cSHMSize, IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR |
+                    S_IRGRP | S_IWGRP |
+                    S_IROTH | S_IWOTH)) == -1) {
         fprintf(stderr, "Failed shmget().\n");
         exit(EXIT_FAILURE);
     }
@@ -104,11 +107,9 @@ void CProtoSocket::run()
 
         sig = 0;
         printf("Protocols alive...\n");
-        // do work here
-        //
     }
 
-    printf("Protocol exit...\n");
+    printf("Protocol socket exit...\n");
 }
 
 void CProtoSocket::handleSockRequest()
@@ -119,17 +120,67 @@ void CProtoSocket::handleSockRequest()
     switch (sockPkt->type) {
         case SockPktCreate: 
             {
-                SockCreate *sockCreate;
-                sockCreate = (SockCreate *)sockPkt->data;
-
-                printf("pid: %d, family: %d, type: %d, protocol: %d\n"
-                        , sockCreate->pid, sockCreate->family, sockCreate->type
-                        , sockCreate->protocol);
+                handleCreate(sockPkt);
+                break;
+            }
+        case SockPktSendTo:
+            {
+                handleSendTo(sockPkt);
                 break;
             }
         default:
+            fprintf(stderr, "Unkonwn socket packet type: %d.\n", sockPkt->type);
             break;
     }
 
+}
+
+void CProtoSocket::handleCreate(SockPacket *sockPkt)
+{   
+    Sock *sock;
+    sock = (Sock *)sockPkt->data;
+
+    printf("pid: %d, family: %d, type: %d, protocol: %d\n",
+            sock->pid, sock->family, sock->type, sock->protocol);
+    // save to socket pool
+    _sockPool.emplace(sock->sockfd, *sock);
+
+    // write back sockfd
+    memcpy(_pBlock->buf1, &sock->sockfd, sizeof(int));
+
+    kill(sock->pid, SIGUSR1);
+ 
+}
+
+void CProtoSocket::handleSendTo(SockPacket *sockPkt)
+{
+    SockDataHdr *sockDataHdr;
+    sockDataHdr = (SockDataHdr *)sockPkt->data;
+
+    struct sockaddr_in *dstAddr = (struct sockaddr_in *)&sockDataHdr->dstAddr;
+    printf("socket: %d want to send %d bytes data to %s:%d.\n",
+            sockDataHdr->sockfd, sockDataHdr->len,
+            inet_ntoa(dstAddr->sin_addr), ntohs(dstAddr->sin_port));
+
+    // get data to send
+    char *pData = sockPkt->data;
+    pData += sizeof(SockDataHdr);
+
+    char *buf = (char *)malloc(sockDataHdr->len + 1);
+    memcpy(buf, pData, sockDataHdr->len);
+    buf[sockDataHdr->len] = '\0';
+    printf("Contents to send: %s.\n", buf);
+
+    // todo: call UDP::send()
+    // 
+    // notice, this code assume data will not overflow the buffer size
+    // to handle the overflow situation, modify this code
+    
+    free(buf);
+
+    memcpy(_pBlock->buf1, &sockDataHdr->len, sizeof(int));
+    Sock & sock = _sockPool.at(sockDataHdr->sockfd);
+    kill(sock.pid, SIGUSR2);
+ 
 }
 

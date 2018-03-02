@@ -1,4 +1,5 @@
 #include "SharedBlock.h"
+#include <map>
 
 class CProtoSocket
 {
@@ -22,8 +23,13 @@ class CProtoSocket
 
         void handleSockRequest();
 
+        void handleCreate(SockPacket *sockPkt);
+        void handleSendTo(SockPacket *sockPkt);
+
         int _shmid;          // shared memory identifier
         SharedBlock *_pBlock;// shared block
+
+        std::map<int, Sock> _sockPool;
 
 };
 

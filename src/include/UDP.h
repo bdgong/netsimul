@@ -14,6 +14,18 @@ public:
     //
     void init();
 
+    /*
+     * Send pkt out.
+     *
+     * @pkt The packet to send
+     * */
+    void send(packet_t *pkt);
+
+    /*
+     * Receive a packet pkt.
+     *
+     * @pkt The packet received
+     * */
     void received(packet_t *pkt);
 private:
     //

@@ -14,6 +14,10 @@ void CUDP::init()
     debug(DBG_DEFAULT, "<UDP> inited.");
 }
 
+void CUDP::send(packet_t *pkt)
+{
+}
+
 void CUDP::received(packet_t *pkt)
 {
     debug(DBG_DEFAULT, "<UDP> received.");

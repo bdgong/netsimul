@@ -1,10 +1,12 @@
 #pragma 
+#include <arpa/inet.h>
 
 const char *cKeyPath = "/home/bdg/.netsimul";
 const int cKeyID = 17;
 
 const unsigned int cSHMSize = 8192;
 const unsigned int cSHMBufSize = 4096;
+const unsigned int cSHMDataSize = 4094;
 
 /*
  * struct sharedblock - a data structure between ProtocolSocket and AppSocket 
@@ -42,13 +44,21 @@ typedef struct sockpacket {
 
 /////////////// start of sockpacket.data structures ///////////////
 
-typedef struct sockcreate {
-    int pid;            // process id
+typedef struct tagSock {
     int sockfd;         // socket file descriptor
+    int pid;            // process id
     int family;
     int type;
     int protocol;
-} SockCreate;
+} Sock;
+
+typedef struct tagSockDataHdr {
+    int sockfd;
+    struct sockaddr srcAddr;            // source address
+    struct sockaddr dstAddr;            // destination address
+    int flag;           // flag 
+    int len;            // data length
+} SockDataHdr;
 
 /////////////// end of sockpacket.data structures   ///////////////
 

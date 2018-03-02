@@ -26,7 +26,8 @@ int main()
     dstAddr.sin_port = htons(dstPort);
 
     const char *text = "time";
-    int byteSend = socket.sendto(text, strlen(text), 0, (const sockaddr*)&dstAddr, sizeof(dstAddr));
+    int len = strlen(text);
+    int byteSend = socket.sendto(text, len, 0, (const sockaddr*)&dstAddr, sizeof(dstAddr));
 
     char buf[1024 + 1];
     socklen_t socklen = sizeof(dstAddr);

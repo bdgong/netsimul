@@ -109,21 +109,33 @@ int CSocket::init(int family, int type, int protocol)
     _protocol   = protocol;
 
     // Send to ProtoSocket create socket
-    SockCreate sockCreate;
-    sockCreate.pid = sockCreate.sockfd = _socketId;
-    sockCreate.family   = _family;
-    sockCreate.type     = _type;
-    sockCreate.protocol = _protocol;
+    Sock sock;
+    sock.pid = sock.sockfd = _socketId;
+    sock.family   = _family;
+    sock.type     = _type;
+    sock.protocol = _protocol;
 
     SockPacket sockPkt;
     sockPkt.type = SockPktCreate;
-    memcpy(sockPkt.data, &sockCreate, sizeof(SockCreate));
+    memcpy(sockPkt.data, &sock, sizeof(Sock));
 
     // Copy to shared memory and notify this
-    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockCreate) + sizeof(SockPktT));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(Sock) + sizeof(SockPktT));
     kill(_protoPid, SIGUSR1);
 
-    return _socketId;
+    pause();
+
+    int result;
+    if (sig == SIGUSR1) {
+        result = *((int *)_pBlock->buf1);
+    }
+    else {
+        result = -1;
+    }
+
+    printf("Created socket: %d\n", result);
+
+    return result;
 
 }
 
@@ -137,7 +149,62 @@ int CSocket::sendto(const char* buf, size_t len, int flags,
         const struct sockaddr* dstAddr, socklen_t addrlen) 
 {
     // todo: Send to ProtoSocket send message
-    return 0;
+    //   data format: ProtoSocket{type, {SockData, buf}}
+    //              or: ProtoSocket{type, {left buf}}
+    SockDataHdr sockDataHdr;
+    sockDataHdr.sockfd  = _socketId;
+    sockDataHdr.dstAddr = *dstAddr;
+    sockDataHdr.flag    = flags;
+    sockDataHdr.len     = len;
+
+    SockPacket sockPkt;
+    sockPkt.type = SockPktSendTo;
+
+    char *pData = sockPkt.data;
+
+    memcpy(pData, &sockDataHdr, sizeof(SockDataHdr));
+    pData += sizeof(SockDataHdr);
+
+    int bufLeft = cSHMDataSize - sizeof(SockDataHdr);
+    int dataLeft = len;
+    
+    while (dataLeft > 0) {
+        int dataLen;
+
+        if (bufLeft <= 0) {         // re-point to buffer start
+            bufLeft = cSHMDataSize;
+            pData = sockPkt.data;
+        }
+
+        if (dataLeft <= bufLeft) {
+            dataLen = dataLeft;
+        }
+        else {
+            dataLen = bufLeft;
+        }
+
+        memcpy(pData, buf, dataLen);
+
+        pData       += dataLen;
+        dataLeft    -= dataLen;
+        bufLeft     -= dataLen;
+
+        int bytes = pData - sockPkt.data + sizeof(SockPktT);
+        printf("will copy %d bytes.\n", bytes);
+        memcpy(_pBlock->buf2, &sockPkt, bytes);
+        kill(_protoPid, SIGUSR2);
+    }
+
+    pause();
+
+    int byteSend = -1;
+    if (sig == SIGUSR2) {
+        byteSend = *((int *)_pBlock->buf1);
+    }
+
+    printf("Send %d bytes.\n", byteSend);
+
+    return byteSend;
 }
 
 int CSocket::recvfrom(char* buf, size_t len, int flags,
