@@ -26,6 +26,11 @@ class CProtoSocket
         void handleCreate(SockPacket *sockPkt);
         void handleSendTo(SockPacket *sockPkt);
 
+        /*
+         * Random select an unused port
+         * */
+        unsigned short selectPort();
+
         int _shmid;          // shared memory identifier
         SharedBlock *_pBlock;// shared block
 

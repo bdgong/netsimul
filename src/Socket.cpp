@@ -114,6 +114,7 @@ int CSocket::init(int family, int type, int protocol)
     sock.family   = _family;
     sock.type     = _type;
     sock.protocol = _protocol;
+    sock.port   = 0;
 
     SockPacket sockPkt;
     sockPkt.type = SockPktCreate;

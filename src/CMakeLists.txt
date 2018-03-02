@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project (netsimul) 
 
 set(CMAKE_CXX_COMPILER g++)
-set(CMAKE_CXX_FLAGS "-std=c++11 -g")
+set(CMAKE_CXX_FLAGS "-std=c++11 -g -O0")
 
 # for header files
 include_directories(include)

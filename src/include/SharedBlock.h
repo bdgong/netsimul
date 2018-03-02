@@ -50,6 +50,7 @@ typedef struct tagSock {
     int family;
     int type;
     int protocol;
+    uint16_t port;      // socket port
 } Sock;
 
 typedef struct tagSockDataHdr {

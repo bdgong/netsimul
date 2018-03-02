@@ -1,21 +1,93 @@
 #include "UDP.h"
-
+#include "Network.h"
 #include "Util.h"
+#include "CheckSum.h"
 #include <string>
 
 const unsigned int cMaxBufferSize = 4096;
 
+uint16_t cksum_udp(const udphdr_t *const udp, const packet_t *const packet)
+{
+
+    uint16_t sum;
+    u_char *buf;
+    size_t size;
+
+    pseudo_udp_t pseudo_udp;
+
+    pseudo_udp.saddr    = packet->saddr;
+    pseudo_udp.daddr    = packet->daddr;
+    pseudo_udp.zero     = 0;
+    pseudo_udp.protocol = IPPROTO_UDP;
+    pseudo_udp.len      = udp->uh_len;
+
+    size = SIZE_PSEUDO_UDP + SIZE_UDP + packet->size;
+    buf = (u_char *)malloc(size);
+    memcpy(buf, &pseudo_udp, SIZE_PSEUDO_UDP);
+    memcpy(buf+SIZE_PSEUDO_UDP, udp, SIZE_UDP);
+    memcpy(buf+SIZE_PSEUDO_UDP+SIZE_UDP, packet->buf, packet->size);
+
+    sum = cksum(buf, size);
+
+    free(buf);
+
+    return sum;
+
+}
 void CUDP::init()
 {
     if (_isInited)
         return ;
 
+    CNetwork::instance()->init();
     _isInited = true;
     debug(DBG_DEFAULT, "<UDP> inited.");
 }
 
-void CUDP::send(packet_t *pkt)
+void CUDP::send(packet_t *packet)
 {
+    // make a copy of original data
+    int sizeUDPHdr = 8;         // size in bytes
+    int sizeIPHdr = 20;
+    int sizeEtherHdr = 14;
+    int sizeHdr = sizeUDPHdr + sizeIPHdr + sizeEtherHdr;
+
+    // allocate more space include header
+    packet_t pkt(sizeHdr + packet->size);
+    pkt.copyMetadata(*packet);
+
+    pkt.proto = IPPROTO_UDP;
+
+    // reserve space for header
+    pkt.reserve(sizeHdr);
+
+    // copy payload
+    pkt.put(packet->size);
+    memcpy(pkt.data, packet->buf, packet->size);
+
+    // prepare UDP header
+    udphdr_t udp; 
+    size_t size_new = SIZE_UDP + packet->size;
+
+    //udp.uh_sport    = htons(packet->sport);
+    //udp.uh_dport    = htons(packet->dport);
+    udp.uh_sport    = packet->sport;
+    udp.uh_dport    = packet->dport;
+    udp.uh_len      = htons(size_new);
+    udp.uh_sum      = 0;
+
+    udp.uh_sum      = cksum_udp(&udp, packet);
+
+    // push UDP header space
+    pkt.push(SIZE_UDP);
+
+    // copy UDP header
+    memcpy(pkt.data, &udp, SIZE_UDP);
+
+    // call network to do next work
+    CNetwork *network = CNetwork::instance();
+    network->send(&pkt);
+
 }
 
 void CUDP::received(packet_t *pkt)

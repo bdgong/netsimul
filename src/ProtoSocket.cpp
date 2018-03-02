@@ -8,6 +8,7 @@
 #include <cstring>
 #include <signal.h>
 #include "UDP.h"
+#include "Hardware.h"
 
 int sig;            // signal received
 
@@ -84,6 +85,10 @@ void CProtoSocket::destroySharedMem()
 
 void CProtoSocket::run()
 {
+    // boot protocols
+    CUDP::instance()->init(); 
+
+    // catch signals
     signal(SIGUSR1, handler1);
     signal(SIGUSR2, handler2);
     signal(SIGINT, handler0);
@@ -171,7 +176,26 @@ void CProtoSocket::handleSendTo(SockPacket *sockPkt)
     buf[sockDataHdr->len] = '\0';
     printf("Contents to send: %s.\n", buf);
 
+    packet_t pkt;
+    pkt.buf = (unsigned char*)buf;
+    pkt.size = sockDataHdr->len;
+    pkt.daddr = dstAddr->sin_addr;
+    pkt.dport = dstAddr->sin_port;
+
+    // get source ip address
+    const Device *dev = CHardware::instance()->getDefaultDevice();
+    pkt.saddr = dev->ipAddr;
+
+    // get this socket
+    Sock & sock = _sockPool.at(sockDataHdr->sockfd);
+    if (sock.port != 0) {
+        pkt.sport = htons(sock.port);
+    }
+    else {
+        pkt.sport = htons(selectPort());
+    }
     // todo: call UDP::send()
+    CUDP::instance()->send(&pkt);
     // 
     // notice, this code assume data will not overflow the buffer size
     // to handle the overflow situation, modify this code
@@ -179,8 +203,12 @@ void CProtoSocket::handleSendTo(SockPacket *sockPkt)
     free(buf);
 
     memcpy(_pBlock->buf1, &sockDataHdr->len, sizeof(int));
-    Sock & sock = _sockPool.at(sockDataHdr->sockfd);
     kill(sock.pid, SIGUSR2);
  
+}
+
+unsigned short CProtoSocket::selectPort()
+{
+    return 1314;
 }
 
