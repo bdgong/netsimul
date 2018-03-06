@@ -41,6 +41,7 @@ uint16_t CNetwork::getAndIncID(packet_t *pkt)
 
 void CNetwork::send(packet_t *pkt)
 {
+    log (TAG "%s.\n", __func__);
     if (pkt->len > 0xFFFF) {
         debug(DBG_DEFAULT, "Too big packet to send.");
         return ;
@@ -77,6 +78,10 @@ void CNetwork::send(packet_t *pkt)
         // copy IP header
         memcpy(pkt->data, &ip, SIZE_IP);
 
+        char *srcIP = inet_ntoa(ip.ip_src);
+        char *dstIP = inet_ntoa(ip.ip_dst);
+        log (TAG "%s() : from source    %s\n", __func__, inet_ntoa(ip.ip_src));
+        log (TAG "%s() : to destination %s\n", __func__, inet_ntoa(ip.ip_dst));
         _neigh->send(pkt);
     }
 

@@ -1,15 +1,28 @@
 /*
+ * DemoTimeClient - UDP Demo
+ *
  * Send "time" to time server, print the feedback.
  * */
 #include <cstdio>
 #include <cstring>
+#include <string>
 #include "Socket.h"
 
-const char *dstAddrStr = "211.67.27.254";
-const short dstPort = 1618;
+const char * const cDstAddrStr  = "211.67.27.254";
+const unsigned short cDstPort   = 1618;
 
-int main()
+void usage(const char *appName) 
 {
+    printf("Default address use %s:%d\n", cDstAddrStr, cDstPort);
+    printf("To change it use addtional parameters:\n\t%s <ip> <port>\n", appName);
+    printf("\n----------\n\n");
+}
+
+int main(int argc, char *argv[])
+{
+    usage(argv[0]);
+
+    // create a socket
     CSocket socket;
     int sockfd;
     if ( (sockfd = socket.socket(AF_INET, SOCK_DGRAM, 0)) <= 0) {
@@ -17,14 +30,31 @@ int main()
         return -1;
     }
 
+    // set target address
     struct sockaddr_in dstAddr;
     dstAddr.sin_family = AF_INET;
+
+    char dstAddrStr[20];
+    unsigned short dstPort;
+
+    strncpy(dstAddrStr, cDstAddrStr, strlen(cDstAddrStr) + 1);
+    dstPort = cDstPort;
+    if (argc > 1) {
+        strncpy(dstAddrStr, argv[1], strlen(argv[1]) + 1);
+    }
+    if (argc > 2) {
+        dstPort = std::stoi(argv[2]);
+    }
+
     if (inet_aton(dstAddrStr, &dstAddr.sin_addr) <= 0) {
         fprintf(stderr, "Invalid address: %s\n", dstAddrStr);
         return -1;
     }
     dstAddr.sin_port = htons(dstPort);
 
+    printf("Target %s:%d.\n", dstAddrStr, dstPort);
+
+    // send
     const char *text = "time";
     int len = strlen(text);
     int byteSend = socket.sendto(text, len, 0, (const sockaddr*)&dstAddr, sizeof(dstAddr));

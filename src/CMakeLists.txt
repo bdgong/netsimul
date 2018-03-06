@@ -23,6 +23,7 @@ add_subdirectory(link)
 
 add_executable(Protocol Protocol.cpp)
 
+target_link_libraries(socket util)
 target_link_libraries(protosocket util pcap pthread)
 target_link_libraries(Protocol protosocket)
 

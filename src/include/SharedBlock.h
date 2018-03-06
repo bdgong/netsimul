@@ -1,7 +1,8 @@
-#pragma 
+#pragma once
+
 #include <arpa/inet.h>
 
-const char *cKeyPath = "/home/bdg/.netsimul";
+const char * const cKeyPath = "/home/bdg/.netsimul";   // this file must exist
 const int cKeyID = 17;
 
 const unsigned int cSHMSize = 8192;
@@ -38,7 +39,7 @@ enum sockpktype {
  * struct sockpacket - this data structure will save to buf1 or buf2 after conversion
  * */
 typedef struct sockpacket {
-    SockPktT type;
+    SockPktT type;                  // this field must be the first member
     char data[cSHMBufSize - 4];
 } SockPacket;
 
@@ -50,7 +51,8 @@ typedef struct tagSock {
     int family;
     int type;
     int protocol;
-    uint16_t port;      // socket port
+    struct in_addr addr;// socket bind address
+    uint16_t port;      // socket bind port
 } Sock;
 
 typedef struct tagSockDataHdr {

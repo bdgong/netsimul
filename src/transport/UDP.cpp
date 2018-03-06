@@ -2,7 +2,10 @@
 #include "Network.h"
 #include "Util.h"
 #include "CheckSum.h"
+#include "ProtoSocket.h"
 #include <string>
+
+#define TAG "<CUDP> "
 
 const unsigned int cMaxBufferSize = 4096;
 
@@ -34,6 +37,7 @@ uint16_t cksum_udp(const udphdr_t *const udp, const packet_t *const packet)
     return sum;
 
 }
+
 void CUDP::init()
 {
     if (_isInited)
@@ -46,6 +50,7 @@ void CUDP::init()
 
 void CUDP::send(packet_t *packet)
 {
+    log (TAG "%s\n", __func__);
     // make a copy of original data
     int sizeUDPHdr = 8;         // size in bytes
     int sizeIPHdr = 20;
@@ -84,6 +89,7 @@ void CUDP::send(packet_t *packet)
     // copy UDP header
     memcpy(pkt.data, &udp, SIZE_UDP);
 
+    log (TAG "%s() : from %d to %d.\n", __func__, ntohs(udp.uh_sport), ntohs(udp.uh_dport));
     // call network to do next work
     CNetwork *network = CNetwork::instance();
     network->send(&pkt);
@@ -96,10 +102,14 @@ void CUDP::received(packet_t *pkt)
     udphdr_t *udphdr = (udphdr_t *)pkt->data;
     uint16_t dataLen = ntohs( udphdr->uh_len ) - SIZE_UDP;
 
-    pkt->pull(SIZE_UDP);
-    std::string msg((const char*)pkt->data, dataLen);
+    pkt->sport  = udphdr->uh_sport;
+    pkt->dport  = udphdr->uh_dport;
 
-    debug(DBG_DEFAULT, "Received data length=%d : \n%s", dataLen, msg.c_str());
+    pkt->pull(SIZE_UDP);
+    //std::string msg((const char*)pkt->data, dataLen);
+
+    //debug(DBG_DEFAULT, "Received data length=%d : \n%s", dataLen, msg.c_str());
+    CProtoSocket::instance()->received(pkt);
 
 }
 

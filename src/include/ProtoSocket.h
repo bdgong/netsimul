@@ -1,19 +1,33 @@
+#pragma once 
+
 #include "SharedBlock.h"
 #include <map>
+#include <set>
+
+#include "packet.h"
 
 class CProtoSocket
 {
     public:
-        CProtoSocket();
+        static CProtoSocket* instance()
+        {
+            static CProtoSocket inst;
+            return &inst;
+        }
         ~CProtoSocket();
+
         void run();
-        // 
+
+        /*
+         * Received packet from protocol
+         * */
+        void received(const packet_t *pkt);
+         
     private:
         // 
+        CProtoSocket();
         CProtoSocket(const CProtoSocket&);
         CProtoSocket & operator=(const CProtoSocket&);
-
-        void init();
 
         /*
          * Create and detach shared memory
@@ -24,7 +38,10 @@ class CProtoSocket
         void handleSockRequest();
 
         void handleCreate(SockPacket *sockPkt);
+        void handleBind(SockPacket *sockPkt);
         void handleSendTo(SockPacket *sockPkt);
+        void handleRecvFrom(SockPacket *sockPkt);
+        void handleClose(SockPacket *sockPkt);
 
         /*
          * Random select an unused port
@@ -34,7 +51,9 @@ class CProtoSocket
         int _shmid;          // shared memory identifier
         SharedBlock *_pBlock;// shared block
 
-        std::map<int, Sock> _sockPool;
+        std::map<int, Sock> _sockPool;          // created sockets, <sockfd, Sock>
+        //std::map<int, int> _pendingSocks;       // pending recvfrom sockets, <sockfd, port>
+        std::set<Sock *> _pendingSocks;       // pending recvfrom sockets, <sockfd, port>
 
 };
 

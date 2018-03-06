@@ -38,6 +38,7 @@ CARP::~CARP()
 
 void CARP::sendDatagram(packet_t *packet)
 {
+    log (TAG "%s.\n", __func__);
     const Device *dev = _link->getDefaultDevice();
     if (dev == nullptr) {
         error("<ARP> Cannot get avaliable device.");

@@ -9,23 +9,27 @@
 #include <sys/stat.h> 
 #include <sys/shm.h> 
 
+#include "Util.h"
+
+#define TAG "<CSocket> "
+
 int sig;            // received signal
 
 void handler1(int signo)
 {
-    //printf("Received signal: %d.\n", signo);
+    printf("Received signal SIGUSR1(%d).\n", signo);
     sig = signo;
 }
 
 void handler2(int signo)
 {
     sig = signo;
-    //printf("Received signal: %d.\n", signo);
+    printf("Received signal SIGUSR2(%d).\n", signo);
 }
 
 
 
-CSocket::CSocket() : _socketId(0)
+CSocket::CSocket()
 {
     attachSharedMem();
 }
@@ -33,6 +37,8 @@ CSocket::CSocket() : _socketId(0)
 CSocket::~CSocket()
 {
     detachSharedMem();
+
+    close();
 }
 
 void CSocket::attachSharedMem()
@@ -102,27 +108,37 @@ void CSocket::detachSharedMem()
 
 int CSocket::init(int family, int type, int protocol)
 {
-    _socketId   = getpid();
+    //_socketId   = getpid();
 
-    _family     = family;
-    _type       = type;
-    _protocol   = protocol;
+    //_family     = family;
+    //_type       = type;
+    //_protocol   = protocol;
+    _sock.pid       = getpid();
+    _sock.sockfd    = _sock.pid;
+    _sock.family    = family;
+    _sock.type      = type;
+    _sock.protocol  = protocol;
+
+    _sock.addr.s_addr   = 0;
+    _sock.port          = 0;
 
     // Send to ProtoSocket create socket
-    Sock sock;
-    sock.pid = sock.sockfd = _socketId;
-    sock.family   = _family;
-    sock.type     = _type;
-    sock.protocol = _protocol;
-    sock.port   = 0;
+    //Sock sock;
+    //sock.pid = sock.sockfd = _socketId;
+    //sock.family   = _family;
+    //sock.type     = _type;
+    //sock.protocol = _protocol;
+    //sock.addr.s_addr = 0;
+    //sock.port   = 0;
 
     SockPacket sockPkt;
     sockPkt.type = SockPktCreate;
-    memcpy(sockPkt.data, &sock, sizeof(Sock));
+    memcpy(sockPkt.data, &_sock, sizeof(Sock));
 
     // Copy to shared memory and notify this
     memcpy(_pBlock->buf2, &sockPkt, sizeof(Sock) + sizeof(SockPktT));
     kill(_protoPid, SIGUSR1);
+    log(TAG "%s : kill signal SIGUSR1 to process %d.\n", __func__, _protoPid);
 
     pause();
 
@@ -146,6 +162,42 @@ int CSocket::socket(int family, int type, int protocol)
 
 }
 
+int CSocket::bind(const struct sockaddr* addr, socklen_t len)
+{
+    struct sockaddr_in bindAddr = *((struct sockaddr_in *)addr);
+
+    _sock.addr = bindAddr.sin_addr;
+    _sock.port = bindAddr.sin_port;
+
+    SockPacket sockPkt;
+    sockPkt.type = SockPktBind;
+
+    memcpy(sockPkt.data, &_sock, sizeof(_sock));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(Sock));
+
+    kill(_protoPid, SIGUSR1);
+
+    pause();
+
+    if (sig == SIGUSR1) {
+        int success = *((int *)_pBlock->buf1);
+        if (success == 1) {
+            return 0;
+        }
+        else {
+            _sock.addr.s_addr = 0;
+            _sock.port = 0;
+            return -1;
+        }
+    }
+    else {
+        _sock.addr.s_addr = 0;
+        _sock.port = 0;
+        fprintf(stderr, "Not SIGUSR1 received\n");
+        return -1;
+    }
+}
+
 int CSocket::sendto(const char* buf, size_t len, int flags,
         const struct sockaddr* dstAddr, socklen_t addrlen) 
 {
@@ -153,7 +205,7 @@ int CSocket::sendto(const char* buf, size_t len, int flags,
     //   data format: ProtoSocket{type, {SockData, buf}}
     //              or: ProtoSocket{type, {left buf}}
     SockDataHdr sockDataHdr;
-    sockDataHdr.sockfd  = _socketId;
+    sockDataHdr.sockfd  = _sock.sockfd;
     sockDataHdr.dstAddr = *dstAddr;
     sockDataHdr.flag    = flags;
     sockDataHdr.len     = len;
@@ -211,6 +263,49 @@ int CSocket::sendto(const char* buf, size_t len, int flags,
 int CSocket::recvfrom(char* buf, size_t len, int flags,
         struct sockaddr* srcAddr, socklen_t* addrlen)
 {
+    SockDataHdr dataHdr;
+    dataHdr.sockfd  = _sock.sockfd;
+    dataHdr.flag    = flags;
+    dataHdr.len     = len;
+
+    SockPacket sockPkt;
+    sockPkt.type    = SockPktRecvFrom;
+
+    memcpy(sockPkt.data, &dataHdr, sizeof(dataHdr));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(dataHdr));
+    kill(_protoPid, SIGUSR1);
+
+    pause();
+
+    // read data from ProtoSocket and set value-result parameters
+    char *pData = _pBlock->buf1;
+    SockDataHdr* rcvDataHdr = (SockDataHdr *)pData;
+
+    struct sockaddr_in* fromAddr = (struct sockaddr_in *)&rcvDataHdr->srcAddr;
+    *srcAddr = rcvDataHdr->srcAddr;
+    *addrlen = sizeof(struct sockaddr);
+    printf("Received data from %s:%d.\n", inet_ntoa(fromAddr->sin_addr), ntohs(fromAddr->sin_port));
+
+    pData += sizeof(SockDataHdr);
+
+    int dataLen = len;
+    if (dataLen > rcvDataHdr->len) {
+        dataLen = rcvDataHdr->len;
+    }
+    memcpy(buf, pData, dataLen);
+
+    return dataLen;
+}
+
+int CSocket::close() 
+{
+    SockPacket sockPkt;
+    sockPkt.type = SockPktClose;
+
+    memcpy(sockPkt.data, &_sock, sizeof(Sock));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(Sock));
+    kill(_protoPid, SIGUSR1);
+
     return 0;
 }
 

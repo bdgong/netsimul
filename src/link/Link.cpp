@@ -19,7 +19,7 @@ void CLink::send(packet_t *packet)
 
 void CLink::transmit(packet_t *packet)
 {
-
+    log(TAG "%s.\n", __func__);
     if ( !(packet->ept == ETH_P_ARP || packet->ept == ETH_P_IP) ) {
         error("Unsupported ethernet packet.\n");
         return ;

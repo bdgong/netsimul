@@ -12,6 +12,9 @@ class CSocket
 
         int socket(int family, int type, int protocol);
         
+        /*
+         * Bind socket with address @sockaddr
+         * */
         int bind(const struct sockaddr *sockaddr, socklen_t addrlen);
 
         int connect();
@@ -37,6 +40,8 @@ class CSocket
         int accept();
 
         int shutdown();
+
+        int close();
         // 
     private:
         // 
@@ -58,9 +63,10 @@ class CSocket
         SharedBlock *_pBlock;// shared block
         int _protoPid;          // protocol process id
 
-        int _socketId;          // might use process id
-        int _family;
-        int _type;
-        int _protocol;
+        Sock _sock;
+        //int _socketId;          // might use process id
+        //int _family;
+        //int _type;
+        //int _protocol;
 };
 
