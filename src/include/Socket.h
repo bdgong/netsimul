@@ -17,11 +17,26 @@ class CSocket
          * */
         int bind(const struct sockaddr *sockaddr, socklen_t addrlen);
 
-        int connect();
+        /*
+         * Connect to address @sockaddr
+         * */ 
+        int connect(const struct sockaddr *sockaddr, socklen_t addrlen);
 
-        int send();
+        /*
+         * Send to connected peer address
+         *
+         * @buf The data to send
+         * @len The data length in bytes to send
+         * */
+        int send(const char * buf, size_t len, int flags);
 
-        int recv();
+        /*
+         * Receive from connected peer address
+         *
+         * @buf The buffer used to stored received data 
+         * @len Maximum bytes to receive
+         * */
+        int recv(char * buf, size_t len, int flags);
 
         /*
          * On success, these calls return the number of bytes sent.  On error, -1 is returned
@@ -35,13 +50,26 @@ class CSocket
         int recvfrom(char* buf, size_t len, int flags,
                 struct sockaddr* srcAddr, socklen_t* addrlen);
 
-        int listen();
+        /*
+         * Set this socket to listen mode
+         *
+         * @backlog The maximum client might in queue 
+         * */
+        int listen(int backlog);
 
-        int accept();
+        CSocket * accept(struct sockaddr * sockaddr, socklen_t * addrlen);
 
         int shutdown();
 
         int close();
+
+        /*
+         * Return file descriptor of this socket
+         * */
+        int getFD()
+        {
+            return _sock.sockfd;
+        }
         // 
     private:
         // 

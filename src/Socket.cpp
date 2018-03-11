@@ -309,3 +309,34 @@ int CSocket::close()
     return 0;
 }
 
+int CSocket::connect(const struct sockaddr* addr, socklen_t len)
+{
+    return 0;
+}
+
+int CSocket::send(const char * buf, size_t len, int flag)
+{
+    return 0;
+}
+
+int CSocket::recv(char * buf, size_t len, int flag)
+{
+    return 0;
+}
+
+int CSocket::listen(int backlog)
+{
+    return 0;
+}
+
+CSocket * CSocket::accept(struct sockaddr * sockaddr, socklen_t * addrlen)
+{
+    // here should get your notice since shared memory used, fix the code
+    // 
+    // there is one way, add another constructor with more parameter
+    // 
+    // but, actually, shared memory by attach method won't be error, maybe you don't have
+    // to change any thing
+    return new CSocket();
+}
+
