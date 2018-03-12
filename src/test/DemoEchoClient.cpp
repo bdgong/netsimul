@@ -31,61 +31,64 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    // set target address
+    // set server address
     struct sockaddr_in svrAddr;
     svrAddr.sin_family = AF_INET;
 
     char svrAddrStr[20];
-    unsigned short dstPort;
+    unsigned short svrPort;
 
     strncpy(svrAddrStr, cDstAddrStr, strlen(cDstAddrStr) + 1);
-    dstPort = cDstPort;
+    svrPort = cDstPort;
     if (argc > 1) {
         strncpy(svrAddrStr, argv[1], strlen(argv[1]) + 1);
     }
     if (argc > 2) {
-        dstPort = std::stoi(argv[2]);
+        svrPort = std::stoi(argv[2]);
     }
 
     if (inet_aton(svrAddrStr, &svrAddr.sin_addr) <= 0) {
         fprintf(stderr, "Invalid address: %s\n", svrAddrStr);
         return -1;
     }
-    svrAddr.sin_port = htons(dstPort);
+    svrAddr.sin_port = htons(svrPort);
 
-    printf("Target %s:%d.\n", svrAddrStr, dstPort);
+    printf("Target %s:%d.\n", svrAddrStr, svrPort);
 
     // connect
+    printf("Connecting server...");
     int success = socket.connect((const sockaddr*)&svrAddr, sizeof(svrAddr));
 
     if (success != -1) {
         // send
-        printf("Connected server, send 'hello'.\n");
+        printf("connected, will send 'hello'.\n");
         const char *text = "hello";
         int len = strlen(text);
         int byteSend = socket.send(text, len, 0);
 
         if (byteSend > 0) {
+            printf("Send out 'hello'.\n");
             char buf[1024 + 1];
             socklen_t socklen = sizeof(svrAddr);
+            printf("Receiving...");
             int byteRecv = socket.recv(buf, 1024, 0);
 
             if (byteRecv > 0) {
                 buf[byteRecv] = '\0';
-                printf("Received: %s\n", buf);
+                printf("received: \n%s\n", buf);
             }
             else {
-                fprintf(stderr, "Receive from server failed.\n");
+                printf("failed recv().\n");
             }
         }
         else {
-            fprintf(stderr, "Send server 'hello' failed.\n");
+            printf("Send out 'hello' failed.\n");
         }
 
         socket.close();
     }
     else {
-        fprintf(stderr, "Failed connect().\n");
+        printf("failed connect().\n");
     }
 
     return 0;

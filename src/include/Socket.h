@@ -2,6 +2,7 @@
 
 #include <arpa/inet.h>
 #include <netinet/ip.h>
+#include <memory>
 #include "SharedBlock.h"
 
 class CSocket
@@ -57,7 +58,7 @@ class CSocket
          * */
         int listen(int backlog);
 
-        CSocket * accept(struct sockaddr * sockaddr, socklen_t * addrlen);
+        std::unique_ptr<CSocket> accept(struct sockaddr * sockaddr, socklen_t * addrlen);
 
         int shutdown();
 
@@ -86,6 +87,11 @@ class CSocket
          * */
         void attachSharedMem();
         void detachSharedMem();
+
+        /*
+         * Wait protocols stack reply
+         * */
+        int waitForSuccess(int signo);
 
         int _shmid;          // shared memory identifier
         SharedBlock *_pBlock;// shared block

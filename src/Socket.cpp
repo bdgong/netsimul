@@ -27,10 +27,25 @@ void handler2(int signo)
     printf("Received signal SIGUSR2(%d).\n", signo);
 }
 
+int CSocket::waitForSuccess(int signo)
+{
+    pause();
+
+    int success;
+    if (sig == signo) {
+        success = *((int *)_pBlock->buf1);
+    }
+    else {
+        success = -1;
+    }
+
+    return success;
+}
 
 
 CSocket::CSocket()
 {
+    log(TAG "New socket created.\n");
     attachSharedMem();
 }
 
@@ -39,6 +54,7 @@ CSocket::~CSocket()
     detachSharedMem();
 
     close();
+    log(TAG "A socket destroied.\n");
 }
 
 void CSocket::attachSharedMem()
@@ -140,16 +156,7 @@ int CSocket::init(int family, int type, int protocol)
     kill(_protoPid, SIGUSR1);
     log(TAG "%s : kill signal SIGUSR1 to process %d.\n", __func__, _protoPid);
 
-    pause();
-
-    int result;
-    if (sig == SIGUSR1) {
-        result = *((int *)_pBlock->buf1);
-    }
-    else {
-        result = -1;
-    }
-
+    int result = waitForSuccess(SIGUSR1);
     printf("Created socket: %d\n", result);
 
     return result;
@@ -248,13 +255,7 @@ int CSocket::sendto(const char* buf, size_t len, int flags,
         kill(_protoPid, SIGUSR2);
     }
 
-    pause();
-
-    int byteSend = -1;
-    if (sig == SIGUSR2) {
-        byteSend = *((int *)_pBlock->buf1);
-    }
-
+    int byteSend = waitForSuccess(SIGUSR2);
     printf("Send %d bytes.\n", byteSend);
 
     return byteSend;
@@ -311,7 +312,18 @@ int CSocket::close()
 
 int CSocket::connect(const struct sockaddr* addr, socklen_t len)
 {
-    return 0;
+    SockPacket sockPkt;
+    sockPkt.type = SockPktConnect;
+
+    struct sockaddr_in * dstAddr = (struct sockaddr_in *)addr;
+    _sock.peerAddr = dstAddr->sin_addr;
+    _sock.peerPort = dstAddr->sin_port;
+
+    memcpy(sockPkt.data, &_sock, sizeof(_sock));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(_sock));
+    kill(_protoPid, SIGUSR1);
+
+    return waitForSuccess(SIGUSR1) - 1;
 }
 
 int CSocket::send(const char * buf, size_t len, int flag)
@@ -329,7 +341,7 @@ int CSocket::listen(int backlog)
     return 0;
 }
 
-CSocket * CSocket::accept(struct sockaddr * sockaddr, socklen_t * addrlen)
+std::unique_ptr<CSocket> CSocket::accept(struct sockaddr * sockaddr, socklen_t * addrlen)
 {
     // here should get your notice since shared memory used, fix the code
     // 
@@ -337,6 +349,7 @@ CSocket * CSocket::accept(struct sockaddr * sockaddr, socklen_t * addrlen)
     // 
     // but, actually, shared memory by attach method won't be error, maybe you don't have
     // to change any thing
-    return new CSocket();
+    std::unique_ptr<CSocket> pSock(new CSocket());
+    return pSock;
 }
 

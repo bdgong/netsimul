@@ -55,8 +55,9 @@ int main(int argc, char* argv[])
     unsigned int addrlen = sizeof(client);
 
     char buf[cBufSize];
-    while (true) {
-        CSocket * clientSocket = socket.accept((struct sockaddr*)&client, &addrlen);
+    int k = 12;
+    while (k-- > 0) {
+        std::unique_ptr<CSocket> clientSocket = socket.accept((struct sockaddr*)&client, &addrlen);
 
         if (clientSocket->getFD() > 0) {
             int bytesRecv = clientSocket->recv(buf, cBufSize, 0);
@@ -70,15 +71,13 @@ int main(int argc, char* argv[])
                 printf("Replied client: %s.\n", buf);
             }
             else {
-                printf("Server receive error, bytesRecv = %d.\n", bytesRecv);
+                fprintf(stderr, "Server receive error, bytesRecv = %d.\n", bytesRecv);
             }
         }
         else {
             fprintf(stderr, "Failed accept connection.\n");
         }
 
-        // think about the programming model more, it's not the best idea to do this
-        delete clientSocket;
     }
 
     return 0;

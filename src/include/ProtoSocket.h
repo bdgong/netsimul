@@ -42,11 +42,17 @@ class CProtoSocket
         void handleSendTo(SockPacket *sockPkt);
         void handleRecvFrom(SockPacket *sockPkt);
         void handleClose(SockPacket *sockPkt);
+        void handleListen(SockPacket *sockPkt);
+        void handleConnect(SockPacket *sockPkt);
+        void handleAccept(SockPacket *sockPkt);
 
         /*
          * Random select an unused port
          * */
         unsigned short selectPort();
+
+        void newConnection();
+        void onConnectFinish();
 
         int _shmid;          // shared memory identifier
         SharedBlock *_pBlock;// shared block

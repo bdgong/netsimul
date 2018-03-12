@@ -143,23 +143,31 @@ void CProtoSocket::handleSockRequest()
     switch (sockPkt->type) {
         case SockPktCreate: 
             {
-                handleCreate(sockPkt);
-                break;
+                handleCreate(sockPkt); break;
             }
         case SockPktBind:
             {
-                handleBind(sockPkt);
-                break;
+                handleBind(sockPkt); break;
             }
         case SockPktSendTo:
             {
-                handleSendTo(sockPkt);
-                break;
+                handleSendTo(sockPkt); break;
             }
         case SockPktRecvFrom:
             {
-                handleRecvFrom(sockPkt);
-                break;
+                handleRecvFrom(sockPkt); break;
+            }
+        case SockPktConnect:
+            {
+                handleConnect(sockPkt); break;
+            }
+        case SockPktListen:
+            {
+                handleListen(sockPkt); break;
+            }
+        case SockPktAccept:
+            {
+                handleAccept(sockPkt); break;
             }
         default:
             fprintf(stderr, "Unkonwn socket packet type: %d.\n", sockPkt->type);
@@ -279,6 +287,20 @@ void CProtoSocket::handleClose(SockPacket *sockPkt)
     _sockPool.erase(sock->sockfd);
 
     log(TAG "%s() : Close socket %d.\n", __func__, sock->sockfd);
+}
+
+void CProtoSocket::handleListen(SockPacket *sockPkt)
+{
+}
+
+void CProtoSocket::handleConnect(SockPacket *sockPkt)
+{
+    Sock *sock = (Sock *)sockPkt->data;
+    // 
+}
+
+void CProtoSocket::handleAccept(SockPacket *sockPkt)
+{
 }
 
 unsigned short CProtoSocket::selectPort()

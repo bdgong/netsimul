@@ -53,6 +53,8 @@ typedef struct tagSock {
     int protocol;
     struct in_addr addr;// socket bind address
     uint16_t port;      // socket bind port
+    struct in_addr peerAddr;// peer socket address
+    uint16_t peerPort;      // peer socket port
 } Sock;
 
 typedef struct tagSockDataHdr {
