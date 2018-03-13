@@ -3,6 +3,9 @@
 #include "tcp.h"
 #include "packet.h"
 #include "InetSocket.h"
+#include "Network.h"
+
+class CNetwork;
 
 class CTCP
 {
@@ -29,6 +32,7 @@ class CTCP
         {
         }
 
+        CNetwork *_network;
         bool _isInited;
 };
 
