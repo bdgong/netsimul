@@ -4,6 +4,7 @@
 #include <map>
 #include <set>
 
+#include "InetSocket.h"
 #include "packet.h"
 
 class CProtoSocket
@@ -57,9 +58,8 @@ class CProtoSocket
         int _shmid;          // shared memory identifier
         SharedBlock *_pBlock;// shared block
 
-        std::map<int, Sock> _sockPool;          // created sockets, <sockfd, Sock>
-        //std::map<int, int> _pendingSocks;       // pending recvfrom sockets, <sockfd, port>
-        std::set<Sock *> _pendingSocks;       // pending recvfrom sockets, <sockfd, port>
+        std::map<int, InetSock> _sockPool;        // created sockets, <sockfd, InetSock>
+        std::set<InetSock *> _pendingSocks;       // pending recvfrom sockets
 
 };
 

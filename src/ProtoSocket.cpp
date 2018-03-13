@@ -11,6 +11,7 @@
 #include <algorithm>
 
 #include "UDP.h"
+#include "TCP.h"
 #include "Network.h"
 #include "Link.h"
 #include "Hardware.h"
@@ -183,8 +184,12 @@ void CProtoSocket::handleCreate(SockPacket *sockPkt)
 
     printf("pid: %d, family: %d, type: %d, protocol: %d\n",
             sock->pid, sock->family, sock->type, sock->protocol);
+    InetSock sk{
+        ._sock = *sock,
+        .sk_state = UNCONNECTED
+    };
     // save to socket pool
-    _sockPool.emplace(sock->sockfd, *sock);
+    _sockPool.emplace(sock->sockfd, sk);
 
     // write back sockfd
     memcpy(_pBlock->buf1, &sock->sockfd, sizeof(int));
@@ -196,14 +201,14 @@ void CProtoSocket::handleCreate(SockPacket *sockPkt)
 void CProtoSocket::handleBind(SockPacket *sockPkt)
 {
     Sock *sock = (Sock *)sockPkt->data;
-    Sock &cached = _sockPool.at(sock->sockfd);
-    cached.addr = sock->addr;
-    cached.port = sock->port;
+    InetSock &cached = _sockPool.at(sock->sockfd);
+    cached.sk_addr = sock->addr;
+    cached.sk_port = sock->port;
 
     int success = 1;
     memcpy(_pBlock->buf1, &success, sizeof(success));
 
-    afterHandle(cached.pid, SIGUSR1, __func__);
+    afterHandle(cached.sk_pid, SIGUSR1, __func__);
     //kill(cached.pid, SIGUSR1);
     //log(TAG "%s : kill signal SIGUSR1 to process %d.\n", __func__, cached.pid);
 }
@@ -236,18 +241,18 @@ void CProtoSocket::handleSendTo(SockPacket *sockPkt)
     pkt.dport = dstAddr->sin_port;
 
     // get this socket
-    Sock & sock = _sockPool.at(sockDataHdr->sockfd);
+    InetSock & sock = _sockPool.at(sockDataHdr->sockfd);
 
     // get source ip address if not bind yet, 
     // if has bound, port will not be 0
-    if (sock.port == 0) {           // not bind yet
+    if (sock.sk_port == 0) {           // not bind yet
         const Device *dev = CHardware::instance()->getDefaultDevice();
-        sock.addr = dev->ipAddr;
-        sock.port = htons(selectPort());
+        sock.sk_addr = dev->ipAddr;
+        sock.sk_port = htons(selectPort());
     } else {}
 
-    pkt.saddr = sock.addr;
-    pkt.sport = sock.port;
+    pkt.saddr = sock.sk_addr;
+    pkt.sport = sock.sk_port;
 
     // call UDP::send()
     CUDP::instance()->send(&pkt);
@@ -260,7 +265,7 @@ void CProtoSocket::handleSendTo(SockPacket *sockPkt)
     // notify send bytes
     memcpy(_pBlock->buf1, &sockDataHdr->len, sizeof(int));
 
-    afterHandle(sock.pid, SIGUSR2, __func__);
+    afterHandle(sock.sk_pid, SIGUSR2, __func__);
  
 }
 
@@ -271,13 +276,13 @@ void CProtoSocket::handleRecvFrom(SockPacket *sockPkt)
     log(TAG "socket %d wanna recvfrom max %d bytes data.\n", dataHdr->sockfd, dataHdr->len);
 
     // get this socket
-    Sock& sock = _sockPool.at(dataHdr->sockfd);
+    InetSock& sock = _sockPool.at(dataHdr->sockfd);
 
     // add pending recvfrom socket
     //_pendingSocks.emplace(dataHdr->sockfd, sock.port);
     _pendingSocks.emplace(&sock);
  
-    log(TAG "%s : add penging socket %d:%d.\n", __func__, sock.sockfd, ntohs(sock.port));
+    log(TAG "%s : add penging socket %d:%d.\n", __func__, sock.sk_sockfd, ntohs(sock.sk_port));
 }
 
 void CProtoSocket::handleClose(SockPacket *sockPkt)
@@ -296,7 +301,12 @@ void CProtoSocket::handleListen(SockPacket *sockPkt)
 void CProtoSocket::handleConnect(SockPacket *sockPkt)
 {
     Sock *sock = (Sock *)sockPkt->data;
-    // 
+
+    InetSock &cached = _sockPool.at(sock->sockfd);
+    cached.sk_peerAddr = sock->peerAddr;
+    cached.sk_peerPort = sock->peerPort;
+
+    CTCP::instance()->connect();
 }
 
 void CProtoSocket::handleAccept(SockPacket *sockPkt)
@@ -312,20 +322,20 @@ void CProtoSocket::received(const packet_t *pkt)
 {
     log (TAG "Received %d bytes data.\n", pkt->len);
     log (TAG "_pendSocks: \n");
-    for_each (_pendingSocks.cbegin(), _pendingSocks.cend(), [=](const Sock *sock){
-                log("pid: %d, sockfd: %d, port: %d\n", sock->pid, sock->sockfd, ntohs(sock->port));
-            });
+    for_each (_pendingSocks.cbegin(), _pendingSocks.cend(), [=](const InetSock *sock){
+        log("pid: %d, sockfd: %d, port: %d\n", sock->sk_pid, sock->sk_sockfd, ntohs(sock->sk_port));
+    });
     // find pending socket
     auto p = std::find_if(_pendingSocks.cbegin(), _pendingSocks.cend(),
-                [=](const Sock* sock){
-                    return (sock->port == pkt->dport);
+                [=](const InetSock* sock){
+                    return (sock->sk_port == pkt->dport);
                 });
     if (p != _pendingSocks.cend()) {
-        const Sock* sock = *p;
+        const InetSock* sock = *p;
 
         // todo: copy pkt data to shared memory
         SockDataHdr dataHdr;
-        dataHdr.sockfd  = sock->sockfd;
+        dataHdr.sockfd  = sock->sk_sockfd;
         dataHdr.len     = pkt->len;
 
         struct sockaddr_in srcAddr;
@@ -352,7 +362,7 @@ void CProtoSocket::received(const packet_t *pkt)
 
         _pendingSocks.erase(p);
 
-        afterHandle(sock->pid, SIGUSR2, __func__);
+        afterHandle(sock->sk_pid, SIGUSR2, __func__);
         //kill(sock->pid, SIGUSR2);
         //log (TAG "%s : kill signal SIGUSR2 to process %d.\n", __func__, sock->pid);
     }

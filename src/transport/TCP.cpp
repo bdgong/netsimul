@@ -19,3 +19,6 @@ CTCP::~CTCP()
     log(TAG "desconstructed.\n");
 }
 
+void CTCP::connect()
+{
+}

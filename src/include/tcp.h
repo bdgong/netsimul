@@ -1,6 +1,7 @@
-
 #ifndef TCP_H_
 #define TCP_H_
+
+#include <sys/types.h>
 
 /* TCP header */
 typedef u_int tcp_seq;
