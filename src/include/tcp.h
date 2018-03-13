@@ -3,6 +3,8 @@
 
 #include <sys/types.h>
 
+#define SIZE_TCP 20
+
 /* TCP header */
 typedef u_int tcp_seq;
 

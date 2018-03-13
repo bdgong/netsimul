@@ -310,6 +310,7 @@ void CProtoSocket::handleConnect(SockPacket *sockPkt)
     int result = cached._sock.state;
 
     if (result == SS_UNCONNECTED) {
+        cached._sock.state = SS_CONNECTING;
         CTCP::instance()->connect(&cached);
     }
     else {
