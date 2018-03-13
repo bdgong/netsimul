@@ -1,4 +1,4 @@
-#pragma 
+#pragma once
 
 #include "tcp.h"
 #include "packet.h"
@@ -17,7 +17,7 @@ class CTCP
 
         void init();
 
-        void connect();
+        void connect(InetSock *sk);
         void listen();
         void accept();
 

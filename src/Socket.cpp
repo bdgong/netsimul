@@ -148,7 +148,7 @@ int CSocket::init(int family, int type, int protocol)
     //sock.port   = 0;
 
     SockPacket sockPkt;
-    sockPkt.type = SockPktCreate;
+    sockPkt.type = SOCK_CREATE;
     memcpy(sockPkt.data, &_sock, sizeof(Sock));
 
     // Copy to shared memory and notify this
@@ -177,7 +177,7 @@ int CSocket::bind(const struct sockaddr* addr, socklen_t len)
     _sock.port = bindAddr.sin_port;
 
     SockPacket sockPkt;
-    sockPkt.type = SockPktBind;
+    sockPkt.type = SOCK_BIND;
 
     memcpy(sockPkt.data, &_sock, sizeof(_sock));
     memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(Sock));
@@ -218,7 +218,7 @@ int CSocket::sendto(const char* buf, size_t len, int flags,
     sockDataHdr.len     = len;
 
     SockPacket sockPkt;
-    sockPkt.type = SockPktSendTo;
+    sockPkt.type = SOCK_SENDTO;
 
     char *pData = sockPkt.data;
 
@@ -270,7 +270,7 @@ int CSocket::recvfrom(char* buf, size_t len, int flags,
     dataHdr.len     = len;
 
     SockPacket sockPkt;
-    sockPkt.type    = SockPktRecvFrom;
+    sockPkt.type    = SOCK_RECVFROM;
 
     memcpy(sockPkt.data, &dataHdr, sizeof(dataHdr));
     memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(dataHdr));
@@ -301,7 +301,7 @@ int CSocket::recvfrom(char* buf, size_t len, int flags,
 int CSocket::close() 
 {
     SockPacket sockPkt;
-    sockPkt.type = SockPktClose;
+    sockPkt.type = SOCK_CLOSE;
 
     memcpy(sockPkt.data, &_sock, sizeof(Sock));
     memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(Sock));
@@ -313,7 +313,7 @@ int CSocket::close()
 int CSocket::connect(const struct sockaddr* addr, socklen_t len)
 {
     SockPacket sockPkt;
-    sockPkt.type = SockPktConnect;
+    sockPkt.type = SOCK_CONNECT;
 
     struct sockaddr_in * dstAddr = (struct sockaddr_in *)addr;
     _sock.peerAddr = dstAddr->sin_addr;

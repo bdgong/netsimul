@@ -142,31 +142,31 @@ void CProtoSocket::handleSockRequest()
 
     sockPkt = (SockPacket *)_pBlock->buf2;
     switch (sockPkt->type) {
-        case SockPktCreate: 
+        case SOCK_CREATE: 
             {
                 handleCreate(sockPkt); break;
             }
-        case SockPktBind:
+        case SOCK_BIND:
             {
                 handleBind(sockPkt); break;
             }
-        case SockPktSendTo:
+        case SOCK_SENDTO:
             {
                 handleSendTo(sockPkt); break;
             }
-        case SockPktRecvFrom:
+        case SOCK_RECVFROM:
             {
                 handleRecvFrom(sockPkt); break;
             }
-        case SockPktConnect:
+        case SOCK_CONNECT:
             {
                 handleConnect(sockPkt); break;
             }
-        case SockPktListen:
+        case SOCK_LISTEN:
             {
                 handleListen(sockPkt); break;
             }
-        case SockPktAccept:
+        case SOCK_ACCEPT:
             {
                 handleAccept(sockPkt); break;
             }
@@ -184,9 +184,10 @@ void CProtoSocket::handleCreate(SockPacket *sockPkt)
 
     printf("pid: %d, family: %d, type: %d, protocol: %d\n",
             sock->pid, sock->family, sock->type, sock->protocol);
+    sock->state = SS_UNCONNECTED;
     InetSock sk{
         ._sock = *sock,
-        .sk_state = UNCONNECTED
+        .sk_state = CLOSED 
     };
     // save to socket pool
     _sockPool.emplace(sock->sockfd, sk);
@@ -306,7 +307,17 @@ void CProtoSocket::handleConnect(SockPacket *sockPkt)
     cached.sk_peerAddr = sock->peerAddr;
     cached.sk_peerPort = sock->peerPort;
 
-    CTCP::instance()->connect();
+    int result = cached._sock.state;
+
+    if (result == SS_UNCONNECTED) {
+        CTCP::instance()->connect(&cached);
+    }
+    else {
+        log(TAG "Not unconnected socket: %d.\n", result);
+        memcpy(_pBlock->buf1, &result, sizeof(result));
+        afterHandle(cached.sk_pid, SIGUSR1, __func__);
+    }
+
 }
 
 void CProtoSocket::handleAccept(SockPacket *sockPkt)

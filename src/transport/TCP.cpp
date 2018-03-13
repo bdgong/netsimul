@@ -19,6 +19,7 @@ CTCP::~CTCP()
     log(TAG "desconstructed.\n");
 }
 
-void CTCP::connect()
+void CTCP::connect(InetSock *sk)
 {
 }
+

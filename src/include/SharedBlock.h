@@ -22,18 +22,26 @@ typedef struct sharedblock {
 
 typedef unsigned short SockPktT;
 
-enum sockpktype {
-    SockPktCreate = 1,
-    SockPktBind,
-    SockPktListen,
-    SockPktConnect,
-    SockPktAccept,
-    SockPktSend,
-    SockPktSendTo,
-    SockPktRecv,
-    SockPktRecvFrom,
-    SockPktClose
-};
+typedef enum sockpktype {
+    SOCK_CREATE = 1,
+    SOCK_BIND,
+    SOCK_LISTEN,
+    SOCK_CONNECT,
+    SOCK_ACCEPT,
+    SOCK_SEND,
+    SOCK_SENDTO,
+    SOCK_RECV,
+    SOCK_RECVFROM,
+    SOCK_CLOSE,
+} SockPktType;
+
+typedef enum socketstate {
+    SS_FREE = 0,
+    SS_UNCONNECTED,
+    SS_CONNECTED,
+    SS_CONNECTING,
+    SS_DISCONNECTING
+} SocketState;
 
 /*
  * struct sockpacket - this data structure will save to buf1 or buf2 after conversion
@@ -55,6 +63,16 @@ typedef struct tagSock {
     uint16_t port;      // socket bind port
     struct in_addr peerAddr;// peer socket address
     uint16_t peerPort;      // peer socket port
+    SocketState state;  // connection state
+
+    tagSock() 
+    {
+        sockfd = pid = family = type = protocol = 0;
+        port = peerPort = 0;
+        addr.s_addr = peerAddr.s_addr = 0;
+        state = SS_UNCONNECTED;
+    }
+
 } Sock;
 
 typedef struct tagSockDataHdr {

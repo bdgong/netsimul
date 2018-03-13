@@ -16,10 +16,6 @@ typedef enum inetsockstate {
     SYN_RCVD,
     CLOSE_WAIT,
     LAST_ACK,
-
-    UNCONNECTED,
-    CONNECTING,
-    DISCONNECTING
 } InetSockState;
 
 typedef struct tagInetSock
