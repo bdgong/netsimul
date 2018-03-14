@@ -51,6 +51,7 @@ class CProtoSocket
          * Random select an unused port
          * */
         unsigned short selectPort();
+        void setLocalAddr(InetSock * sock);
 
         void newConnection();
         void onConnectFinish();

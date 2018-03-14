@@ -98,7 +98,7 @@ private:
      *
      * @addr The address resolved
      * */
-    void processPendingDatagrams(in_addr_t addr);
+    void processPendingDatagrams(in_addr_t addr, const struct ether_addr * mac);
 
     void replyARP(const ARPHdr *arphdr);
 

@@ -168,6 +168,7 @@ void CNetwork::deliver(packet_t *pkt)
     switch (pkt->proto) {
         case IPPROTO_TCP:
             {
+                CTCP::instance()->received(pkt);
                 break;
             }
         case IPPROTO_UDP:

@@ -152,7 +152,8 @@ void CARP::recvARP(packet_t *packet)
             debug(DBG_DEFAULT, "arp reply.  cache and process.");
             cache(arphdr);
 
-            processPendingDatagrams(arphdr->spa);   // notify for pending ip datagram
+            processPendingDatagrams(arphdr->spa,
+                    (struct ether_addr*)arphdr->sha);   // notify for pending ip datagram
         }
         else if(oper == ARPOP_REQUEST)  {
             debug(DBG_DEFAULT, "arp request, cache and reply.");
@@ -170,17 +171,20 @@ void CARP::recvARP(packet_t *packet)
 
 }
 
-void CARP::processPendingDatagrams(in_addr_t addr)
+void CARP::processPendingDatagrams(in_addr_t addr, const struct ether_addr * mac)
 {
     ARPQueue::iterator it = _arpQueue.find(addr);
     if (it != _arpQueue.end()) {
         auto &itemList = it->second;
 
         for (auto &item : itemList) {
+            packet_t *pkt = item.packet;
+            pkt->dha = *mac;
             debug(DBG_DEFAULT, "<ARP> process pending datagrams for %s...", inet_ntoa(*(struct in_addr*)&addr));
             log("<ARP> process pending datagrams for %s...\n", inet_ntoa(*(struct in_addr*)&addr));
             _link->transmit(item.packet);
             delete item.packet;         // delete [1]
+            item.packet = nullptr;
         }
 
         _arpQueue.erase(it);

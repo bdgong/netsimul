@@ -1,6 +1,7 @@
 #include "Link.h"
 #include "Util.h"
 #include <cstring>
+#include <netinet/ether.h>
 
 #define TAG "<Link> "
 
@@ -30,49 +31,12 @@ void CLink::transmit(packet_t *packet)
     memcpy(&etherhdr.ether_dhost, &packet->dha, ETH_ALEN);
     etherhdr.ether_type     = htons(packet->ept); 
 
+    log (TAG "%s(): From %s.\n", __func__, ether_ntoa((ether_addr*)&etherhdr.ether_shost));
+    log (TAG "%s(): To   %s.\n", __func__, ether_ntoa((ether_addr*)&etherhdr.ether_dhost));
+
     packet->push(ETH_HLEN);
     memcpy(packet->data, &etherhdr, ETH_HLEN);
     _hardware->transmit(packet->data, packet->len);
-
-    //u_int16_t size = 0;
-    //u_int8_t *buf = nullptr;
-    //u_int16_t nFrameData = 0;
-    //u_int8_t *pFrameData = nullptr;
-    //switch (packet->ept) {
-        //case ETH_P_ARP:
-            //nFrameData = cARPHeaderLen;
-            //pFrameData = (u_int8_t *)&packet->arphdr;
-            ////size = ETH_HLEN + cARPHeaderLen + ETH_FCS_LEN;
-            ////if (size < ETH_ZLEN) 
-                ////size = ETH_ZLEN;
-            ////buf = new u_int8_t[size]{0};
-            ////memcpy(buf, &etherhdr, ETH_HLEN);
-            ////memcpy(buf + ETH_HLEN, &(packet->arphdr), cARPHeaderLen);
-            //break;
-        //case ETH_P_IP:
-            //nFrameData = packet->size;
-            //pFrameData = packet->buf;
-            ////size = ETH_HLEN + packet->size + ETH_FCS_LEN;
-            ////if (size < ETH_ZLEN) 
-                ////size = ETH_ZLEN;
-            ////buf = new u_int8_t[size]{0};
-            ////memcpy(buf, &etherhdr, ETH_HLEN);
-            ////memcpy(buf + ETH_HLEN, packet->buf, packet->size);
-            //break;
-        //default:
-            //error("Not supported ethernet packet type: %d.\n", packet->ept);
-            //return ;
-    //}
-
-    //size = ETH_HLEN + nFrameData + ETH_FCS_LEN;
-    //if (size < ETH_ZLEN) 
-        //size = ETH_ZLEN;
-    //buf = new u_int8_t[size]{0};
-    //memcpy(buf, &etherhdr, ETH_HLEN);
-    //memcpy(buf + ETH_HLEN, pFrameData, nFrameData);
-
-    //_hardware->transmit(buf, size);
-    //delete[] buf;
 
 }
 

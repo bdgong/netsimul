@@ -243,3 +243,13 @@ Useful headers
 * `/usr/include/netinet/in.h`
 * `/usr/include/netinet/ether.h`
 
+Capture with `tcpdump`
+
+* Capture UDP packet and save to capture.log file
+
+        sudo tcpdump -vvv -xx udp | tee capture.log
+
+* Capture host 211.67.27.254 packets and print while capture
+
+        sudo tcpdump -nl -vvv -xx host 211.67.27.254 | tee capture.log
+

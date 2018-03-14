@@ -54,6 +54,7 @@ CProtoSocket::CProtoSocket()
     CLink::instance()->init();
     CNetwork::instance()->init();
     CUDP::instance()->init();
+    CTCP::instance()->init();
 
     createSharedMem();
 }
@@ -244,13 +245,8 @@ void CProtoSocket::handleSendTo(SockPacket *sockPkt)
     // get this socket
     InetSock & sock = _sockPool.at(sockDataHdr->sockfd);
 
-    // get source ip address if not bind yet, 
-    // if has bound, port will not be 0
-    if (sock.sk_port == 0) {           // not bind yet
-        const Device *dev = CHardware::instance()->getDefaultDevice();
-        sock.sk_addr = dev->ipAddr;
-        sock.sk_port = htons(selectPort());
-    } else {}
+    // set local address as needed
+    setLocalAddr(&sock);
 
     pkt.saddr = sock.sk_addr;
     pkt.sport = sock.sk_port;
@@ -307,6 +303,9 @@ void CProtoSocket::handleConnect(SockPacket *sockPkt)
     cached.sk_peerAddr = sock->peerAddr;
     cached.sk_peerPort = sock->peerPort;
 
+    // set local address as needed
+    setLocalAddr(&cached);
+
     int result = cached._sock.state;
 
     if (result == SS_UNCONNECTED) {
@@ -328,6 +327,18 @@ void CProtoSocket::handleAccept(SockPacket *sockPkt)
 unsigned short CProtoSocket::selectPort()
 {
     return 1314;
+}
+
+void CProtoSocket::setLocalAddr(InetSock * sock)
+{
+    // get source ip address if not bind yet, 
+    // if has bound, port will not be 0
+    if (sock->sk_port == 0) {           // not bind yet
+        const Device *dev = CHardware::instance()->getDefaultDevice();
+        sock->sk_addr = dev->ipAddr;
+        sock->sk_port = htons(selectPort());
+    } else {}
+
 }
 
 void CProtoSocket::received(const packet_t *pkt)
