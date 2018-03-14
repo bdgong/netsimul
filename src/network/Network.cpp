@@ -3,6 +3,8 @@
 #include "ip.h"
 #include "CheckSum.h"
 #include "Util.h"
+#include "TCP.h"
+#include "UDP.h"
 
 #include <cstring>
 #include <algorithm>
@@ -168,12 +170,12 @@ void CNetwork::deliver(packet_t *pkt)
     switch (pkt->proto) {
         case IPPROTO_TCP:
             {
-                CTCP::instance()->received(pkt);
+                _tcp->received(pkt);
                 break;
             }
         case IPPROTO_UDP:
             {
-                CUDP::instance()->received(pkt);
+                _udp->received(pkt);
                 break;
             }
         case IPPROTO_ICMP:
@@ -362,6 +364,9 @@ void CNetwork::init()
 
     _neigh = CNeighbor::instance();
     _neigh->init();
+
+    _tcp = CTCP::instance();
+    _udp = CUDP::instance();
 
     _isInited = true;
     debug(DBG_DEFAULT, "<Network> inited.");

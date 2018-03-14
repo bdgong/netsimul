@@ -45,12 +45,21 @@ void CTCP::init()
     _network = CNetwork::instance();
     _network->init();
     _isInited = true;
-    debug(DBG_DEFAULT, " inited.");
+    debug(DBG_DEFAULT, TAG "inited.");
 }
 
 CTCP::~CTCP()
 {
     log(TAG "desconstructed.\n");
+}
+
+void CTCP::send(packet_t *pkt)
+{
+}
+
+void CTCP::received(packet_t *pkt)
+{
+    log(TAG "%s().\n", __func__);
 }
 
 void CTCP::connect(InetSock *sk)

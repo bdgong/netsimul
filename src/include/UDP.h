@@ -1,9 +1,9 @@
 #pragma once
 
 #include "udp.h"
-#include "packet.h"
+#include "BaseIO.h"
 
-class CUDP
+class CUDP : public CBaseIO
 {
 public:
     static CUDP * instance()
@@ -28,10 +28,7 @@ public:
      * */
     void received(packet_t *pkt);
 private:
-    //
-    bool _isInited;
-
-    CUDP() : _isInited(false)
+    CUDP()
     {
     }
 

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Neighbor.h"
-#include "UDP.h"
 #include "packet.h"
 #include "ip.h"
 #include <map>
 #include <list>
+#include "BaseIO.h"
 
 typedef struct frag_list {
     struct in_addr          saddr,      // fragment source ip address
@@ -19,7 +19,7 @@ typedef struct frag_list {
 
 class CNeighbor;
 
-class CNetwork
+class CNetwork : public CBaseIO
 {
 public:
     //
@@ -85,17 +85,6 @@ public:
     void fragment(packet_t *pkt, uint16_t mtu);
 
 private:
-    //
-    bool _isInited;
-
-    CNeighbor *_neigh;
-
-    /*key: destination ip address, value: id for ip header*/
-    std::map<in_addr_t, unsigned short> _idMap;
-
-    /*key: fragment hash code, value: list for datagram fragments*/
-    std::map<uint32_t, IPFragList> _fragsMap;
-
     /*
      * Return an id and increase it
      *
@@ -117,13 +106,22 @@ private:
      * */
     void clear(IPFragList *pFrags);
 
-    CNetwork() : 
-        _isInited(false),
-        _neigh(nullptr)
+    CNetwork() : _neigh(nullptr)
     {
     }
 
     CNetwork(const CNetwork&);
     CNetwork & operator= (const CNetwork&);
+
+    CNeighbor *_neigh;
+    CBaseIO *_tcp;
+    CBaseIO *_udp;
+
+    /*key: destination ip address, value: id for ip header*/
+    std::map<in_addr_t, unsigned short> _idMap;
+
+    /*key: fragment hash code, value: list for datagram fragments*/
+    std::map<uint32_t, IPFragList> _fragsMap;
+
 };
 
