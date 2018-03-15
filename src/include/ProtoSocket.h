@@ -1,11 +1,11 @@
 #pragma once 
 
 #include "SharedBlock.h"
-#include <map>
-#include <set>
-
 #include "InetSocket.h"
 #include "packet.h"
+
+#include <map>
+#include <set>
 
 class CProtoSocket
 {
@@ -23,6 +23,9 @@ class CProtoSocket
          * Received packet from protocol
          * */
         void received(const packet_t *pkt);
+
+        void onConnectFinish();
+        uint32_t selectFD();
          
     private:
         // 
@@ -50,11 +53,9 @@ class CProtoSocket
         /*
          * Random select an unused port
          * */
-        unsigned short selectPort();
-        void setLocalAddr(InetSock * sock);
+        uint16_t selectPort();
 
-        void newConnection();
-        void onConnectFinish();
+        void setLocalAddr(InetSock * sk);
 
         int _shmid;          // shared memory identifier
         SharedBlock *_pBlock;// shared block

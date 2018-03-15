@@ -324,10 +324,16 @@ void CProtoSocket::handleAccept(SockPacket *sockPkt)
 {
 }
 
-unsigned short CProtoSocket::selectPort()
+uint16_t CProtoSocket::selectPort()
 {
     return 1314;
 }
+
+uint32_t CProtoSocket::selectFD()
+{
+    return 15110;
+}
+
 
 void CProtoSocket::setLocalAddr(InetSock * sock)
 {
@@ -340,6 +346,7 @@ void CProtoSocket::setLocalAddr(InetSock * sock)
     } else {}
 
 }
+
 
 void CProtoSocket::received(const packet_t *pkt)
 {

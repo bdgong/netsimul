@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SharedBlock.h"
+#include <string>
 
 /*
  * enum use capital, remember this rule
@@ -18,6 +19,9 @@ typedef enum inetsockstate {
     LAST_ACK,
 } InetSockState;
 
+/*
+ * struct InetSock - Internet socket
+ * */
 typedef struct tagInetSock
 {
     Sock _sock;
@@ -32,4 +36,31 @@ typedef struct tagInetSock
 #define sk_peerPort _sock.peerPort
     InetSockState sk_state;
 } InetSock;
+
+/*
+ * struct InetConnSock - Internet connection based socket
+ * */
+typedef struct tagInetConnSock
+{
+    InetSock _inetSock;
+#define ics_sockfd _inetSock.sk_sockfd
+#define ics_pid _inetSock.sk_pid
+#define ics_family _inetSock.sk_family
+#define ics_type _inetSock.sk_type
+#define ics_protocol _inetSock.sk_protocol
+#define ics_addr _inetSock.sk_addr
+#define ics_port _inetSock.sk_port
+#define ics_peerAddr _inetSock.sk_peerAddr
+#define ics_peerPort _inetSock.sk_peerPort
+#define ics_state _inetSock.sk_state
+    int lastAck;
+    int lastSeq;
+    int window;
+
+    tagInetConnSock() 
+    {
+        lastAck = lastSeq = window = 0;
+    }
+
+} InetConnSock;
 
