@@ -40,13 +40,13 @@ class CSocket
         int recv(char * buf, size_t len, int flags);
 
         /*
-         * On success, these calls return the number of bytes sent.  On error, -1 is returned
+         * @return The number of bytes sent.  On error, -1 is returned
          * */
         int sendto(const char* buf, size_t len, int flags,
                 const struct sockaddr* dstAddr, socklen_t addrlen);
 
         /*
-         * These  calls  return  the  number  of bytes received, or -1 if an error occurred.
+         * @return The  number  of bytes received, or -1 if an error occurred.
          * */
         int recvfrom(char* buf, size_t len, int flags,
                 struct sockaddr* srcAddr, socklen_t* addrlen);
@@ -55,6 +55,7 @@ class CSocket
          * Set this socket to listen mode
          *
          * @backlog The maximum client might in queue 
+         * @return On success, zero is returned.  On error, -1 is returned
          * */
         int listen(int backlog);
 
@@ -90,6 +91,8 @@ class CSocket
 
         /*
          * Wait protocols stack reply
+         *
+         * @return Theorically, on success, 1 is returned, otherwise return 0 !!!
          * */
         int waitForSuccess(int signo);
 

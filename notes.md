@@ -136,6 +136,11 @@ Network protocols run as a process (M), each Socket application run as another p
 对于协议层Socket的接收，需要确定应用程序端口号向应用程序Socket进行分发（可以将应用进程ID和端口号绑定，指定进程ID发送信号，数据里也放一个进程ID，进程取数据时再次检查该ID是否和本进程ID一致）
 对于协议层Socket的发送，也许需要向应用程序Socket反馈发送状态
 
+CProtoSocket
+
+- `_pendingAccept`
+
+    Recording accept requests by their port number, after handle such a request, remove corresponding port number. 
 
 --------------------
 

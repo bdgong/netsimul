@@ -35,6 +35,7 @@ typedef struct tagInetSock
 #define sk_peerAddr _sock.peerAddr
 #define sk_peerPort _sock.peerPort
     InetSockState sk_state;
+    int backlog;
 } InetSock;
 
 /*

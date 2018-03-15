@@ -101,11 +101,49 @@ void CTCP::received(packet_t *pkt)
                 }
             case TH_SYN | TH_ACK:
                 {
-                    log(TAG "%s(): SYN and ACK.\n", __func__);
+                    log(TAG "%s(): SYN and ACK.\n", __func__); 
                     if (conn->ics_state == SYN_SENT) {
                         // todo: send ACK, connect() finish 
+                        int replySeq = ack;
+                        int replyAck = seq + 1;
+
+                        int sizeHdr = SIZE_TCP + SIZE_IP + SIZE_ETHERNET;
+                        packet_t pack(sizeHdr);
+                        pack.saddr = conn->ics_addr;
+                        pack.sport = conn->ics_port;
+                        pack.daddr = conn->ics_peerAddr;
+                        pack.dport = conn->ics_peerPort;
+
+                        pack.proto = IPPROTO_TCP; 
+                        pack.reserve(sizeHdr); 
+
+                        tcphdr_t thdr;
+                        thdr.th_sport = conn->ics_port;
+                        thdr.th_dport = conn->ics_peerPort;
+                        thdr.th_seq = htonl(replySeq);
+                        thdr.th_ack = htonl(replyAck);
+                        thdr.th_offx2 = 0x50;
+                        thdr.th_flags = TH_ACK;
+                        thdr.th_win = 0xffff;
+                        thdr.th_sum = 0;
+                        thdr.th_urp = 0;
+
+                        packet_t emptyPkt;
+                        emptyPkt.copyMetadata(pack);
+                        thdr.th_sum = cksum_tcp(&thdr, &emptyPkt);
+
+                        pack.push(SIZE_TCP);
+                        memcpy(pack.data, &thdr, sizeof(tcphdr_t));
+
+                        _network->send(&pack);
+
+                        // we established a connection at client side
+                        conn->ics_state = ESTABLISHED;
+                        _protoSock->connectFinished(key, conn); 
                     }
                     else {
+                        // what's this?
+                        log(TAG "%s(): get SYN and ACK but connection state is not SYN_SENT, just ignore...\n", __func__); 
                     }
                     break;
                 }
@@ -122,6 +160,17 @@ void CTCP::received(packet_t *pkt)
             case TH_ACK:
                 {
                     log(TAG "%s(): ACK.\n", __func__);
+                    if (conn->ics_state == SYN_RCVD) {
+                        // we established a connection at server side
+                        conn->ics_state = ESTABLISHED;
+                        _protoSock->accept(key, conn);
+                    }
+                    else if (conn->ics_state == ESTABLISHED){
+                        log(TAG "%s(): received a data packet.\n", __func__);
+                    }
+                    else {
+                        log(TAG "%s(): a connection received ACK but state neither SYN_RCVD nor ESTABLISHED.\n", __func__);
+                    }
                     break;
                 }
             case TH_URG:
@@ -132,6 +181,7 @@ void CTCP::received(packet_t *pkt)
         }
     }
     else {
+        // try listening socket
         InetSockMap::iterator iter = _listenPool.find(pkt->dport);
         if (iter != _listenPool.end() && iter->second->sk_state == LISTEN) {
             log(TAG "find listen socket.\n");
@@ -154,6 +204,8 @@ void CTCP::received(packet_t *pkt)
                 // todo: send CTL, Wed 14 Mar 2018 18:38:51 
                 int replySeq = 300;
                 int replyAck = seq + 1;
+                conn->lastAck = replyAck;
+                conn->lastSeq = replySeq;
 
                 int sizeHdr = SIZE_TCP + SIZE_IP + SIZE_ETHERNET;
                 packet_t pack(sizeHdr);
@@ -267,7 +319,7 @@ string CTCP::keyOf(struct in_addr localAddr, uint16_t localPort,
 
 InetConnSock * CTCP::newConnection(InetConnSock *ics)
 {
-    ics->ics_sockfd = _protoSock->selectFD();
+    ics->ics_sockfd = 0;            // 0 for unaccepted connection
 
     string key = keyOf(ics);
     auto pair = _connPool.emplace(key, *ics);// std::pair<map<string,InetConnSock>::iterator,bool>
@@ -279,11 +331,8 @@ InetConnSock * CTCP::newConnection(InetConnSock *ics)
 
 }
 
-void CTCP::listen()
+void CTCP::listen(InetSock *sk) 
 {
-}
-
-void CTCP::accept()
-{
+    _listenPool.emplace(sk->sk_port, sk);
 }
 

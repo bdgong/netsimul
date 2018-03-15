@@ -19,6 +19,8 @@
 
 #define TAG "<CProtoSocket> "
 
+using std::string;
+
 int sig;            // signal received
 
 void handler0(int signo)
@@ -39,7 +41,13 @@ void handler2(int signo)
     printf("Received signal USR2.\n");
 }
 
-inline void afterHandle(int pid, int signo, const char *funcName)
+void CProtoSocket::afterHandle(int success, int pid, int signo, const char * const funcName)
+{
+    memcpy(_pBlock->buf1, &success, sizeof(success));
+    afterHandle(pid, signo, funcName);
+}
+
+void CProtoSocket::afterHandle(int pid, int signo, const char *funcName)
 {
     usleep(100);            // VIP: wait CSocket enter pause() statement
     kill(pid, signo);
@@ -293,6 +301,22 @@ void CProtoSocket::handleClose(SockPacket *sockPkt)
 
 void CProtoSocket::handleListen(SockPacket *sockPkt)
 {
+    Sock *sock = (Sock *)sockPkt->data; 
+    InetSock &cached = _sockPool.at(sock->sockfd);
+
+    char *pData = sockPkt->data;
+    pData += sizeof(Sock);
+
+    int backlog = *(int *)pData;
+    cached.backlog = backlog;
+
+    cached.sk_state = LISTEN;
+    cached._sock.state = SS_CONNECTING; // optional 
+
+    CTCP::instance()->listen(&cached); 
+
+    afterHandle(1, cached.sk_pid, SIGUSR1, __func__); 
+
 }
 
 void CProtoSocket::handleConnect(SockPacket *sockPkt)
@@ -311,6 +335,7 @@ void CProtoSocket::handleConnect(SockPacket *sockPkt)
     if (result == SS_UNCONNECTED) {
         cached._sock.state = SS_CONNECTING;
         CTCP::instance()->connect(&cached);
+        // if connect successfully, connectFinished() is called
     }
     else {
         log(TAG "Not unconnected socket: %d.\n", result);
@@ -320,8 +345,58 @@ void CProtoSocket::handleConnect(SockPacket *sockPkt)
 
 }
 
+void CProtoSocket::connectFinished(string name, InetConnSock *ics)
+{
+    _connPPool.emplace(name, ics); 
+
+    afterHandle(1, ics->ics_pid, SIGUSR1, __func__);
+}
+
 void CProtoSocket::handleAccept(SockPacket *sockPkt)
 {
+    Sock *sock = (Sock *)sockPkt->data;
+    // when there is a connected connection, return it, otherwise, record an accept request 
+    //
+    // find a connection without sockfd assigned
+    //
+    ConnPMap::iterator it = std::find_if(_connPPool.begin(), _connPPool.end(), [=](const ConnPMap::value_type &pair){
+                InetConnSock *conn = pair.second;
+                return conn->ics_sockfd == 0 && conn->ics_port == sock->port; 
+            });
+
+    if (it != _connPPool.end()) {
+        // find a connection, return it
+        InetConnSock *ics = it->second;
+        ics->ics_sockfd = selectFD();
+
+        Sock *newSock = (Sock *)ics;
+        memcpy(_pBlock->buf1, newSock, sizeof(Sock));
+        afterHandle(newSock->pid, SIGUSR1, __func__);
+    }
+    else {
+        // no available connection yet
+        _pendingAccept.insert(sock->port);
+    }
+
+}
+
+void CProtoSocket::accept(std::string name, InetConnSock *ics)
+{
+    auto pair = _connPPool.emplace(name, ics);
+
+    std::set<uint16_t>::iterator it = _pendingAccept.find(ics->ics_port);
+    if (it != _pendingAccept.end()) {
+        ics->ics_sockfd = selectFD(); 
+        Sock *newSock = (Sock *)ics;
+        memcpy(_pBlock->buf1, newSock, sizeof(Sock));
+
+        _pendingAccept.erase(ics->ics_port);
+
+        afterHandle(newSock->pid, SIGUSR1, __func__);
+    }
+    else {
+        log (TAG "%s(): no accept request at port %d\n", __func__, ics->ics_port);
+    }
 }
 
 uint16_t CProtoSocket::selectPort()

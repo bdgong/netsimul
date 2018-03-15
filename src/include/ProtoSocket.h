@@ -6,6 +6,10 @@
 
 #include <map>
 #include <set>
+#include <string>
+
+typedef std::map<std::string, InetConnSock*> ConnPMap; // connections, <localAddr.localPort-peerAddr.peerPort, InetConnSock*>
+                                                    // actually, value is a pointer to TCP member _connPool's element
 
 class CProtoSocket
 {
@@ -24,8 +28,25 @@ class CProtoSocket
          * */
         void received(const packet_t *pkt);
 
-        void onConnectFinish();
+        /*
+         * Called by TCP when a new connection @ics is arrived
+         *
+         * @name Connection name
+         * @ics The connection 
+         *
+         * To be honest, this method can be avoided
+         * */
+        void connectFinished(std::string name, InetConnSock *ics);
+
         uint32_t selectFD();
+
+        /*
+         * Accepted an established connection from TCP
+         *
+         * @name Connection name
+         * @ics The connection 
+         * */
+        void accept(std::string name, InetConnSock *ics);
          
     private:
         // 
@@ -57,11 +78,23 @@ class CProtoSocket
 
         void setLocalAddr(InetSock * sk);
 
-        int _shmid;          // shared memory identifier
-        SharedBlock *_pBlock;// shared block
+        /*
+         * Notify socket a given signal
+         *
+         * @success An int value when 1 for success, 0 for failed
+         * @pid The process id
+         * @signo The signal number
+         * @funcName The calling function name
+         * */
+        void afterHandle(int success, int pid, int signo, const char * const funcName);
+        void afterHandle(int pid, int signo, const char * const funcName);
 
+        std::set<uint16_t> _pendingAccept;
+        ConnPMap _connPPool; // connection pointers map
         std::map<int, InetSock> _sockPool;        // created sockets, <sockfd, InetSock>
         std::set<InetSock *> _pendingSocks;       // pending recvfrom sockets
 
+        int _shmid;          // shared memory identifier
+        SharedBlock *_pBlock;// shared block
 };
 

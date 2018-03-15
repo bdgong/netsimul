@@ -338,7 +338,16 @@ int CSocket::recv(char * buf, size_t len, int flag)
 
 int CSocket::listen(int backlog)
 {
-    return 0;
+    SockPacket sockPkt;
+    sockPkt.type = SOCK_LISTEN;
+
+    char *pData = sockPkt.data;
+    memcpy(pData, &_sock, sizeof(_sock));
+    pData += sizeof(_sock);
+    memcpy(pData, &backlog, sizeof(int));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(_sock) + sizeof(int));
+
+    return waitForSuccess(SIGUSR1) - 1;
 }
 
 std::unique_ptr<CSocket> CSocket::accept(struct sockaddr * sockaddr, socklen_t * addrlen)
@@ -350,6 +359,28 @@ std::unique_ptr<CSocket> CSocket::accept(struct sockaddr * sockaddr, socklen_t *
     // but, actually, shared memory by attach method won't be error, maybe you don't have
     // to change any thing
     std::unique_ptr<CSocket> pSock(new CSocket());
+
+    SockPacket sockPkt;
+    sockPkt.type = SOCK_ACCEPT;
+
+    memcpy(sockPkt.data, &_sock, sizeof(_sock));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(Sock)); 
+
+    kill(_protoPid, SIGUSR1);
+
+    pause();
+
+    Sock *sock = (Sock *)_pBlock->buf1; 
+    pSock->_sock = *sock;
+
+    struct sockaddr_in *fromAddr = (struct sockaddr_in *)sockaddr;
+    fromAddr->sin_addr = sock->peerAddr;
+    fromAddr->sin_port = sock->peerPort;
+    fromAddr->sin_family = sock->family;
+    memset(fromAddr->sin_zero, 0, sizeof(fromAddr->sin_zero));
+
+    *addrlen = sizeof(struct sockaddr_in);
+
     return pSock;
 }
 
