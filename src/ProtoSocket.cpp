@@ -41,29 +41,8 @@ void handler2(int signo)
     printf("Received signal USR2.\n");
 }
 
-void CProtoSocket::afterHandle(int success, int pid, int signo, const char * const funcName)
-{
-    memcpy(_pBlock->buf1, &success, sizeof(success));
-    afterHandle(pid, signo, funcName);
-}
-
-void CProtoSocket::afterHandle(int pid, int signo, const char *funcName)
-{
-    usleep(100);            // VIP: wait CSocket enter pause() statement
-    kill(pid, signo);
-    log(TAG "%s() : kill signal %d to process %d.\n", funcName, signo, pid);
-}
-
 CProtoSocket::CProtoSocket()
 {
-    //init();
-    // protocols init
-    CHardware::instance()->init();
-    CLink::instance()->init();
-    CNetwork::instance()->init();
-    CUDP::instance()->init();
-    CTCP::instance()->init();
-
     createSharedMem();
 }
 
@@ -113,15 +92,19 @@ void CProtoSocket::destroySharedMem()
 
 void CProtoSocket::run()
 {
-    // boot protocols
-    CUDP::instance()->init(); 
+    // protocols init, must in order : top-to-down
+    CTCP::instance()->init();
+    CUDP::instance()->init();
+    CNetwork::instance()->init();
+    CLink::instance()->init();
+    CHardware::instance()->init();
 
     // catch signals
     signal(SIGUSR1, handler1);
     signal(SIGUSR2, handler2);
     signal(SIGINT, handler0);
 
-    printf("Protocol running...\n");
+    printf("Protocol socket running...\n");
 
     while (true) {
         pause();
@@ -301,6 +284,7 @@ void CProtoSocket::handleClose(SockPacket *sockPkt)
 
 void CProtoSocket::handleListen(SockPacket *sockPkt)
 {
+    log(TAG "%s().\n", __func__);
     Sock *sock = (Sock *)sockPkt->data; 
     InetSock &cached = _sockPool.at(sock->sockfd);
 
@@ -347,6 +331,7 @@ void CProtoSocket::handleConnect(SockPacket *sockPkt)
 
 void CProtoSocket::connectFinished(string name, InetConnSock *ics)
 {
+    log(TAG "%s().\n", __func__);
     _connPPool.emplace(name, ics); 
 
     afterHandle(1, ics->ics_pid, SIGUSR1, __func__);
@@ -354,6 +339,7 @@ void CProtoSocket::connectFinished(string name, InetConnSock *ics)
 
 void CProtoSocket::handleAccept(SockPacket *sockPkt)
 {
+    log(TAG "%s().\n", __func__);
     Sock *sock = (Sock *)sockPkt->data;
     // when there is a connected connection, return it, otherwise, record an accept request 
     //
@@ -382,6 +368,7 @@ void CProtoSocket::handleAccept(SockPacket *sockPkt)
 
 void CProtoSocket::accept(std::string name, InetConnSock *ics)
 {
+    log(TAG "%s(): %s.\n", __func__, name.c_str());
     auto pair = _connPPool.emplace(name, ics);
 
     std::set<uint16_t>::iterator it = _pendingAccept.find(ics->ics_port);
@@ -476,5 +463,18 @@ void CProtoSocket::received(const packet_t *pkt)
         log(TAG "No pending socket port %d find.\n", ntohs(pkt->dport));
     }
 
+}
+
+void CProtoSocket::afterHandle(int success, int pid, int signo, const char * const funcName)
+{
+    memcpy(_pBlock->buf1, &success, sizeof(success));
+    afterHandle(pid, signo, funcName);
+}
+
+void CProtoSocket::afterHandle(int pid, int signo, const char *funcName)
+{
+    usleep(100);            // VIP: wait CSocket enter pause() statement
+    kill(pid, signo);
+    log(TAG "%s() : kill signal %d to process %d.\n", funcName, signo, pid);
 }
 

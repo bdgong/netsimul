@@ -346,20 +346,13 @@ int CSocket::listen(int backlog)
     pData += sizeof(_sock);
     memcpy(pData, &backlog, sizeof(int));
     memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(_sock) + sizeof(int));
+    kill(_protoPid, SIGUSR1);
 
     return waitForSuccess(SIGUSR1) - 1;
 }
 
 std::unique_ptr<CSocket> CSocket::accept(struct sockaddr * sockaddr, socklen_t * addrlen)
 {
-    // here should get your notice since shared memory used, fix the code
-    // 
-    // there is one way, add another constructor with more parameter
-    // 
-    // but, actually, shared memory by attach method won't be error, maybe you don't have
-    // to change any thing
-    std::unique_ptr<CSocket> pSock(new CSocket());
-
     SockPacket sockPkt;
     sockPkt.type = SOCK_ACCEPT;
 
@@ -371,6 +364,8 @@ std::unique_ptr<CSocket> CSocket::accept(struct sockaddr * sockaddr, socklen_t *
     pause();
 
     Sock *sock = (Sock *)_pBlock->buf1; 
+
+    std::unique_ptr<CSocket> pSock(new CSocket());
     pSock->_sock = *sock;
 
     struct sockaddr_in *fromAddr = (struct sockaddr_in *)sockaddr;

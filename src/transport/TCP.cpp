@@ -48,6 +48,7 @@ void CTCP::init()
 
     _protoSock = CProtoSocket::instance();
     _network = CNetwork::instance();
+    _network->init();
 
     _isInited = true;
     debug(DBG_DEFAULT, TAG "inited.");
@@ -87,7 +88,7 @@ void CTCP::received(packet_t *pkt)
 
         switch (tcphdr->th_flags) {
             default:
-                log(TAG "%s(): unknown flag: %x.\n", __func__, tcphdr->th_flags);
+                log(TAG "%s(): unknown flag: %d.\n", __func__, tcphdr->th_flags);
                 break;
             case TH_FIN:
                 {
@@ -148,8 +149,9 @@ void CTCP::received(packet_t *pkt)
                     break;
                 }
             case TH_RST:
+            case TH_ACK | TH_RST:
                 {
-                    log(TAG "%s(): RST.\n", __func__);
+                    log(TAG "%s(): RST(or ACK|RST).\n", __func__);
                     break;
                 }
             case TH_PUSH:
@@ -191,12 +193,12 @@ void CTCP::received(packet_t *pkt)
                 //
                 // sk_state = SYN_RCVD
                 // CTL = SYN, ACK
+                log(TAG "%s(): listened SYN.\n", __func__);
                 InetConnSock ics;
                 ics._inetSock = *iter->second;
 
                 ics.ics_peerAddr = pkt->saddr;
                 ics.ics_peerPort = pkt->sport;
-
                 ics.ics_state = SYN_RCVD;
 
                 InetConnSock *conn = newConnection(&ics);
@@ -235,7 +237,8 @@ void CTCP::received(packet_t *pkt)
                 pack.push(SIZE_TCP);
                 memcpy(pack.data, &thdr, sizeof(tcphdr_t));
 
-                _network->send(&pack);       
+                _network->send(&pack); 
+                log(TAG "%s(): reply ACK|SYN\n" ,__func__);
             }
             else {
                 log(TAG "listen socket received flags not SYN.\n");
@@ -243,7 +246,7 @@ void CTCP::received(packet_t *pkt)
             }
         }
         else {
-            log(TAG "no connection or listen socket found, should send RST");
+            log(TAG "no connection or listen socket found, should send RST\n");
             // todo: reply RST
         }
     }
@@ -311,8 +314,8 @@ string CTCP::keyOf(struct in_addr localAddr, uint16_t localPort,
 {
     //return string(std::to_string(localAddr.s_addr) + "." + std::to_string(localPort) + ","
             //+ std::to_string(peerAddr.s_addr) + "." + std::to_string(peerPort));
-    string key = string(inet_ntoa(localAddr)) + "." + std::to_string(localPort) + ","
-        + string(inet_ntoa(peerAddr)) + "." + std::to_string(peerPort);
+    string key = string(inet_ntoa(localAddr)) + "." + std::to_string(ntohs(localPort)) + ","
+        + string(inet_ntoa(peerAddr)) + "." + std::to_string(ntohs(peerPort));
     log(TAG "%s(): %s.\n", __func__, key.c_str());
     return key;
 }
@@ -324,7 +327,7 @@ InetConnSock * CTCP::newConnection(InetConnSock *ics)
     string key = keyOf(ics);
     auto pair = _connPool.emplace(key, *ics);// std::pair<map<string,InetConnSock>::iterator,bool>
     if (pair.second == true) {
-        log (TAG, "%s(): created new connection.\n", __func__);
+        log (TAG "%s(): created new connection.\n", __func__);
     }
 
     return &pair.first->second;

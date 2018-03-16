@@ -258,3 +258,7 @@ Capture with `tcpdump`
 
         sudo tcpdump -nl -vvv -xx host 211.67.27.254 | tee capture.log
 
+* About TCP
+
+    When a SYN segment send to an unknown host, reply is SYN | RST. 
+

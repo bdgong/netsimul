@@ -60,6 +60,7 @@ int main(int argc, char* argv[])
         std::unique_ptr<CSocket> clientSocket = socket.accept((struct sockaddr*)&client, &addrlen);
 
         if (clientSocket->getFD() > 0) {
+            printf("Accepted a connection: %d.\n", clientSocket->getFD());
             int bytesRecv = clientSocket->recv(buf, cBufSize, 0);
             if (bytesRecv > 0) {
                 // print received message

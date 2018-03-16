@@ -9,11 +9,11 @@ void CNeighbor::init()
     if (_isInited)
         return;
 
-    _link       = CLink::instance();
-    _link->init();
-
     _arp        = CARP::instance();
     _arp->init();
+
+    _link       = CLink::instance();
+    _link->init();
 
     _isInited   = true;
     debug(DBG_DEFAULT, TAG "initied.");
