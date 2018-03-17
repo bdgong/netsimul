@@ -3,6 +3,7 @@
 #include "Util.h"
 #include "CheckSum.h"
 #include "ProtoSocket.h"
+#include "ether.h"
 #include <string>
 
 #define TAG "<CUDP> "
@@ -52,10 +53,7 @@ void CUDP::send(packet_t *packet)
 {
     log (TAG "%s\n", __func__);
     // make a copy of original data
-    int sizeUDPHdr = 8;         // size in bytes
-    int sizeIPHdr = 20;
-    int sizeEtherHdr = 14;
-    int sizeHdr = sizeUDPHdr + sizeIPHdr + sizeEtherHdr;
+    int sizeHdr = SIZE_UDP + SIZE_IP + SIZE_ETHERNET;
 
     // allocate more space include header
     packet_t pkt(sizeHdr + packet->size);

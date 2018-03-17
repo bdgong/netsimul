@@ -4,7 +4,12 @@
 #include <netinet/in.h>
 #include <netinet/ip.h>
 
-#define SIZE_IP 20
+/* to remove option, just set to 0 */
+#define SIZE_OPTION 4
+#define SIZE_IP (SIZE_OPTION+20)
+#define SIZE_IP_HL (SIZE_IP/4)
+
+const int cIPOptionValue = 0xFF020000; 
 
 /* IP header */
 struct sniff_ip {
@@ -21,7 +26,8 @@ struct sniff_ip {
         u_char  ip_p;                   /* protocol */
         u_short ip_sum;                 /* checksum */
         struct  in_addr ip_src,
-                        ip_dst;         /* source and dest address */
+                        ip_dst;         /* source and dest address */ 
+        u_int   ip_opt;                 /* option value */
 
         bool isFragment() {
             return (ip_off & htons(IP_MF | IP_OFFMASK)) != 0;

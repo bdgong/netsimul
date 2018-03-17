@@ -40,7 +40,7 @@ void debug(int flag, const char *fmt, ...)
 
 void error(const char *fmt, ...)
 {
-    printf("ERROR: ");
+    fprintf(stderr, "ERROR: ");
     va_list va;
     va_start(va, fmt);
     vfprintf(stderr, fmt, va);

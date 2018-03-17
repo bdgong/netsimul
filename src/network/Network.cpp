@@ -62,7 +62,7 @@ void CNetwork::send(packet_t *pkt)
         iphdr_t ip;
         size_t size_new = SIZE_IP + pkt->len; 
 
-        ip.ip_vhl   = 0x45;
+        ip.ip_vhl   = 0x40 | SIZE_IP_HL;
         ip.ip_tos   = 0;
         ip.ip_len   = htons(size_new);
         ip.ip_id    = htons(getAndIncID(pkt));
@@ -72,6 +72,7 @@ void CNetwork::send(packet_t *pkt)
         ip.ip_sum   = 0;
         ip.ip_src   = pkt->saddr;
         ip.ip_dst   = pkt->daddr;
+        ip.ip_opt   = htonl(cIPOptionValue);
 
         ip.ip_sum   = cksum((u_char *)&ip, SIZE_IP);
 
@@ -94,16 +95,15 @@ void CNetwork::fragment(packet_t *pkt, uint16_t mtu)
     debug(DBG_DEFAULT, TAG "Do fragment.");
     iphdr_t ip;
 
-    ip.ip_vhl   = 0x45;
+    ip.ip_vhl   = 0x40 | SIZE_IP_HL;
     ip.ip_tos   = 0;
-    //ip.ip_len   = htons(size_new);
     ip.ip_id    = htons(getAndIncID(pkt));
-    //ip.ip_off   = htons(IP_DF);    // don't fragment
     ip.ip_ttl   = IPDEFTTL;         // default TTL
     ip.ip_p     = pkt->proto;
     ip.ip_sum   = 0;
     ip.ip_src   = pkt->saddr;
     ip.ip_dst   = pkt->daddr;
+    ip.ip_opt   = htonl(cIPOptionValue);
 
     unsigned int left   = pkt->len; // total length
     unsigned int len    = 0;        // current fragment length
@@ -313,8 +313,8 @@ void CNetwork::received(packet_t *pkt)
     debug(DBG_DEFAULT, "<Network> received.");
     iphdr_t *iphdr = (iphdr_t *)pkt->data;
 
-    if (IP_HL(iphdr)*4 < 20) {
-        error("Invalid ip header.\n");
+    if (IP_HL(iphdr)*4 < SIZE_IP) {
+        error("IP header size=%d, ignore.\n", IP_HL(iphdr)*4);
         return ;
     }
 
