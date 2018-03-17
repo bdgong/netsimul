@@ -160,6 +160,12 @@ CProtoSocket
 
 Only implement slow fragment(there is no fragment queue).
 
+Avoid noise by add option value 0xFF020000. According to RFC 791(IP) options rule, use case 2, format as {option-type,
+option-length, and the actual option-data}. The first 16 bits is what we use, followed by 16 bits padding zeros. And, for
+option-type(0xFF), we set copied flag to 1, which means copy option to all fragments on fragmentation, set option class
+to 3, which is reserved before, set option number to 31(or another between 0~31 since we get 5 bits). For option-length,
+we do not have extra option data, so just option-type and option-length count to 2 bytes. That's why we get 0xFF020000.
+
 
 ## References
 
