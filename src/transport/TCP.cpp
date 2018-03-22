@@ -160,7 +160,6 @@ void CTCP::doSend(InetConnSock *ics)
 
     __doSend(&pkt, ics, TH_SYN, ppkt->buf, ppkt->len);
 
-
 }
 
 void CTCP::__doSend(packet_t *packet, InetConnSock *ics, uint8_t flags, uint8_t *buf, uint32_t size)
@@ -194,6 +193,38 @@ void CTCP::__doSend(packet_t *packet, InetConnSock *ics, uint8_t flags, uint8_t 
 
 }
 
+void CTCP::sendNoData(packet_t *packet, InetConnSock *ics, uint8_t flags)
+{
+    packet->saddr = ics->ics_addr;
+    packet->sport = ics->ics_port;
+    packet->daddr = ics->ics_peerAddr;
+    packet->dport = ics->ics_peerPort;
+
+    packet->proto = IPPROTO_TCP; 
+    packet->reserve(cMaxHeaderLen); 
+
+    tcphdr_t thdr;
+    thdr.th_sport = ics->ics_port;
+    thdr.th_dport = ics->ics_peerPort;
+    thdr.th_seq = htonl(ics->sendWin.lastSeq);
+    thdr.th_ack = htonl(ics->sendWin.lastAck);
+    thdr.th_offx2 = 0x50;
+    thdr.th_flags = flags;
+    thdr.th_win = ics->recvWin.size;
+    thdr.th_sum = 0;
+    thdr.th_urp = 0;
+
+    packet_t emptyPkt;
+    emptyPkt.copyMetadata(*packet);
+    thdr.th_sum = cksum_tcp(&thdr, &emptyPkt);
+
+    packet->push(SIZE_TCP);
+    memcpy(packet->data, &thdr, sizeof(tcphdr_t));
+
+    _network->send(packet);
+
+}
+
 int CTCP::received(packet_t *pkt)
 {
     log(TAG "%s().\n", __func__);
@@ -214,105 +245,13 @@ int CTCP::received(packet_t *pkt)
     string key = keyOf(pkt->daddr, pkt->dport, pkt->saddr, pkt->sport);
     ConnMap::iterator it = _connPool.find(key); 
     if (it != _connPool.end()) {
-        // check current connection state and received packet header flag
+        // check current connection state 
         InetConnSock *conn = &it->second;
-
-        switch (tcphdr->th_flags) {
-            default:
-                log(TAG "%s(): unknown flag: %d.\n", __func__, tcphdr->th_flags);
-                break;
-            case TH_FIN:
-                {
-                    log(TAG "%s(): FIN.\n", __func__);
-                    break;
-                }
-            case TH_SYN:
-                {
-                    log(TAG "%s(): SYN.\n", __func__);
-                    break;
-                }
-            case TH_SYN | TH_ACK:
-                {
-                    log(TAG "%s(): SYN and ACK.\n", __func__); 
-                    if (conn->ics_state == SYN_SENT) {
-                        // todo: send ACK, connect() finish 
-                        int nextSeq = ack;
-                        int replyAck = seq + 1;
-                        conn->sendWin.lastSeq = nextSeq;
-                        conn->sendWin.lastAck = replyAck;
-
-                        int sizeHdr = SIZE_TCP + SIZE_IP + SIZE_ETHERNET;
-                        packet_t pack(sizeHdr);
-                        pack.saddr = conn->ics_addr;
-                        pack.sport = conn->ics_port;
-                        pack.daddr = conn->ics_peerAddr;
-                        pack.dport = conn->ics_peerPort;
-
-                        pack.proto = IPPROTO_TCP; 
-                        pack.reserve(sizeHdr); 
-
-                        tcphdr_t thdr;
-                        thdr.th_sport = conn->ics_port;
-                        thdr.th_dport = conn->ics_peerPort;
-                        thdr.th_seq = htonl(nextSeq);
-                        thdr.th_ack = htonl(replyAck);
-                        thdr.th_offx2 = 0x50;
-                        thdr.th_flags = TH_ACK;
-                        thdr.th_win = 0xffff;
-                        thdr.th_sum = 0;
-                        thdr.th_urp = 0;
-
-                        packet_t emptyPkt;
-                        emptyPkt.copyMetadata(pack);
-                        thdr.th_sum = cksum_tcp(&thdr, &emptyPkt);
-
-                        pack.push(SIZE_TCP);
-                        memcpy(pack.data, &thdr, sizeof(tcphdr_t));
-
-                        _network->send(&pack);
-
-                        // we established a connection at client side
-                        conn->ics_state = ESTABLISHED;
-                        _protoSock->connectFinished(key, conn); 
-                    }
-                    else {
-                        // what's this?
-                        log(TAG "%s(): get SYN and ACK but connection state is not SYN_SENT, just ignore...\n", __func__); 
-                    }
-                    break;
-                }
-            case TH_RST:
-            case TH_ACK | TH_RST:
-                {
-                    log(TAG "%s(): RST(or ACK|RST).\n", __func__);
-                    break;
-                }
-            case TH_PUSH:
-                {
-                    log(TAG "%s(): PUSH.\n", __func__);
-                    break;
-                }
-            case TH_ACK:
-                {
-                    log(TAG "%s(): ACK.\n", __func__);
-                    if (conn->ics_state == SYN_RCVD) {
-                        // we established a connection at server side
-                        conn->ics_state = ESTABLISHED;
-                        _protoSock->accept(key, conn);
-                    }
-                    else if (conn->ics_state == ESTABLISHED){
-                        log(TAG "%s(): received a data packet.\n", __func__);
-                    }
-                    else {
-                        log(TAG "%s(): a connection received ACK but state neither SYN_RCVD nor ESTABLISHED.\n", __func__);
-                    }
-                    break;
-                }
-            case TH_URG:
-                {
-                    log(TAG "%s(): URG.\n", __func__);
-                    break;
-                }
+        if (conn->ics_state == ESTABLISHED) {
+            recvEstablished(conn, pkt, tcphdr);
+        }
+        else {
+            recvStateProcess(conn, pkt, tcphdr);
         }
     }
     else {
@@ -320,63 +259,7 @@ int CTCP::received(packet_t *pkt)
         InetSockMap::iterator iter = _listenPool.find(pkt->dport);
         if (iter != _listenPool.end() && iter->second->sk_state == LISTEN) {
             log(TAG "find listen socket.\n");
-            // the listen socket only recognize SYN
-            if (tcphdr->th_flags == TH_SYN) {
-                // create a new socket and let:
-                //
-                // sk_state = SYN_RCVD
-                // CTL = SYN, ACK
-                log(TAG "%s(): listened SYN.\n", __func__);
-                InetConnSock ics;
-                ics._inetSock = *iter->second;
-
-                ics.ics_peerAddr = pkt->saddr;
-                ics.ics_peerPort = pkt->sport;
-                ics.ics_state = SYN_RCVD;
-
-                InetConnSock *conn = newConnection(&ics);
-
-                // send CTL, Wed 14 Mar 2018 18:38:51 
-                int replySeq = 1;
-                int replyAck = seq + 1;
-                conn->sendWin.lastAck = replyAck;
-                conn->sendWin.lastSeq = replySeq;
-
-                int sizeHdr = SIZE_TCP + SIZE_IP + SIZE_ETHERNET;
-                packet_t pack(sizeHdr);
-                pack.saddr = conn->ics_addr;
-                pack.sport = conn->ics_port;
-                pack.daddr = conn->ics_peerAddr;
-                pack.dport = conn->ics_peerPort;
-
-                pack.proto = IPPROTO_TCP; 
-                pack.reserve(sizeHdr); 
-
-                tcphdr_t thdr;
-                thdr.th_sport = conn->ics_port;
-                thdr.th_dport = conn->ics_peerPort;
-                thdr.th_seq = htonl(replySeq);
-                thdr.th_ack = htonl(replyAck);
-                thdr.th_offx2 = 0x50;
-                thdr.th_flags = TH_SYN | TH_ACK;
-                thdr.th_win = 0xffff;
-                thdr.th_sum = 0;
-                thdr.th_urp = 0;
-
-                packet_t emptyPkt;
-                emptyPkt.copyMetadata(pack);
-                thdr.th_sum = cksum_tcp(&thdr, &emptyPkt);
-
-                pack.push(SIZE_TCP);
-                memcpy(pack.data, &thdr, sizeof(tcphdr_t));
-
-                _network->send(&pack); 
-                log(TAG "%s(): reply ACK|SYN\n" ,__func__);
-            }
-            else {
-                log(TAG "listen socket received flags not SYN.\n");
-                // todo: reply RST
-            }
+            recvListen(iter->second, pkt, tcphdr);
         }
         else {
             log(TAG "no connection or listen socket found, should send RST\n");
@@ -386,6 +269,123 @@ int CTCP::received(packet_t *pkt)
 
     return 0;
 
+}
+
+void CTCP::recvEstablished(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr)
+{
+}
+
+void CTCP::recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr)
+{
+    int seq = ntohl(tcphdr->th_seq);
+    int ack = ntohl(tcphdr->th_ack);
+
+    switch (tcphdr->th_flags) {
+        default:
+            log(TAG "%s(): unknown flag: %d.\n", __func__, tcphdr->th_flags);
+            break;
+        case TH_FIN:
+            {
+                log(TAG "%s(): FIN.\n", __func__);
+                break;
+            }
+        case TH_SYN:
+            {
+                log(TAG "%s(): SYN.\n", __func__);
+                break;
+            }
+        case TH_SYN | TH_ACK:
+            {
+                log(TAG "%s(): SYN and ACK.\n", __func__); 
+                if (ics->ics_state == SYN_SENT) {
+                    // todo: send ACK, connect() finish 
+                    int nextSeq = ack;
+                    int replyAck = seq + 1;
+                    ics->sendWin.lastSeq = nextSeq;
+                    ics->sendWin.lastAck = replyAck;
+
+                    packet_t pack(cMaxHeaderLen);
+                    sendNoData(&pack, ics, TH_ACK);
+
+                    // we established a connection at client side
+                    ics->ics_state = ESTABLISHED;
+                    _protoSock->connectFinished(keyOf(ics), ics); 
+                }
+                else {
+                    // what's this?
+                    log(TAG "%s(): get SYN and ACK but connection state is not SYN_SENT, just ignore...\n", __func__); 
+                }
+                break;
+            }
+        case TH_RST:
+        case TH_ACK | TH_RST:
+            {
+                log(TAG "%s(): RST(or ACK|RST).\n", __func__);
+                break;
+            }
+        case TH_PUSH:
+            {
+                log(TAG "%s(): PUSH.\n", __func__);
+                break;
+            }
+        case TH_ACK:
+            {
+                log(TAG "%s(): ACK.\n", __func__);
+                if (ics->ics_state == SYN_RCVD) {
+                    // we established a connection at server side
+                    ics->ics_state = ESTABLISHED;
+                    _protoSock->accept(keyOf(ics), ics);
+                }
+                else if (ics->ics_state == ESTABLISHED){
+                    log(TAG "%s(): received a data packet.\n", __func__);
+                }
+                else {
+                    log(TAG "%s(): a connection received ACK but state neither SYN_RCVD nor ESTABLISHED.\n", __func__);
+                }
+                break;
+            }
+        case TH_URG:
+            {
+                log(TAG "%s(): URG.\n", __func__);
+                break;
+            }
+    }
+}
+
+void CTCP::recvListen(InetSock *sock, packet_t *packet, tcphdr_t *tcphdr)
+{
+    int seq = ntohl(tcphdr->th_seq);
+
+    // the listen socket only recognize SYN
+    if (tcphdr->th_flags == TH_SYN) {
+        // create a new socket and let:
+        //
+        // sk_state = SYN_RCVD
+        // CTL = SYN, ACK
+        log(TAG "%s(): listened SYN.\n", __func__);
+        InetConnSock ics;
+        ics._inetSock = *sock;
+
+        ics.ics_peerAddr = packet->saddr;
+        ics.ics_peerPort = packet->sport;
+        ics.ics_state = SYN_RCVD;
+
+        InetConnSock *conn = newConnection(&ics);
+
+        // send CTL, Wed 14 Mar 2018 18:38:51 
+        int replySeq = 1;
+        int replyAck = seq + 1;
+        conn->sendWin.lastAck = replyAck;
+        conn->sendWin.lastSeq = replySeq;
+
+        packet_t pack(cMaxHeaderLen);
+        sendNoData(&pack, conn, TH_SYN | TH_ACK);
+        log(TAG "%s(): reply ACK|SYN\n" ,__func__);
+    }
+    else {
+        log(TAG "listen socket received flags not SYN.\n");
+        // todo: reply RST
+    }
 }
 
 void CTCP::connect(InetSock *sk)

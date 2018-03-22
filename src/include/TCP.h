@@ -49,6 +49,19 @@ class CTCP : public CBaseIO
         void doSend(InetConnSock *ics);
         void __doSend(packet_t *packet, InetConnSock *ics, uint8_t flags, uint8_t *buf, uint32_t size);
 
+        /*
+         * Send a tcp segment without payload
+         *
+         * @packet The allocated packet
+         * @ics The connection
+         * @flags The tcp header flags
+         * */
+        void sendNoData(packet_t *packet, InetConnSock *ics, uint8_t flags);
+
+        void recvEstablished(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr);
+        void recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr);
+        void recvListen(InetSock *ics, packet_t *packet, tcphdr_t *tcphdr);
+
         InetSockMap _listenPool;
         ConnMap _connPool; 
         CProtoSocket *_protoSock;
