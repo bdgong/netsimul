@@ -213,7 +213,7 @@ int CSocket::sendto(const char* buf, size_t len, int flags,
     //              or: ProtoSocket{type, {left buf}}
     SockDataHdr sockDataHdr;
     sockDataHdr.sockfd  = _sock.sockfd;
-    sockDataHdr.dstAddr = *dstAddr;
+    sockDataHdr.dstAddr = *((struct sockaddr_in *)dstAddr);
     sockDataHdr.flag    = flags;
     sockDataHdr.len     = len;
 
@@ -282,8 +282,8 @@ int CSocket::recvfrom(char* buf, size_t len, int flags,
     char *pData = _pBlock->buf1;
     SockDataHdr* rcvDataHdr = (SockDataHdr *)pData;
 
-    struct sockaddr_in* fromAddr = (struct sockaddr_in *)&rcvDataHdr->srcAddr;
-    *srcAddr = rcvDataHdr->srcAddr;
+    struct sockaddr_in* fromAddr = &rcvDataHdr->srcAddr;
+    *srcAddr = *((struct sockaddr*)&rcvDataHdr->srcAddr);
     *addrlen = sizeof(struct sockaddr);
     printf("Received data from %s:%d.\n", inet_ntoa(fromAddr->sin_addr), ntohs(fromAddr->sin_port));
 
@@ -326,13 +326,8 @@ int CSocket::connect(const struct sockaddr* addr, socklen_t len)
     return waitForSuccess(SIGUSR1) - 1;
 }
 
-int CSocket::send(const char * buf, size_t len, int flag)
+SockDataHdr CSocket::makeDataHeader(size_t len, int flag)
 {
-    log(TAG "%s(): %s:%d to %s:%d\n%s\n", __func__, inet_ntoa(_sock.addr), ntohs(_sock.port),
-            inet_ntoa(_sock.peerAddr), ntohs(_sock.peerPort), buf); 
-    // todo: Send to ProtoSocket send message
-    //   data format: ProtoSocket{type, {SockData, buf}}
-    //              or: ProtoSocket{type, {left buf}}
     SockDataHdr sockDataHdr;
     sockDataHdr.sockfd  = _sock.sockfd;
     sockDataHdr.flag    = flag;
@@ -344,8 +339,20 @@ int CSocket::send(const char * buf, size_t len, int flag)
     dstAddr.sin_addr = _sock.peerAddr;
     dstAddr.sin_port = _sock.peerPort;
 
-    sockDataHdr.srcAddr = *(struct sockaddr*)&srcAddr;
-    sockDataHdr.dstAddr = *(struct sockaddr*)&dstAddr;
+    sockDataHdr.srcAddr = srcAddr;
+    sockDataHdr.dstAddr = dstAddr;
+
+    return sockDataHdr;
+}
+
+int CSocket::send(const char * buf, size_t len, int flag)
+{
+    log(TAG "%s(): %s:%d to %s:%d\n%s\n", __func__, inet_ntoa(_sock.addr), ntohs(_sock.port),
+            inet_ntoa(_sock.peerAddr), ntohs(_sock.peerPort), buf); 
+    // todo: Send to ProtoSocket send message
+    //   data format: ProtoSocket{type, {SockData, buf}}
+    //              or: ProtoSocket{type, {left buf}}
+    SockDataHdr sockDataHdr = makeDataHeader(len, flag);
 
     SockPacket sockPkt;
     sockPkt.type = SOCK_SEND;
@@ -395,7 +402,34 @@ int CSocket::recv(char * buf, size_t len, int flag)
 {
     log(TAG "%s(): %s:%d from %s:%d\n", __func__, inet_ntoa(_sock.addr), ntohs(_sock.port),
             inet_ntoa(_sock.peerAddr), ntohs(_sock.peerPort));
-    return 0;
+    // each recv() should return as soon as possible, if there is no data, -1 is returned
+    SockDataHdr sockDataHdr = makeDataHeader(len, flag);
+
+    SockPacket sockPkt;
+    sockPkt.type = SOCK_RECV;
+    memcpy(sockPkt.data, &sockDataHdr, sizeof(SockDataHdr));
+
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktType) + sizeof(SockDataHdr));
+    kill(_protoPid, SIGUSR2);
+
+    pause();
+
+    // read data from ProtoSocket and set value-result parameters
+    char *pData = _pBlock->buf1;
+    SockDataHdr* rcvDataHdr = (SockDataHdr *)pData;
+    if (rcvDataHdr->len <= 0) {
+        log(TAG "%s(): no data available.\n", __func__);
+        return -1;
+    }
+
+    pData += sizeof(SockDataHdr);
+
+    int dataLen = len;
+    if (dataLen > rcvDataHdr->len) {
+        dataLen = rcvDataHdr->len;
+    }
+    memcpy(buf, pData, dataLen);
+    return dataLen;
 }
 
 int CSocket::listen(int backlog)

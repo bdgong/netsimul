@@ -332,6 +332,66 @@ void CProtoSocket::handleSend(SockPacket *sockPkt)
 
 void CProtoSocket::handleRecv(SockPacket *sockPkt)
 {
+    SockDataHdr *dataHdr = (SockDataHdr *)sockPkt->data;
+    struct sockaddr_in *srcAddr = (struct sockaddr_in *)&dataHdr->srcAddr;
+    struct sockaddr_in *dstAddr = (struct sockaddr_in *)&dataHdr->dstAddr;
+
+    string key = CTCP::instance()->keyOf(srcAddr->sin_addr, srcAddr->sin_port, dstAddr->sin_addr, dstAddr->sin_port);
+
+    // find connection first
+    log(TAG "%s(): %s\n", __func__, key.c_str()); 
+
+    ConnPMap::iterator it = _connPPool.find(key);
+
+    if (it == _connPPool.end()) {
+        log(TAG "%s(): no connection found, report this error\n", __func__);
+        return ;
+    }
+
+    SockDataHdr sdh = *dataHdr;
+    sdh.srcAddr = dataHdr->dstAddr;
+    sdh.dstAddr = dataHdr->srcAddr;
+    sdh.flag = 0;
+
+    InetConnSock *ics = it->second; 
+
+    if (ics->recvQueue.empty()) {
+        sdh.len = -1;
+    }
+    else {
+        char *pData = _pBlock->buf1;
+        pData += sizeof(SockDataHdr);
+        // todo: copy recvQueue data to buffer
+        int goalLen = dataHdr->len;
+        int copiedLen = 0;
+
+        PacketQueue & recvQueue = ics->recvQueue;
+
+        while (copiedLen < goalLen) {
+            std::shared_ptr<packet_t> &ppkt = recvQueue.front();
+            int dataLen = ppkt->len;
+            if (dataLen > goalLen - copiedLen) {
+                dataLen = goalLen - copiedLen;
+            }
+
+            memcpy(pData, ppkt->data, dataLen);
+            pData += dataLen;
+            copiedLen += dataLen;
+
+            ppkt->pull(dataLen);
+            if (ppkt->empty()) {
+                recvQueue.pop_front();
+                
+                if (recvQueue.empty()) 
+                    break;
+            }
+        }
+        sdh.len = copiedLen;
+    }
+    memcpy(_pBlock->buf1, &sdh, sizeof(SockDataHdr));
+    afterHandle(ics->ics_pid, SIGUSR2, __func__);
+
+    // todo: notify TCP we received data 
 }
 
 void CProtoSocket::handleClose(SockPacket *sockPkt)
@@ -501,8 +561,8 @@ void CProtoSocket::received(const packet_t *pkt)
         dstAddr.sin_port = pkt->dport;
         dstAddr.sin_family = AF_INET;
 
-        dataHdr.srcAddr = *((struct sockaddr*)&srcAddr);
-        dataHdr.dstAddr = *((struct sockaddr*)&dstAddr);
+        dataHdr.srcAddr = srcAddr;
+        dataHdr.dstAddr = dstAddr;
 
         dataHdr.flag    = 0;
 
@@ -516,11 +576,8 @@ void CProtoSocket::received(const packet_t *pkt)
         _pendingSocks.erase(p);
 
         afterHandle(sock->sk_pid, SIGUSR2, __func__);
-        //kill(sock->pid, SIGUSR2);
-        //log (TAG "%s : kill signal SIGUSR2 to process %d.\n", __func__, sock->pid);
     }
     else {
-        // todo: no pending socket find
         log(TAG "No pending socket port %d find.\n", ntohs(pkt->dport));
     }
 

@@ -183,6 +183,11 @@ struct inject_packet {
         return (packet_cb_t *)cb;
     }
 
+    bool empty() const 
+    {
+        return len == 0;
+    }
+
 };
 
 typedef struct inject_packet packet_t;

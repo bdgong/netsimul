@@ -75,8 +75,8 @@ typedef struct tagSock {
 
 typedef struct tagSockDataHdr {
     int sockfd;
-    struct sockaddr srcAddr;            // source address
-    struct sockaddr dstAddr;            // destination address
+    struct sockaddr_in srcAddr;            // source address
+    struct sockaddr_in dstAddr;            // destination address
     int flag;           // flag 
     int len;            // data length
 } SockDataHdr;

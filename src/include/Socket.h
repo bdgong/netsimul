@@ -96,6 +96,8 @@ class CSocket
          * */
         int waitForSuccess(int signo);
 
+        SockDataHdr makeDataHeader(size_t len, int flag);
+
         int _shmid;          // shared memory identifier
         SharedBlock *_pBlock;// shared block
         int _protoPid;          // protocol process id
