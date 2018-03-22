@@ -183,6 +183,11 @@ struct inject_packet {
         return (packet_cb_t *)cb;
     }
 
+    bool isFull() const
+    {
+        return len == size;
+    }
+
     bool empty() const 
     {
         return len == 0;

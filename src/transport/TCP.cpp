@@ -15,6 +15,7 @@ using std::set;
 using std::map;
 
 const uint32_t cMaxHeaderLen = SIZE_ETHERNET + SIZE_IP + SIZE_TCP;
+const uint32_t cBlockSize = 4096;
 
 uint16_t cksum_tcp(const tcphdr_t *const tcp, const packet_t *const packet)
 {
@@ -141,7 +142,7 @@ void CTCP::doSend(InetConnSock *ics)
     log(TAG "%s().\n", __func__);
     PacketQueue & sendQueue = ics->sendQueue; 
 
-    int nextSeq = ics->sendWin.lastSeq + 1;
+    uint32_t nextSeq = ics->sendWin.lastSeq + 1;
     PacketQueue::iterator it = std::find_if(sendQueue.begin(), sendQueue.end(), [=](const PacketQueue::value_type &ppkt){
         return TCP_PKT_CB(ppkt)->seq == nextSeq;
     });
@@ -158,6 +159,8 @@ void CTCP::doSend(InetConnSock *ics)
     packet_t pkt(ppkt->len + cMaxHeaderLen); 
     pkt.copyMetadata(*ppkt);
 
+    ics->sendWin.nextAck = nextSeq + ppkt->len;
+
     __doSend(&pkt, ics, TH_SYN, ppkt->buf, ppkt->len);
 
 }
@@ -170,8 +173,8 @@ void CTCP::__doSend(packet_t *packet, InetConnSock *ics, uint8_t flags, uint8_t 
     packet->put(size);
     memcpy(packet->data, buf, size); 
 
-    int nextSeq = ics->sendWin.lastSeq + 1;
-    int replyAck = ics->sendWin.lastAck;
+    uint32_t nextSeq = ics->sendWin.lastSeq + 1;
+    uint32_t replyAck = ics->sendWin.lastAck;
 
     tcphdr_t tcphdr;
     tcphdr.th_sport = ics->ics_port;
@@ -238,8 +241,8 @@ int CTCP::received(packet_t *pkt)
     pkt->pull(sizeTCPHdr);
     log(TAG "%s(): pkt->size = %d, pkt->len = %d.\n", __func__, pkt->size, pkt->len);
 
-    int seq = ntohl(tcphdr->th_seq);
-    int ack = ntohl(tcphdr->th_ack);
+    uint32_t seq = ntohl(tcphdr->th_seq);
+    uint32_t ack = ntohl(tcphdr->th_ack);
 
     // check existing connection
     string key = keyOf(pkt->daddr, pkt->dport, pkt->saddr, pkt->sport);
@@ -273,12 +276,46 @@ int CTCP::received(packet_t *pkt)
 
 void CTCP::recvEstablished(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr)
 {
+    uint32_t seq = ntohl(tcphdr->th_seq);
+    if (tcphdr->th_flags & TH_RST || tcphdr->th_flags & TH_FIN) {
+        log(TAG "%s(): RST or FIN received.\n", __func__);
+    }
+    else {
+        // if checksum right
+        PacketQueue &recvQueue = ics->recvQueue;
+        if (recvQueue.empty()) {
+            // allocate a new packet_t and copy data (don't worry the new buffer size less than received bytes, it won't happed)
+            std::shared_ptr<packet_t> ppkt(new packet_t(cBlockSize));
+            
+            packet->pull(SIZE_TCP);
+            ppkt->put(packet->len);
+            memcpy(ppkt->data, packet->data, packet->len);
+            // if you append data to it, remember move data pointer to the end of previous first, then move back 
+
+            recvQueue.emplace_back(ppkt); 
+
+            // send ack
+            ics->sendWin.lastAck = seq + packet->len;
+            packet_t pkt(cMaxHeaderLen);
+            sendNoData(&pkt, ics, TH_ACK);
+        }
+        else {
+            log(TAG "%s(): none empty receive queue not handled.\n", __func__);
+            std::shared_ptr<packet_t> &back = recvQueue.back(); 
+            if (back->isFull()) {
+                // allocate a new packet_t and copy data
+            }
+            else {
+                // append data to this packet_t, if not enough, allocate a new one
+            }
+        }
+    }
 }
 
 void CTCP::recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr)
 {
-    int seq = ntohl(tcphdr->th_seq);
-    int ack = ntohl(tcphdr->th_ack);
+    uint32_t seq = ntohl(tcphdr->th_seq);
+    uint32_t ack = ntohl(tcphdr->th_ack);
 
     switch (tcphdr->th_flags) {
         default:
@@ -354,7 +391,7 @@ void CTCP::recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphd
 
 void CTCP::recvListen(InetSock *sock, packet_t *packet, tcphdr_t *tcphdr)
 {
-    int seq = ntohl(tcphdr->th_seq);
+    uint32_t seq = ntohl(tcphdr->th_seq);
 
     // the listen socket only recognize SYN
     if (tcphdr->th_flags == TH_SYN) {

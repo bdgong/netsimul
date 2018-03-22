@@ -48,6 +48,8 @@ typedef struct tagICSWindow
     uint16_t size;          // window size
     uint32_t lastSeq;
     uint32_t lastAck;
+    uint32_t nextSeq;
+    uint32_t nextAck;
     uint32_t lower;         // window lower bound
     uint32_t upper;         // window upper bound
 } ICSWindow;

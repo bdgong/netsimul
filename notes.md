@@ -156,12 +156,31 @@ CProtoSocket
 
 #### Send
 
+> Check those theories from 'Computer Networking A Top-Down Approach 6th'.
+
 暂时只实现异步发送
 
 - 将应用程序数据放入发送缓冲区之后就返回，启动发送
 - 每发送一段报文都对该报文启用一个重传定时器，若定时器超时则进行重传
 - 当接收到ACK之后，从发送缓冲区删除该报文并取消重传定时器，若发送缓冲区不为空，继续发送下一段报文
 - 当接收到ACK但检测到窗口为零时，启动零窗口探测定时器
+
+发送的三种方式
+
+- Stop-and-Wait protocol (very low efficiency)
+- piplining protocol, Go-Back-N
+- piplining protocol, Selective Repeat (most efficient)
+
+Piplining protocol as a sliding-window protocol, the window size used to flow control and congestion control. 
+
+可靠传输的手段
+
+- Check sum
+- Timer
+- Sequence
+- Acknowledgment
+- Negative acknowledgment
+- Window, pipelining
 
 Problems: 
 
@@ -181,7 +200,7 @@ Problems:
     1000{seq=1007,ack=2},200{seq=2007,ack=2}个字节给server，因为server没有回复数据，所以client的ack一直是2，client
     的seq根据数据大小递增，而server回复依次回复{seq=1,ack=1007},{seq=1,ack=2007},{seq=1,ack=2207}，总共传输了2200
     个字节。按照猜想b，sender至少应该保存起始seq，结束seq（应该收到的ack）才能知道成功接收了多少字节。receiver可以用链表
-    保存收到的数据包，按照seq递增排序。但是，合并ACK又是为什么呢？
+    保存收到的数据包，按照seq递增排序。但是如果是这样，合并ACK又是什么意思呢？
 
 
 
