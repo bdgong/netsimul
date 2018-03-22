@@ -43,6 +43,7 @@ void handler2(int signo)
 
 CProtoSocket::CProtoSocket()
 {
+    log(TAG "%s(): sizeof(SockPktType)=%d.\n", __func__, sizeof(SockPktType));
     createSharedMem();
 }
 
@@ -146,9 +147,17 @@ void CProtoSocket::handleSockRequest()
             {
                 handleSendTo(sockPkt); break;
             }
+        case SOCK_SEND:
+            {
+                handleSend(sockPkt); break;
+            }
         case SOCK_RECVFROM:
             {
                 handleRecvFrom(sockPkt); break;
+            }
+        case SOCK_RECV:
+            {
+                handleRecv(sockPkt); break;
             }
         case SOCK_CONNECT:
             {
@@ -271,6 +280,58 @@ void CProtoSocket::handleRecvFrom(SockPacket *sockPkt)
     _pendingSocks.emplace(&sock);
  
     log(TAG "%s : add penging socket %d:%d.\n", __func__, sock.sk_sockfd, ntohs(sock.sk_port));
+}
+
+void CProtoSocket::handleSend(SockPacket *sockPkt)
+{
+    SockDataHdr *sockDataHdr;
+    sockDataHdr = (SockDataHdr *)sockPkt->data;
+
+    struct sockaddr_in *srcAddr = (struct sockaddr_in *)&sockDataHdr->srcAddr;
+    struct sockaddr_in *dstAddr = (struct sockaddr_in *)&sockDataHdr->dstAddr;
+
+    string key = CTCP::instance()->keyOf(srcAddr->sin_addr, srcAddr->sin_port, dstAddr->sin_addr, dstAddr->sin_port);
+
+    // find connection first
+    log(TAG "%s(): %s\n", __func__, key.c_str()); 
+
+    ConnPMap::iterator it = _connPPool.find(key);
+    if (it != _connPPool.end()) {
+        // get data to send
+        char *pData = sockPkt->data;
+        pData += sizeof(SockDataHdr);
+
+        // ---- debug only
+        char *buf = (char *)malloc(sockDataHdr->len + 1);
+        memcpy(buf, pData, sockDataHdr->len);
+        buf[sockDataHdr->len] = '\0';
+        log(TAG "%s() contents send: %s.\n", buf);
+        free(buf);
+        // ---- /debug only
+
+        packet_t pkt;
+        pkt.buf = (unsigned char*)buf;
+        pkt.size = sockDataHdr->len;
+        pkt.saddr = srcAddr->sin_addr;
+        pkt.sport = srcAddr->sin_port;
+        pkt.daddr = dstAddr->sin_addr;
+        pkt.dport = dstAddr->sin_port;
+
+        CTCP::instance()->send(&pkt);
+        // notice, this code assume data will not overflow the buffer size
+        // to handle the overflow situation, fix this code
+        
+        memcpy(_pBlock->buf1, &sockDataHdr->len, sizeof(int));
+        afterHandle(it->second->ics_pid, SIGUSR2, __func__);
+    }
+    else {
+        log(TAG "%s(): no connection found, report this error\n", __func__);
+    }
+
+}
+
+void CProtoSocket::handleRecv(SockPacket *sockPkt)
+{
 }
 
 void CProtoSocket::handleClose(SockPacket *sockPkt)

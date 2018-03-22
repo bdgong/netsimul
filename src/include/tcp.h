@@ -5,6 +5,11 @@
 
 #define SIZE_TCP 20
 
+/*
+ * TCP Maximum Segment Size (MTU - SIZE_TCP - SIZE_IP)
+ * */
+const int cTCPMSS = 1456;
+
 /* TCP header */
 typedef u_int tcp_seq;
 
@@ -29,6 +34,18 @@ typedef struct sniff_tcp {
         u_short th_sum;                 /* checksum */
         u_short th_urp;                 /* urgent pointer */
 } tcphdr_t ;
+
+/*
+ * TCP control buffer
+ * */
+typedef struct tagTCPCB {
+    // ...
+    u_int seq;          // start sequence of buffer 
+    u_int endSeq;       // end sequence of buffer
+    u_int ack;          // acked number
+} TCPCB;
+
+#define TCP_PKT_CB(__packet) ((TCPCB *)&(__packet)->cb[0])
 
 #endif  // TCP_H_
 

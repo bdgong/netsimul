@@ -6,11 +6,15 @@
 #include "ip.h"
 #include "ether.h"
 
+#include <algorithm>
+
 #define TAG "<CTCP> "
 
 using std::string;
 using std::set;
 using std::map;
+
+const uint32_t cMaxHeaderLen = SIZE_ETHERNET + SIZE_IP + SIZE_TCP;
 
 uint16_t cksum_tcp(const tcphdr_t *const tcp, const packet_t *const packet)
 {
@@ -18,20 +22,22 @@ uint16_t cksum_tcp(const tcphdr_t *const tcp, const packet_t *const packet)
     uint16_t sum;
     u_char *buf;
     size_t size;
-
+    size_t dataLen;
     pseudo_udp_t pseudo_udp;
+
+    dataLen = (packet->allocated ? packet->len : packet->size); 
 
     pseudo_udp.saddr    = packet->saddr;
     pseudo_udp.daddr    = packet->daddr;
     pseudo_udp.zero     = 0;
     pseudo_udp.protocol = IPPROTO_TCP;
-    pseudo_udp.len      = htons(SIZE_TCP + packet->size);
+    pseudo_udp.len      = htons(SIZE_TCP + dataLen);
 
     size = SIZE_PSEUDO_UDP + SIZE_TCP + packet->size;
     buf = (u_char *)malloc(size);
     memcpy(buf, &pseudo_udp, SIZE_PSEUDO_UDP);
     memcpy(buf + SIZE_PSEUDO_UDP, tcp, SIZE_TCP);
-    memcpy(buf + SIZE_PSEUDO_UDP + SIZE_TCP, packet->buf, packet->size);
+    memcpy(buf + SIZE_PSEUDO_UDP + SIZE_TCP, (packet->allocated ? packet->data : packet->buf), dataLen);
 
     sum = cksum(buf, size);
 
@@ -59,11 +65,136 @@ CTCP::~CTCP()
     log(TAG "desconstructed.\n");
 }
 
-void CTCP::send(packet_t *pkt)
+int CTCP::send(packet_t *packet)
 {
+    log(TAG "%s().\n", __func__);
+    string key = keyOf(packet->saddr, packet->sport, packet->daddr, packet->dport);
+    ConnMap::iterator it = _connPool.find(key);
+
+    if (it == _connPool.end()) {
+        error (TAG "%s(): no connection %s found.\n", __func__, key.c_str());
+        return 0;
+    }
+
+    // put to queue and return
+
+    // get connection send queue
+    InetConnSock & sk = it->second;
+    PacketQueue & sendQueue = sk.sendQueue;
+
+    u_char *pBuf = packet->buf;
+    int dataLeft = packet->size;
+
+    int nextSeq = sk.sendWin.lastSeq + 1,
+        endSeq;
+
+    while (dataLeft > 0) {
+        // split it
+        int dataLen = dataLeft;
+
+        if (sendQueue.empty()) {
+            // should allocate a new packet_t
+            if (dataLen > cTCPMSS) {
+                dataLen = cTCPMSS;
+            }
+            dataLeft -= dataLen;
+
+            // always allocate fixed size, if there is space left, filled by next time
+            std::shared_ptr<packet_t> ppkt(new packet_t(cTCPMSS));
+            ppkt->copyMetadata(*packet);
+            ppkt->put(dataLen);
+            memcpy(ppkt->data, pBuf, dataLen);
+            pBuf += dataLen;
+
+            TCP_PKT_CB(ppkt)->seq = nextSeq;
+            endSeq = nextSeq + dataLen - 1;
+            TCP_PKT_CB(ppkt)->endSeq = endSeq;
+            nextSeq = endSeq + 1;
+
+            sendQueue.emplace_back(ppkt);
+        }
+        else {
+            log(TAG "%s(): none empty send queue not handled yet!.\n", __func__);
+            std::shared_ptr<packet_t> &tail = sendQueue.back();
+            if (tail->len == tail->size) {
+                // should allocate a new packet_t
+            }
+            else if (tail->size < cTCPMSS) {
+                // can copy some data here
+            }
+            else {
+                // should not happen
+            }
+        }
+
+    }
+
+    doSend(&sk);
+
+    // actually, the copied bytes number should be returned
+    return packet->size;
+
 }
 
-void CTCP::received(packet_t *pkt)
+void CTCP::doSend(InetConnSock *ics)
+{
+    log(TAG "%s().\n", __func__);
+    PacketQueue & sendQueue = ics->sendQueue; 
+
+    int nextSeq = ics->sendWin.lastSeq + 1;
+    PacketQueue::iterator it = std::find_if(sendQueue.begin(), sendQueue.end(), [=](const PacketQueue::value_type &ppkt){
+        return TCP_PKT_CB(ppkt)->seq == nextSeq;
+    });
+
+    if (it == sendQueue.end()) {
+        log(TAG "%s(): no match sequence packet found.\n", __func__);
+        return ;
+    }
+
+    // should check send & receive window first 
+
+    std::shared_ptr<packet_t> &ppkt = *it;
+
+    packet_t pkt(ppkt->len + cMaxHeaderLen); 
+    pkt.copyMetadata(*ppkt);
+
+    __doSend(&pkt, ics, TH_SYN, ppkt->buf, ppkt->len);
+
+
+}
+
+void CTCP::__doSend(packet_t *packet, InetConnSock *ics, uint8_t flags, uint8_t *buf, uint32_t size)
+{
+    packet->reserve(cMaxHeaderLen);
+
+    // copy payload
+    packet->put(size);
+    memcpy(packet->data, buf, size); 
+
+    int nextSeq = ics->sendWin.lastSeq + 1;
+    int replyAck = ics->sendWin.lastAck;
+
+    tcphdr_t tcphdr;
+    tcphdr.th_sport = ics->ics_port;
+    tcphdr.th_dport = ics->ics_peerPort;
+    tcphdr.th_seq = htonl(nextSeq); 
+    tcphdr.th_ack = htonl(replyAck);
+    tcphdr.th_offx2 = 0x50;
+    tcphdr.th_flags = flags;
+    tcphdr.th_win = htons(ics->recvWin.size);
+    tcphdr.th_sum = 0;
+    tcphdr.th_urp = 0;
+
+    tcphdr.th_sum = cksum_tcp(&tcphdr, packet);
+
+    packet->push(SIZE_TCP);
+    memcpy(packet->data, &tcphdr, sizeof(tcphdr));
+
+    _network->send(packet);
+
+}
+
+int CTCP::received(packet_t *pkt)
 {
     log(TAG "%s().\n", __func__);
 
@@ -105,8 +236,10 @@ void CTCP::received(packet_t *pkt)
                     log(TAG "%s(): SYN and ACK.\n", __func__); 
                     if (conn->ics_state == SYN_SENT) {
                         // todo: send ACK, connect() finish 
-                        int replySeq = ack;
+                        int nextSeq = ack;
                         int replyAck = seq + 1;
+                        conn->sendWin.lastSeq = nextSeq;
+                        conn->sendWin.lastAck = replyAck;
 
                         int sizeHdr = SIZE_TCP + SIZE_IP + SIZE_ETHERNET;
                         packet_t pack(sizeHdr);
@@ -121,7 +254,7 @@ void CTCP::received(packet_t *pkt)
                         tcphdr_t thdr;
                         thdr.th_sport = conn->ics_port;
                         thdr.th_dport = conn->ics_peerPort;
-                        thdr.th_seq = htonl(replySeq);
+                        thdr.th_seq = htonl(nextSeq);
                         thdr.th_ack = htonl(replyAck);
                         thdr.th_offx2 = 0x50;
                         thdr.th_flags = TH_ACK;
@@ -203,11 +336,11 @@ void CTCP::received(packet_t *pkt)
 
                 InetConnSock *conn = newConnection(&ics);
 
-                // todo: send CTL, Wed 14 Mar 2018 18:38:51 
-                int replySeq = 300;
+                // send CTL, Wed 14 Mar 2018 18:38:51 
+                int replySeq = 1;
                 int replyAck = seq + 1;
-                conn->lastAck = replyAck;
-                conn->lastSeq = replySeq;
+                conn->sendWin.lastAck = replyAck;
+                conn->sendWin.lastSeq = replySeq;
 
                 int sizeHdr = SIZE_TCP + SIZE_IP + SIZE_ETHERNET;
                 packet_t pack(sizeHdr);
@@ -251,6 +384,8 @@ void CTCP::received(packet_t *pkt)
         }
     }
 
+    return 0;
+
 }
 
 void CTCP::connect(InetSock *sk)
@@ -269,6 +404,7 @@ void CTCP::connect(InetSock *sk)
     pkt.reserve(sizeHdr); 
 
     int seq = 2018;
+    int win = 0xffff;
 
     tcphdr_t tcphdr;
     tcphdr.th_sport = sk->sk_port;
@@ -277,7 +413,7 @@ void CTCP::connect(InetSock *sk)
     tcphdr.th_ack = 0;
     tcphdr.th_offx2 = 0x50;
     tcphdr.th_flags = TH_SYN;
-    tcphdr.th_win = 0xffff;
+    tcphdr.th_win = htons(win);
     tcphdr.th_sum = 0;
     tcphdr.th_urp = 0;
 
@@ -293,9 +429,10 @@ void CTCP::connect(InetSock *sk)
     // save to connection pool
     InetConnSock ics;
     ics._inetSock = *sk;
-    ics.lastAck = 0;
-    ics.lastSeq = seq;
-    ics.window = 0xffff;
+    ics.sendWin.lastAck = 0;
+    ics.sendWin.lastSeq = seq;
+    ics.sendWin.size = win >> 1;
+    ics.recvWin.size = win;
 
     string key = keyOf(&ics);
     _connPool.emplace(key, ics);

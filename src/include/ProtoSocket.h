@@ -66,6 +66,8 @@ class CProtoSocket
         void handleBind(SockPacket *sockPkt);
         void handleSendTo(SockPacket *sockPkt);
         void handleRecvFrom(SockPacket *sockPkt);
+        void handleSend(SockPacket *sockPkt);
+        void handleRecv(SockPacket *sockPkt);
         void handleClose(SockPacket *sockPkt);
         void handleListen(SockPacket *sockPkt);
         void handleConnect(SockPacket *sockPkt);

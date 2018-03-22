@@ -19,14 +19,14 @@ public:
      *
      * @pkt The packet to send
      * */
-    void send(packet_t *pkt);
+    int send(packet_t *pkt);
 
     /*
      * Receive a packet pkt.
      *
      * @pkt The packet received
      * */
-    void received(packet_t *pkt);
+    int received(packet_t *pkt);
 private:
     CUDP()
     {

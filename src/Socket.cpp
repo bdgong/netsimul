@@ -152,7 +152,7 @@ int CSocket::init(int family, int type, int protocol)
     memcpy(sockPkt.data, &_sock, sizeof(Sock));
 
     // Copy to shared memory and notify this
-    memcpy(_pBlock->buf2, &sockPkt, sizeof(Sock) + sizeof(SockPktT));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(Sock) + sizeof(SockPktType));
     kill(_protoPid, SIGUSR1);
     log(TAG "%s : kill signal SIGUSR1 to process %d.\n", __func__, _protoPid);
 
@@ -180,7 +180,7 @@ int CSocket::bind(const struct sockaddr* addr, socklen_t len)
     sockPkt.type = SOCK_BIND;
 
     memcpy(sockPkt.data, &_sock, sizeof(_sock));
-    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(Sock));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktType) + sizeof(Sock));
 
     kill(_protoPid, SIGUSR1);
 
@@ -249,7 +249,7 @@ int CSocket::sendto(const char* buf, size_t len, int flags,
         dataLeft    -= dataLen;
         bufLeft     -= dataLen;
 
-        int bytes = pData - sockPkt.data + sizeof(SockPktT);
+        int bytes = pData - sockPkt.data + sizeof(SockPktType);
         printf("will copy %d bytes.\n", bytes);
         memcpy(_pBlock->buf2, &sockPkt, bytes);
         kill(_protoPid, SIGUSR2);
@@ -273,7 +273,7 @@ int CSocket::recvfrom(char* buf, size_t len, int flags,
     sockPkt.type    = SOCK_RECVFROM;
 
     memcpy(sockPkt.data, &dataHdr, sizeof(dataHdr));
-    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(dataHdr));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktType) + sizeof(dataHdr));
     kill(_protoPid, SIGUSR1);
 
     pause();
@@ -304,7 +304,7 @@ int CSocket::close()
     sockPkt.type = SOCK_CLOSE;
 
     memcpy(sockPkt.data, &_sock, sizeof(Sock));
-    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(Sock));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktType) + sizeof(Sock));
     kill(_protoPid, SIGUSR1);
 
     return 0;
@@ -320,7 +320,7 @@ int CSocket::connect(const struct sockaddr* addr, socklen_t len)
     _sock.peerPort = dstAddr->sin_port;
 
     memcpy(sockPkt.data, &_sock, sizeof(_sock));
-    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(_sock));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktType) + sizeof(_sock));
     kill(_protoPid, SIGUSR1);
 
     return waitForSuccess(SIGUSR1) - 1;
@@ -328,11 +328,73 @@ int CSocket::connect(const struct sockaddr* addr, socklen_t len)
 
 int CSocket::send(const char * buf, size_t len, int flag)
 {
-    return 0;
+    log(TAG "%s(): %s:%d to %s:%d\n%s\n", __func__, inet_ntoa(_sock.addr), ntohs(_sock.port),
+            inet_ntoa(_sock.peerAddr), ntohs(_sock.peerPort), buf); 
+    // todo: Send to ProtoSocket send message
+    //   data format: ProtoSocket{type, {SockData, buf}}
+    //              or: ProtoSocket{type, {left buf}}
+    SockDataHdr sockDataHdr;
+    sockDataHdr.sockfd  = _sock.sockfd;
+    sockDataHdr.flag    = flag;
+    sockDataHdr.len     = len;
+
+    struct sockaddr_in srcAddr, dstAddr;
+    srcAddr.sin_addr = _sock.addr;
+    srcAddr.sin_port = _sock.port;
+    dstAddr.sin_addr = _sock.peerAddr;
+    dstAddr.sin_port = _sock.peerPort;
+
+    sockDataHdr.srcAddr = *(struct sockaddr*)&srcAddr;
+    sockDataHdr.dstAddr = *(struct sockaddr*)&dstAddr;
+
+    SockPacket sockPkt;
+    sockPkt.type = SOCK_SEND;
+
+    char *pData = sockPkt.data;
+
+    memcpy(pData, &sockDataHdr, sizeof(SockDataHdr));
+    pData += sizeof(SockDataHdr);
+
+    int bufLeft = cSHMDataSize - sizeof(SockDataHdr);
+    int dataLeft = len;
+    
+    while (dataLeft > 0) {
+        int dataLen;
+
+        if (bufLeft <= 0) {         // re-point to buffer start
+            bufLeft = cSHMDataSize;
+            pData = sockPkt.data;
+        }
+
+        if (dataLeft <= bufLeft) {
+            dataLen = dataLeft;
+        }
+        else {
+            dataLen = bufLeft;
+        }
+
+        memcpy(pData, buf, dataLen);
+
+        pData       += dataLen;
+        dataLeft    -= dataLen;
+        bufLeft     -= dataLen;
+
+        int bytes = pData - sockPkt.data + sizeof(SockPktType);
+        printf("will copy %d bytes.\n", bytes);
+        memcpy(_pBlock->buf2, &sockPkt, bytes);
+        kill(_protoPid, SIGUSR2);
+    }
+
+    int byteSend = waitForSuccess(SIGUSR2);
+    printf("Send %d bytes.\n", byteSend);
+
+    return byteSend;
 }
 
 int CSocket::recv(char * buf, size_t len, int flag)
 {
+    log(TAG "%s(): %s:%d from %s:%d\n", __func__, inet_ntoa(_sock.addr), ntohs(_sock.port),
+            inet_ntoa(_sock.peerAddr), ntohs(_sock.peerPort));
     return 0;
 }
 
@@ -345,7 +407,7 @@ int CSocket::listen(int backlog)
     memcpy(pData, &_sock, sizeof(_sock));
     pData += sizeof(_sock);
     memcpy(pData, &backlog, sizeof(int));
-    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(_sock) + sizeof(int));
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktType) + sizeof(_sock) + sizeof(int));
     kill(_protoPid, SIGUSR1);
 
     return waitForSuccess(SIGUSR1) - 1;
@@ -357,7 +419,7 @@ std::unique_ptr<CSocket> CSocket::accept(struct sockaddr * sockaddr, socklen_t *
     sockPkt.type = SOCK_ACCEPT;
 
     memcpy(sockPkt.data, &_sock, sizeof(_sock));
-    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktT) + sizeof(Sock)); 
+    memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktType) + sizeof(Sock)); 
 
     kill(_protoPid, SIGUSR1);
 

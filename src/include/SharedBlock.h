@@ -7,7 +7,7 @@ const int cKeyID = 17;
 
 const unsigned int cSHMSize = 8192;
 const unsigned int cSHMBufSize = 4096;
-const unsigned int cSHMDataSize = 4094;
+const unsigned int cSHMDataSize = 4092;
 
 /*
  * struct sharedblock - a data structure between ProtocolSocket and AppSocket 
@@ -19,8 +19,6 @@ typedef struct sharedblock {
     char buf1[cSHMBufSize];         // address is &sharedblock
     char buf2[cSHMBufSize];         // address is buf1 + 4096
 } SharedBlock;
-
-typedef unsigned short SockPktT;
 
 typedef enum sockpktype {
     SOCK_CREATE = 1,
@@ -47,7 +45,7 @@ typedef enum socketstate {
  * struct sockpacket - this data structure will save to buf1 or buf2 after conversion
  * */
 typedef struct sockpacket {
-    SockPktT type;                  // this field must be the first member
+    SockPktType type;                  // this field must be the first member
     char data[cSHMBufSize - 4];
 } SockPacket;
 

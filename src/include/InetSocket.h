@@ -1,7 +1,10 @@
 #pragma once
 
 #include "SharedBlock.h"
+#include "packet.h"
 #include <string>
+#include <list>
+#include <memory>
 
 /*
  * enum use capital, remember this rule
@@ -38,6 +41,17 @@ typedef struct tagInetSock
     int backlog;
 } InetSock;
 
+typedef std::list<std::shared_ptr<packet_t>> PacketQueue;
+
+typedef struct tagICSWindow 
+{
+    uint16_t size;          // window size
+    uint32_t lastSeq;
+    uint32_t lastAck;
+    uint32_t lower;         // window lower bound
+    uint32_t upper;         // window upper bound
+} ICSWindow;
+
 /*
  * struct InetConnSock - Internet connection based socket
  * */
@@ -54,13 +68,15 @@ typedef struct tagInetConnSock
 #define ics_peerAddr _inetSock.sk_peerAddr
 #define ics_peerPort _inetSock.sk_peerPort
 #define ics_state _inetSock.sk_state
-    int lastAck;
-    int lastSeq;
-    int window;
+    ICSWindow sendWin,
+              recvWin;
+    PacketQueue sendQueue,
+                recvQueue;
 
     tagInetConnSock() 
     {
-        lastAck = lastSeq = window = 0;
+        memset(&sendWin, 0 , sizeof(ICSWindow));
+        memset(&recvWin, 0 , sizeof(ICSWindow));
     }
 
 } InetConnSock;

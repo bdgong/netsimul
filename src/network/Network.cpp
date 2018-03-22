@@ -41,12 +41,12 @@ uint16_t CNetwork::getAndIncID(packet_t *pkt)
 
 }
 
-void CNetwork::send(packet_t *pkt)
+int CNetwork::send(packet_t *pkt)
 {
     log (TAG "%s.\n", __func__);
     if (pkt->len > 0xFFFF) {
         debug(DBG_DEFAULT, "Too big packet to send.");
-        return ;
+        return 0;
     }
 
     pkt->ept     = ETH_P_IP;
@@ -87,6 +87,7 @@ void CNetwork::send(packet_t *pkt)
         log (TAG "%s() : to destination %s\n", __func__, inet_ntoa(ip.ip_dst));
         _neigh->send(pkt);
     }
+    return 0;
 
 }
 
@@ -308,14 +309,14 @@ void CNetwork::clear(IPFragList *pFrags)
 
 }
 
-void CNetwork::received(packet_t *pkt)
+int CNetwork::received(packet_t *pkt)
 {
     debug(DBG_DEFAULT, "<Network> received.");
     iphdr_t *iphdr = (iphdr_t *)pkt->data;
 
     if (IP_HL(iphdr)*4 < SIZE_IP) {
         error("IP header size=%d, ignore.\n", IP_HL(iphdr)*4);
-        return ;
+        return 0;
     }
 
     pkt->saddr = iphdr->ip_src;
@@ -342,6 +343,7 @@ void CNetwork::received(packet_t *pkt)
             deliver(pkt);
         }
     }
+    return 0;
     
 }
 

@@ -28,8 +28,8 @@ class CTCP : public CBaseIO
         ~CTCP();
 
         void init();
-        void send(packet_t *pkt);
-        void received(packet_t *pkt);
+        int send(packet_t *pkt);
+        int received(packet_t *pkt);
 
         void connect(InetSock *sk);
         void listen(InetSock *sk);
@@ -37,6 +37,7 @@ class CTCP : public CBaseIO
          * Return the key(or name) of a connection.
          * */
         std::string keyOf(InetConnSock *ics);
+        std::string keyOf(struct in_addr localAddr, uint16_t localPort, struct in_addr peerAddr, uint16_t peerPort);
 
     private:
         CTCP(const CTCP&);
@@ -44,8 +45,9 @@ class CTCP : public CBaseIO
 
         CTCP() { }
 
-        std::string keyOf(struct in_addr localAddr, uint16_t localPort, struct in_addr peerAddr, uint16_t peerPort);
         InetConnSock * newConnection(InetConnSock *ics);
+        void doSend(InetConnSock *ics);
+        void __doSend(packet_t *packet, InetConnSock *ics, uint8_t flags, uint8_t *buf, uint32_t size);
 
         InetSockMap _listenPool;
         ConnMap _connPool; 

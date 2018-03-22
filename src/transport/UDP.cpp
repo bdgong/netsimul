@@ -49,7 +49,7 @@ void CUDP::init()
     debug(DBG_DEFAULT, "<UDP> inited.");
 }
 
-void CUDP::send(packet_t *packet)
+int CUDP::send(packet_t *packet)
 {
     log (TAG "%s\n", __func__);
     // make a copy of original data
@@ -92,9 +92,11 @@ void CUDP::send(packet_t *packet)
     CNetwork *network = CNetwork::instance();
     network->send(&pkt);
 
+    return 0;
+
 }
 
-void CUDP::received(packet_t *pkt)
+int CUDP::received(packet_t *pkt)
 {
     debug(DBG_DEFAULT, "<UDP> received.");
     udphdr_t *udphdr = (udphdr_t *)pkt->data;
@@ -108,6 +110,7 @@ void CUDP::received(packet_t *pkt)
 
     //debug(DBG_DEFAULT, "Received data length=%d : \n%s", dataLen, msg.c_str());
     CProtoSocket::instance()->received(pkt);
+    return 0;
 
 }
 

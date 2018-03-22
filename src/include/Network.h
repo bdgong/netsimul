@@ -38,7 +38,7 @@ public:
      *
      * @pkt The packet to send out from local.
      * */
-    void send(packet_t *pkt);
+    int send(packet_t *pkt);
 
     /*
      * Forward a packet.  The ip header already in the packet.
@@ -59,7 +59,7 @@ public:
      *
      * @pkt The received packet
      * */
-    void received(packet_t *pkt);
+    int received(packet_t *pkt);
 
     /*
      * Do defragmentation

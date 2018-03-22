@@ -16,8 +16,8 @@ class CBaseIO
         }
 
         virtual void init() = 0;
-        virtual void send(packet_t *pkt) = 0;
-        virtual void received(packet_t *pkt) = 0;
+        virtual int send(packet_t *pkt) = 0;
+        virtual int received(packet_t *pkt) = 0;
     protected:
         bool _isInited; 
 };
