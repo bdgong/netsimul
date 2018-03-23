@@ -70,12 +70,12 @@ int main(int argc, char *argv[])
             printf("Send out 'hello'.\n");
             char buf[1024 + 1];
             socklen_t socklen = sizeof(svrAddr);
-            printf("Receiving...");
+            printf("Receiving...\n");
             int byteRecv = socket.recv(buf, 1024, 0);
 
             if (byteRecv > 0) {
                 buf[byteRecv] = '\0';
-                printf("received: \n%s\n", buf);
+                printf("received: %s\n", buf);
             }
             else {
                 printf("failed recv().\n");

@@ -32,7 +32,7 @@ class CSocket
         int send(const char * buf, size_t len, int flags);
 
         /*
-         * Receive from connected peer address
+         * Receive data from connected peer address, default timeout is 3 seconds.
          *
          * @buf The buffer used to stored received data 
          * @len Maximum bytes to receive

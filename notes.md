@@ -26,7 +26,6 @@ Set guests Ga, Gb, Gr.  Let Gr be the gateway(Rounter), Ga and Gb communicate wi
                                             
 > And of course, its bidirectional.                                            
                                             
-                                            
 
 ## Call For Details 
 
@@ -319,4 +318,11 @@ Capture with `tcpdump`
 * About TCP
 
     When a SYN segment send to an unknown host, reply is SYN | RST. 
+
+Debug by GDB
+
+* Signal handle
+
+        handle SIGUSR1 nostop pass print
+        handle SIGUSR2 nostop pass print
 

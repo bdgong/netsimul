@@ -167,6 +167,15 @@ struct inject_packet {
     }
 
     /*
+     * Trim data from the end of this buffer, Fri 23 Mar 2018 19:28:04 
+     * */
+    void trim(unsigned int length)
+    {
+        tail -= length;
+        len -= length;
+    }
+
+    /*
      * Reset data pointer to head, and recalculate length.
      * */
     void resetData()

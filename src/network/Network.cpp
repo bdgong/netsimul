@@ -314,9 +314,19 @@ int CNetwork::received(packet_t *pkt)
     debug(DBG_DEFAULT, "<Network> received.");
     iphdr_t *iphdr = (iphdr_t *)pkt->data;
 
-    if (IP_HL(iphdr)*4 < SIZE_IP) {
-        error("IP header size=%d, ignore.\n", IP_HL(iphdr)*4);
+    uint32_t sizeIPHdr = IP_HL(iphdr)*4;
+    uint16_t len = ntohs(iphdr->ip_len);
+    if (sizeIPHdr < SIZE_IP) {
+        error("IP header size=%d, ignore\n", sizeIPHdr);
         return 0;
+    }
+    else {
+        log(TAG "IP header size=%d, datagram len=%d\n", sizeIPHdr, len);
+    }
+
+    if (len < pkt->len) {
+        log(TAG "%s(): there is %d bytes padding data, trim it\n", __func__, pkt->len - len);
+        pkt->trim(pkt->len - len);
     }
 
     pkt->saddr = iphdr->ip_src;

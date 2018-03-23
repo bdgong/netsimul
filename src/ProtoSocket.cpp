@@ -171,6 +171,10 @@ void CProtoSocket::handleSockRequest()
             {
                 handleAccept(sockPkt); break;
             }
+        case SOCK_CLOSE:
+            {
+                handleClose(sockPkt); break;
+            }
         default:
             fprintf(stderr, "Unkonwn socket packet type: %d.\n", sockPkt->type);
             break;
@@ -234,10 +238,11 @@ void CProtoSocket::handleSendTo(SockPacket *sockPkt)
     memcpy(buf, pData, sockDataHdr->len);
     buf[sockDataHdr->len] = '\0';
     printf("Contents to send: %s.\n", buf);
+    free(buf);
     // ---- /debug only
 
     packet_t pkt;
-    pkt.buf = (unsigned char*)buf;
+    pkt.buf = (unsigned char*)pData;
     pkt.size = sockDataHdr->len;
     pkt.daddr = dstAddr->sin_addr;
     pkt.dport = dstAddr->sin_port;
@@ -257,8 +262,6 @@ void CProtoSocket::handleSendTo(SockPacket *sockPkt)
     // notice, this code assume data will not overflow the buffer size
     // to handle the overflow situation, modify this code
     
-    free(buf);
-
     // notify send bytes
     memcpy(_pBlock->buf1, &sockDataHdr->len, sizeof(int));
 
@@ -305,12 +308,12 @@ void CProtoSocket::handleSend(SockPacket *sockPkt)
         char *buf = (char *)malloc(sockDataHdr->len + 1);
         memcpy(buf, pData, sockDataHdr->len);
         buf[sockDataHdr->len] = '\0';
-        log(TAG "%s() contents send: %s.\n", buf);
+        log(TAG "%s() contents send: %s.\n", __func__, buf);
         free(buf);
         // ---- /debug only
 
         packet_t pkt;
-        pkt.buf = (unsigned char*)buf;
+        pkt.buf = (unsigned char*)pData;
         pkt.size = sockDataHdr->len;
         pkt.saddr = srcAddr->sin_addr;
         pkt.sport = srcAddr->sin_port;
@@ -452,10 +455,14 @@ void CProtoSocket::handleConnect(SockPacket *sockPkt)
 
 void CProtoSocket::connectFinished(string name, InetConnSock *ics)
 {
-    log(TAG "%s().\n", __func__);
+    log(TAG "%s(): %s.\n", __func__, name.c_str());
     _connPPool.emplace(name, ics); 
 
-    afterHandle(1, ics->ics_pid, SIGUSR1, __func__);
+    // here, no notify the connected address, a data structure must be returned instead of
+    // a single flag show failed or success
+    memcpy(_pBlock->buf1, ics, sizeof(Sock));
+
+    afterHandle(ics->ics_pid, SIGUSR1, __func__);
 }
 
 void CProtoSocket::handleAccept(SockPacket *sockPkt)

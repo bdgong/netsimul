@@ -19,7 +19,6 @@ const uint32_t cBlockSize = 4096;
 
 uint16_t cksum_tcp(const tcphdr_t *const tcp, const packet_t *const packet)
 {
-
     uint16_t sum;
     u_char *buf;
     size_t size;
@@ -34,7 +33,7 @@ uint16_t cksum_tcp(const tcphdr_t *const tcp, const packet_t *const packet)
     pseudo_udp.protocol = IPPROTO_TCP;
     pseudo_udp.len      = htons(SIZE_TCP + dataLen);
 
-    size = SIZE_PSEUDO_UDP + SIZE_TCP + packet->size;
+    size = SIZE_PSEUDO_UDP + SIZE_TCP + dataLen;
     buf = (u_char *)malloc(size);
     memcpy(buf, &pseudo_udp, SIZE_PSEUDO_UDP);
     memcpy(buf + SIZE_PSEUDO_UDP, tcp, SIZE_TCP);
@@ -86,9 +85,6 @@ int CTCP::send(packet_t *packet)
     u_char *pBuf = packet->buf;
     int dataLeft = packet->size;
 
-    int nextSeq = sk.sendWin.lastSeq + 1,
-        endSeq;
-
     while (dataLeft > 0) {
         // split it
         int dataLen = dataLeft;
@@ -107,10 +103,12 @@ int CTCP::send(packet_t *packet)
             memcpy(ppkt->data, pBuf, dataLen);
             pBuf += dataLen;
 
-            TCP_PKT_CB(ppkt)->seq = nextSeq;
-            endSeq = nextSeq + dataLen - 1;
+            TCP_PKT_CB(ppkt)->seq = sk.sendWin.nextSeq;
+            uint32_t endSeq = sk.sendWin.nextSeq + dataLen - 1;
             TCP_PKT_CB(ppkt)->endSeq = endSeq;
-            nextSeq = endSeq + 1;
+            sk.sendWin.nextSeq = endSeq + 1;
+
+            ppkt->proto = IPPROTO_TCP;
 
             sendQueue.emplace_back(ppkt);
         }
@@ -142,9 +140,8 @@ void CTCP::doSend(InetConnSock *ics)
     log(TAG "%s().\n", __func__);
     PacketQueue & sendQueue = ics->sendQueue; 
 
-    uint32_t nextSeq = ics->sendWin.lastSeq + 1;
     PacketQueue::iterator it = std::find_if(sendQueue.begin(), sendQueue.end(), [=](const PacketQueue::value_type &ppkt){
-        return TCP_PKT_CB(ppkt)->seq == nextSeq;
+        return TCP_PKT_CB(ppkt)->seq == ics->sendWin.lastSeq;
     });
 
     if (it == sendQueue.end()) {
@@ -159,9 +156,9 @@ void CTCP::doSend(InetConnSock *ics)
     packet_t pkt(ppkt->len + cMaxHeaderLen); 
     pkt.copyMetadata(*ppkt);
 
-    ics->sendWin.nextAck = nextSeq + ppkt->len;
+    ics->sendWin.nextAck = TCP_PKT_CB(ppkt)->seq + ppkt->len;
 
-    __doSend(&pkt, ics, TH_SYN, ppkt->buf, ppkt->len);
+    __doSend(&pkt, ics, 0, ppkt->buf, ppkt->len);
 
 }
 
@@ -173,14 +170,11 @@ void CTCP::__doSend(packet_t *packet, InetConnSock *ics, uint8_t flags, uint8_t 
     packet->put(size);
     memcpy(packet->data, buf, size); 
 
-    uint32_t nextSeq = ics->sendWin.lastSeq + 1;
-    uint32_t replyAck = ics->sendWin.lastAck;
-
     tcphdr_t tcphdr;
     tcphdr.th_sport = ics->ics_port;
     tcphdr.th_dport = ics->ics_peerPort;
-    tcphdr.th_seq = htonl(nextSeq); 
-    tcphdr.th_ack = htonl(replyAck);
+    tcphdr.th_seq = htonl(ics->sendWin.lastSeq); 
+    tcphdr.th_ack = htonl(ics->recvWin.lastAck);
     tcphdr.th_offx2 = 0x50;
     tcphdr.th_flags = flags;
     tcphdr.th_win = htons(ics->recvWin.size);
@@ -192,6 +186,7 @@ void CTCP::__doSend(packet_t *packet, InetConnSock *ics, uint8_t flags, uint8_t 
     packet->push(SIZE_TCP);
     memcpy(packet->data, &tcphdr, sizeof(tcphdr));
 
+    log(TAG "%s send seq=%d,ack=%d.\n", keyOf(ics).c_str(), ics->sendWin.lastSeq, ics->recvWin.lastAck);
     _network->send(packet);
 
 }
@@ -210,7 +205,7 @@ void CTCP::sendNoData(packet_t *packet, InetConnSock *ics, uint8_t flags)
     thdr.th_sport = ics->ics_port;
     thdr.th_dport = ics->ics_peerPort;
     thdr.th_seq = htonl(ics->sendWin.lastSeq);
-    thdr.th_ack = htonl(ics->sendWin.lastAck);
+    thdr.th_ack = htonl(ics->recvWin.lastAck);
     thdr.th_offx2 = 0x50;
     thdr.th_flags = flags;
     thdr.th_win = ics->recvWin.size;
@@ -224,6 +219,7 @@ void CTCP::sendNoData(packet_t *packet, InetConnSock *ics, uint8_t flags)
     packet->push(SIZE_TCP);
     memcpy(packet->data, &thdr, sizeof(tcphdr_t));
 
+    log(TAG "%s send seq=%d,ack=%d.\n", keyOf(ics).c_str(), ics->sendWin.lastSeq, ics->recvWin.lastAck);
     _network->send(packet);
 
 }
@@ -236,10 +232,10 @@ int CTCP::received(packet_t *pkt)
     pkt->sport = tcphdr->th_sport;
     pkt->dport = tcphdr->th_dport;
 
-    log(TAG "%s(): pkt->size = %d, pkt->len = %d.\n", __func__, pkt->size, pkt->len);
+    log(TAG "%s(): before pull TCP header, pkt->size = %d, pkt->len = %d.\n", __func__, pkt->size, pkt->len);
     int sizeTCPHdr = TH_OFF(tcphdr) * 4;
     pkt->pull(sizeTCPHdr);
-    log(TAG "%s(): pkt->size = %d, pkt->len = %d.\n", __func__, pkt->size, pkt->len);
+    log(TAG "%s(): after pull TCP header, pkt->size = %d, pkt->len = %d.\n", __func__, pkt->size, pkt->len);
 
     uint32_t seq = ntohl(tcphdr->th_seq);
     uint32_t ack = ntohl(tcphdr->th_ack);
@@ -261,7 +257,7 @@ int CTCP::received(packet_t *pkt)
         // try listening socket
         InetSockMap::iterator iter = _listenPool.find(pkt->dport);
         if (iter != _listenPool.end() && iter->second->sk_state == LISTEN) {
-            log(TAG "find listen socket.\n");
+            log(TAG "find listen socket\n");
             recvListen(iter->second, pkt, tcphdr);
         }
         else {
@@ -276,26 +272,42 @@ int CTCP::received(packet_t *pkt)
 
 void CTCP::recvEstablished(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr)
 {
+    log(TAG "%s().\n", __func__);
+
     uint32_t seq = ntohl(tcphdr->th_seq);
     if (tcphdr->th_flags & TH_RST || tcphdr->th_flags & TH_FIN) {
-        log(TAG "%s(): RST or FIN received.\n", __func__);
+        log(TAG "%s(): RST or FIN received\n", __func__);
     }
     else {
+        if(tcphdr->th_flags & TH_ACK){
+            uint32_t ack = ntohl(tcphdr->th_ack);
+            log(TAG "%s(): ack=%d\n", __func__, ack);
+        }
+        else {
+        }
+
+        uint32_t dataLen = packet->len;
+
+        if (dataLen <= 0) {
+            // it's a pure header, no more process is needed, just return 
+            return ;
+        }
+
         // if checksum right
         PacketQueue &recvQueue = ics->recvQueue;
         if (recvQueue.empty()) {
-            // allocate a new packet_t and copy data (don't worry the new buffer size less than received bytes, it won't happed)
+            // allocate a new packet_t and copy data
+            // (don't worry the new buffer size less than received bytes, it won't happed)
             std::shared_ptr<packet_t> ppkt(new packet_t(cBlockSize));
             
-            packet->pull(SIZE_TCP);
-            ppkt->put(packet->len);
-            memcpy(ppkt->data, packet->data, packet->len);
+            ppkt->put(dataLen);
+            memcpy(ppkt->data, packet->data, dataLen);
             // if you append data to it, remember move data pointer to the end of previous first, then move back 
 
             recvQueue.emplace_back(ppkt); 
 
             // send ack
-            ics->sendWin.lastAck = seq + packet->len;
+            ics->sendWin.lastAck = seq + dataLen;
             packet_t pkt(cMaxHeaderLen);
             sendNoData(&pkt, ics, TH_ACK);
         }
@@ -314,8 +326,11 @@ void CTCP::recvEstablished(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr
 
 void CTCP::recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr)
 {
+    log(TAG "%s().\n", __func__);
+
     uint32_t seq = ntohl(tcphdr->th_seq);
     uint32_t ack = ntohl(tcphdr->th_ack);
+    log(TAG "%s(): seq=%d, ack=%d.\n", __func__, seq, ack);
 
     switch (tcphdr->th_flags) {
         default:
@@ -336,10 +351,12 @@ void CTCP::recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphd
                 log(TAG "%s(): SYN and ACK.\n", __func__); 
                 if (ics->ics_state == SYN_SENT) {
                     // todo: send ACK, connect() finish 
-                    int nextSeq = ack;
-                    int replyAck = seq + 1;
-                    ics->sendWin.lastSeq = nextSeq;
-                    ics->sendWin.lastAck = replyAck;
+                    if (ics->sendWin.lastSeq + 1 != ack) {
+                        log(TAG "%s(): TH_SYN | TH_ACK ack not match, lastSeq=%d, ack=%d!\n", __func__, ics->sendWin.lastSeq, ack);
+                    }
+                    ics->sendWin.lastSeq = ack;
+                    ics->sendWin.nextSeq = ack;
+                    ics->recvWin.lastAck = seq + 1;
 
                     packet_t pack(cMaxHeaderLen);
                     sendNoData(&pack, ics, TH_ACK);
@@ -370,6 +387,8 @@ void CTCP::recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphd
                 log(TAG "%s(): ACK.\n", __func__);
                 if (ics->ics_state == SYN_RCVD) {
                     // we established a connection at server side
+                    ics->sendWin.lastSeq = ack;
+                    ics->sendWin.nextSeq = ack;
                     ics->ics_state = ESTABLISHED;
                     _protoSock->accept(keyOf(ics), ics);
                 }
@@ -392,6 +411,8 @@ void CTCP::recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphd
 void CTCP::recvListen(InetSock *sock, packet_t *packet, tcphdr_t *tcphdr)
 {
     uint32_t seq = ntohl(tcphdr->th_seq);
+    uint32_t ack = ntohl(tcphdr->th_ack);
+    log(TAG "%s(): seq=%d,ack=%d\n", __func__, seq, ack);
 
     // the listen socket only recognize SYN
     if (tcphdr->th_flags == TH_SYN) {
@@ -410,14 +431,14 @@ void CTCP::recvListen(InetSock *sock, packet_t *packet, tcphdr_t *tcphdr)
         InetConnSock *conn = newConnection(&ics);
 
         // send CTL, Wed 14 Mar 2018 18:38:51 
-        int replySeq = 1;
-        int replyAck = seq + 1;
-        conn->sendWin.lastAck = replyAck;
-        conn->sendWin.lastSeq = replySeq;
+        conn->sendWin.lastSeq = ack;
+        conn->recvWin.lastAck = seq + 1;
+        conn->recvWin.size = 0xffff;
+        conn->sendWin.size = conn->recvWin.size >> 1;
 
         packet_t pack(cMaxHeaderLen);
         sendNoData(&pack, conn, TH_SYN | TH_ACK);
-        log(TAG "%s(): reply ACK|SYN\n" ,__func__);
+        log(TAG "%s(): replied ACK|SYN\n" ,__func__);
     }
     else {
         log(TAG "listen socket received flags not SYN.\n");
@@ -428,53 +449,21 @@ void CTCP::recvListen(InetSock *sock, packet_t *packet, tcphdr_t *tcphdr)
 void CTCP::connect(InetSock *sk)
 {
     log(TAG "%s()\n", __func__);
-
-    // send SYN
-    int sizeHdr = SIZE_TCP + SIZE_IP + SIZE_ETHERNET;
-    packet_t pkt(sizeHdr);
-    pkt.saddr = sk->sk_addr;
-    pkt.sport = sk->sk_port;
-    pkt.daddr = sk->sk_peerAddr;
-    pkt.dport = sk->sk_peerPort;
-
-    pkt.proto = IPPROTO_TCP; 
-    pkt.reserve(sizeHdr); 
-
-    int seq = 2018;
-    int win = 0xffff;
-
-    tcphdr_t tcphdr;
-    tcphdr.th_sport = sk->sk_port;
-    tcphdr.th_dport = sk->sk_peerPort;
-    tcphdr.th_seq = htonl(seq); 
-    tcphdr.th_ack = 0;
-    tcphdr.th_offx2 = 0x50;
-    tcphdr.th_flags = TH_SYN;
-    tcphdr.th_win = htons(win);
-    tcphdr.th_sum = 0;
-    tcphdr.th_urp = 0;
-
-    packet_t emptyPkt;
-    emptyPkt.copyMetadata(pkt);
-    tcphdr.th_sum = cksum_tcp(&tcphdr, &emptyPkt);
-
-    pkt.push(SIZE_TCP);
-    memcpy(pkt.data, &tcphdr, sizeof(tcphdr));
-
-    sk->sk_state = SYN_SENT; 
-
     // save to connection pool
     InetConnSock ics;
     ics._inetSock = *sk;
-    ics.sendWin.lastAck = 0;
-    ics.sendWin.lastSeq = seq;
-    ics.sendWin.size = win >> 1;
-    ics.recvWin.size = win;
+    ics.sendWin.lastSeq = 2018;
+    ics.recvWin.lastAck = 0;
+    ics.recvWin.size = 0xffff;
+    ics.sendWin.size = ics.recvWin.size >> 1;
+    ics.ics_state = SYN_SENT;
 
     string key = keyOf(&ics);
     _connPool.emplace(key, ics);
 
-    _network->send(&pkt);
+    // send SYN
+    packet_t pkt(cMaxHeaderLen);
+    sendNoData(&pkt, &ics, TH_SYN);
 
 }
 
@@ -490,7 +479,7 @@ string CTCP::keyOf(struct in_addr localAddr, uint16_t localPort,
             //+ std::to_string(peerAddr.s_addr) + "." + std::to_string(peerPort));
     string key = string(inet_ntoa(localAddr)) + "." + std::to_string(ntohs(localPort)) + ","
         + string(inet_ntoa(peerAddr)) + "." + std::to_string(ntohs(peerPort));
-    log(TAG "%s(): %s.\n", __func__, key.c_str());
+    //log(TAG "%s(): %s.\n", __func__, key.c_str());
     return key;
 }
 
