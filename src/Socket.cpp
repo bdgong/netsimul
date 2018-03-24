@@ -51,9 +51,9 @@ CSocket::CSocket()
 
 CSocket::~CSocket()
 {
-    detachSharedMem();
-
     close();
+
+    detachSharedMem();
     log(TAG "A socket destroied.\n");
 }
 
@@ -286,6 +286,12 @@ int CSocket::recvfrom(char* buf, size_t len, int flags,
 
 int CSocket::close() 
 {
+    // there is no need to close an unconnected socket
+    if (_sock.type == SOCK_STREAM && _sock.state == SS_UNCONNECTED) {
+        log(TAG "%s(): stream socket not connected, there is no need to close\n", __func__);
+        return 0;
+    }
+
     SockPacket sockPkt;
     sockPkt.type = SOCK_CLOSE;
 
@@ -293,7 +299,7 @@ int CSocket::close()
     memcpy(_pBlock->buf2, &sockPkt, sizeof(SockPktType) + sizeof(Sock));
     kill(_protoPid, SIGUSR1);
 
-    return 0;
+    return waitForSuccess(SIGUSR1) - 1;
 }
 
 int CSocket::connect(const struct sockaddr* addr, socklen_t len)
@@ -315,6 +321,7 @@ int CSocket::connect(const struct sockaddr* addr, socklen_t len)
     if (sock->port > 0) {
         _sock.addr = sock->addr;
         _sock.port = sock->port;
+        _sock.state = sock->state;
         return 0;
     }
     else {
@@ -416,10 +423,12 @@ int CSocket::recv(char * buf, size_t len, int flag)
     // read data from ProtoSocket and set value-result parameters
     char *pData = _pBlock->buf1;
     SockDataHdr* rcvDataHdr = (SockDataHdr *)pData;
-    while (leftChance-- > 0) {
+    //while (leftChance-- > 0) {
+    while (true) {
         if (rcvDataHdr->len <= 0) {
             // try again if we still get chance
-            log(TAG "%s(): no data available, left try times=%d.\n", __func__, leftChance);
+            //log(TAG "%s(): no data available, left try times=%d.\n", __func__, leftChance);
+            log(TAG "%s(): try again\n", __func__);
             sleep(1);
             kill(_protoPid, SIGUSR2);
             pause();
@@ -430,6 +439,7 @@ int CSocket::recv(char * buf, size_t len, int flag)
     }
 
     if (leftChance <= 0 && rcvDataHdr->len <= 0) {
+        log(TAG "%s(): return without data\n", __func__);
         return -1;
     }
 

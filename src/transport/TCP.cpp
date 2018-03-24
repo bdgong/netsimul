@@ -275,12 +275,30 @@ void CTCP::recvEstablished(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr
     log(TAG "%s().\n", __func__);
 
     uint32_t seq = ntohl(tcphdr->th_seq);
-    if (tcphdr->th_flags & TH_RST || tcphdr->th_flags & TH_FIN) {
-        log(TAG "%s(): RST or FIN received\n", __func__);
+    uint32_t ack = ntohl(tcphdr->th_ack);
+    if (tcphdr->th_flags & TH_RST) {
+        log(TAG "%s(): RST received\n", __func__);
+    }
+    else if (tcphdr->th_flags & TH_FIN) {
+        log(TAG "%s(): FIN received, send ACK\n", __func__);
+        ics->sendWin.lastSeq = ack;
+        ics->recvWin.lastAck = seq + 1;
+        ics->ics_state = CLOSE_WAIT;
+        ics->_inetSock._sock.state = SS_DISCONNECTING;
+        log(TAG "%s(): change to state CLOSE_WAIT\n", __func__);
+        packet_t pkt(cMaxHeaderLen);
+        sendNoData(&pkt, ics, TH_ACK);
+
+        // should wait all data transfered, do send FIN
+        
+        ics->ics_state = LAST_ACK;
+        log(TAG "%s(): change to state LAST_ACK\n", __func__);
+        packet_t pkt2(cMaxHeaderLen);
+        sendNoData(&pkt2, ics, TH_FIN);
     }
     else {
         if(tcphdr->th_flags & TH_ACK){
-            uint32_t ack = ntohl(tcphdr->th_ack);
+            ics->recvWin.lastAck = ack;
             log(TAG "%s(): ack=%d\n", __func__, ack);
         }
         else {
@@ -305,9 +323,10 @@ void CTCP::recvEstablished(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphdr
             // if you append data to it, remember move data pointer to the end of previous first, then move back 
 
             recvQueue.emplace_back(ppkt); 
+            _protoSock->bytesAvailable(ics);
 
             // send ack
-            ics->sendWin.lastAck = seq + dataLen;
+            ics->recvWin.lastAck = seq + dataLen;
             packet_t pkt(cMaxHeaderLen);
             sendNoData(&pkt, ics, TH_ACK);
         }
@@ -338,7 +357,30 @@ void CTCP::recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphd
             break;
         case TH_FIN:
             {
-                log(TAG "%s(): FIN.\n", __func__);
+                if (ics->ics_state == FIN_WAIT_1 || ics->ics_state == FIN_WAIT_2) {
+                    if (ics->ics_state == FIN_WAIT_1) {
+                        log(TAG "%s(): both closing\n", __func__);
+                    }
+                    log(TAG "%s(): close side received FIN, send ACK\n", __func__);
+                    ics->ics_state = TIME_WAIT; 
+                    log(TAG "%s(): change to state TIME_WAIT\n", __func__);
+
+                    ics->sendWin.lastSeq = ack;
+                    ics->recvWin.lastAck = seq + 1;
+                    packet_t pkt(cMaxHeaderLen);
+                    sendNoData(&pkt, ics, TH_ACK);
+
+                    // should start TIME_WAIT timer here
+                    log(TAG "%s(): change to state CLOSED\n", __func__);
+                    ics->ics_state = CLOSED;
+                    string name = keyOf(ics);
+                    _connPool.erase(name);
+
+                    _protoSock->closed(name);
+                }
+                else {
+                    log (TAG "%s(): received FIN but not FIN_WAIT_1 nor FIN_WAIT_2 state\n", __func__);
+                }
                 break;
             }
         case TH_SYN:
@@ -390,13 +432,26 @@ void CTCP::recvStateProcess(InetConnSock *ics, packet_t *packet, tcphdr_t *tcphd
                     ics->sendWin.lastSeq = ack;
                     ics->sendWin.nextSeq = ack;
                     ics->ics_state = ESTABLISHED;
-                    _protoSock->accept(keyOf(ics), ics);
+                    _protoSock->accepted(keyOf(ics), ics);
                 }
-                else if (ics->ics_state == ESTABLISHED){
-                    log(TAG "%s(): received a data packet.\n", __func__);
+                else if (ics->ics_state == FIN_WAIT_1){
+                    log(TAG "%s(): FIN_WAIT_1 received ACK\n", __func__);
+                    ics->sendWin.lastSeq = ack;
+                    ics->recvWin.lastAck = seq + 1;
+                    ics->ics_state = FIN_WAIT_2;
+                    log(TAG "%s(): change to state FIN_WAIT_2\n", __func__);
+                }
+                else if(ics->ics_state == LAST_ACK) {
+                    ics->ics_state = CLOSED;
+                    log(TAG "%s(): change to state CLOSED\n", __func__);
+
+                    string name = keyOf(ics);
+                    _connPool.erase(name);
+
+                    _protoSock->closed(name);
                 }
                 else {
-                    log(TAG "%s(): a connection received ACK but state neither SYN_RCVD nor ESTABLISHED.\n", __func__);
+                    log(TAG "%s(): a connection received ACK but state neither SYN_RCVD nor ESTABLISHED, state=%d.\n", __func__, ics->ics_state);
                 }
                 break;
             }
@@ -465,6 +520,24 @@ void CTCP::connect(InetSock *sk)
     packet_t pkt(cMaxHeaderLen);
     sendNoData(&pkt, &ics, TH_SYN);
 
+}
+
+void CTCP::close(std::string name)
+{
+    log(TAG "%s(): %s\n", __func__, name.c_str());
+    ConnMap::iterator it = _connPool.find(name);
+    if (it == _connPool.end()) {
+        log (TAG "%s(): connection not found\n", __func__);
+        return ;
+    }
+
+    InetConnSock * ics = &it->second;
+    ics->ics_state = FIN_WAIT_1;
+    log(TAG "%s(): change to state FIN_WAIT_1\n", __func__);
+
+    // send FIN
+    packet_t pkt(cMaxHeaderLen);
+    sendNoData(&pkt, ics, TH_FIN);
 }
 
 string CTCP::keyOf(InetConnSock *ics)

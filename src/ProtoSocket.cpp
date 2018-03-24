@@ -400,10 +400,35 @@ void CProtoSocket::handleRecv(SockPacket *sockPkt)
 void CProtoSocket::handleClose(SockPacket *sockPkt)
 {
     Sock *sock = (Sock *)sockPkt->data;
+    log(TAG "%s() : close socket %d, port %d\n", __func__, sock->sockfd, ntohs(sock->port));
 
-    _sockPool.erase(sock->sockfd);
+    if (sock->type == SOCK_STREAM) {
+        // need do 4wwh
+        string name = CTCP::keyOf(sock->addr, sock->port, sock->peerAddr, sock->peerPort);
+        ConnPMap::iterator it = _connPPool.find(name);
+        if (it != _connPPool.end()) {
+            if (it->second->_inetSock._sock.state == SS_DISCONNECTING) {
+                log(TAG "%s(): connection is closing...\n", __func__);
+            }
+            else {
+                it->second->_inetSock._sock.state = SS_DISCONNECTING;
+                CTCP::instance()->close(name);
+            }
+        }
+        else {
+            log(TAG "%s(): no connection find '%s'\n", __func__, name.c_str());
+            afterHandle(0, sock->pid, SIGUSR1, __func__);
+        }
+    }
+    else if (sock->type == SOCK_DGRAM) {
+        _sockPool.erase(sock->sockfd);
+        afterHandle(1, sock->pid, SIGUSR1, __func__);
+    }
+    else {
+        log (TAG "%s(): unsupport sock type: %d\n", __func__, sock->type);
+        afterHandle(0, sock->pid, SIGUSR1, __func__);
+    }
 
-    log(TAG "%s() : Close socket %d.\n", __func__, sock->sockfd);
 }
 
 void CProtoSocket::handleListen(SockPacket *sockPkt)
@@ -453,18 +478,6 @@ void CProtoSocket::handleConnect(SockPacket *sockPkt)
 
 }
 
-void CProtoSocket::connectFinished(string name, InetConnSock *ics)
-{
-    log(TAG "%s(): %s.\n", __func__, name.c_str());
-    _connPPool.emplace(name, ics); 
-
-    // here, no notify the connected address, a data structure must be returned instead of
-    // a single flag show failed or success
-    memcpy(_pBlock->buf1, ics, sizeof(Sock));
-
-    afterHandle(ics->ics_pid, SIGUSR1, __func__);
-}
-
 void CProtoSocket::handleAccept(SockPacket *sockPkt)
 {
     log(TAG "%s().\n", __func__);
@@ -494,24 +507,59 @@ void CProtoSocket::handleAccept(SockPacket *sockPkt)
 
 }
 
-void CProtoSocket::accept(std::string name, InetConnSock *ics)
+void CProtoSocket::connectFinished(string name, InetConnSock *ics)
 {
     log(TAG "%s(): %s.\n", __func__, name.c_str());
+    ics->_inetSock._sock.state = SS_CONNECTED;
+    _connPPool.emplace(name, ics); 
+
+    // here, no notify the connected address, a data structure must be returned instead of
+    // a single flag show failed or success
+    memcpy(_pBlock->buf1, ics, sizeof(Sock));
+
+    afterHandle(ics->ics_pid, SIGUSR1, __func__);
+}
+
+void CProtoSocket::accepted(std::string name, InetConnSock *ics)
+{
+    log(TAG "%s(): %s.\n", __func__, name.c_str());
+    ics->_inetSock._sock.state = SS_CONNECTED;
     auto pair = _connPPool.emplace(name, ics);
 
     std::set<uint16_t>::iterator it = _pendingAccept.find(ics->ics_port);
     if (it != _pendingAccept.end()) {
         ics->ics_sockfd = selectFD(); 
-        Sock *newSock = (Sock *)ics;
-        memcpy(_pBlock->buf1, newSock, sizeof(Sock));
+        memcpy(_pBlock->buf1, ics, sizeof(Sock));
 
         _pendingAccept.erase(ics->ics_port);
 
-        afterHandle(newSock->pid, SIGUSR1, __func__);
+        afterHandle(ics->ics_pid, SIGUSR1, __func__);
     }
     else {
         log (TAG "%s(): no accept request at port %d\n", __func__, ics->ics_port);
     }
+}
+
+void CProtoSocket::closed(std::string name)
+{
+    log(TAG "%s(): %s\n", __func__, name.c_str());
+    // remove connection
+    ConnPMap::iterator it = _connPPool.find(name);
+    int result;
+    uint32_t pid = it->second->ics_pid;
+    if (it != _connPPool.end()) {
+        _connPPool.erase(it);
+        log(TAG "%s(): now there is %d connection\n", __func__, _connPPool.size());
+        result = 1;
+    }
+    else {
+        result = 0;
+        log(TAG "%s(): connection not found\n", __func__);
+    }
+
+    log(TAG "%s(): now there is %d socket\n", __func__, _sockPool.size());
+
+    afterHandle(result, pid, SIGUSR1, __func__);
 }
 
 uint16_t CProtoSocket::selectPort()
@@ -537,6 +585,10 @@ void CProtoSocket::setLocalAddr(InetSock * sock)
 
 }
 
+void CProtoSocket::bytesAvailable(InetConnSock *ics)
+{
+    log (TAG "%s()\n", __func__);
+}
 
 void CProtoSocket::received(const packet_t *pkt)
 {
@@ -600,6 +652,6 @@ void CProtoSocket::afterHandle(int pid, int signo, const char *funcName)
 {
     usleep(100);            // VIP: wait CSocket enter pause() statement
     kill(pid, signo);
-    log(TAG "%s() : kill signal %d to process %d.\n", funcName, signo, pid);
+    //log(TAG "%s() : kill signal %d to process %d.\n", funcName, signo, pid);
 }
 

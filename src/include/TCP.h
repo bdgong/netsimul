@@ -33,11 +33,19 @@ class CTCP : public CBaseIO
 
         void connect(InetSock *sk);
         void listen(InetSock *sk);
+
+        /*
+         * Close a connection
+         *
+         * @name The connection name, can be contructed by keyOf()
+         * */
+        void close(std::string name);
+
         /*
          * Return the key(or name) of a connection.
          * */
-        std::string keyOf(InetConnSock *ics);
-        std::string keyOf(struct in_addr localAddr, uint16_t localPort, struct in_addr peerAddr, uint16_t peerPort);
+        static std::string keyOf(InetConnSock *ics);
+        static std::string keyOf(struct in_addr localAddr, uint16_t localPort, struct in_addr peerAddr, uint16_t peerPort);
 
     private:
         CTCP(const CTCP&);

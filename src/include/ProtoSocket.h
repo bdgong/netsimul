@@ -46,7 +46,11 @@ class CProtoSocket
          * @name Connection name
          * @ics The connection 
          * */
-        void accept(std::string name, InetConnSock *ics);
+        void accepted(std::string name, InetConnSock *ics);
+
+        void bytesAvailable(InetConnSock *ics);
+
+        void closed(std::string name);
          
     private:
         // 
