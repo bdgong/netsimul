@@ -48,6 +48,10 @@ Set guests Ga, Gb, Gr.  Let Gr be the gateway(Rounter), Ga and Gb communicate wi
 >       user         : ga
 >       user password: ga@Ga
 
+>       root password: netsimul!
+>       user         : gr2
+>       user password: gr2@Gr2
+
 3. Start two VMs.
 
 
@@ -289,6 +293,8 @@ Install Debian VM
         $ usermod -aG sudo ga
 
 * set shared folders(depends on additions)
+
+After all those steps, reboot is needed
 
 Useful functions
 
